@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useEffect } from "react"
+import { useSearchParams } from 'next/navigation'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -40,11 +41,12 @@ const formSchema = z.object({
 
 type ReportFormProps = {
     companies: Company[];
-    companyId?: string | null;
 }
 
-export function ReportForm({ companies, companyId }: ReportFormProps) {
+export function ReportForm({ companies }: ReportFormProps) {
   const { toast } = useToast();
+  const searchParams = useSearchParams()
+  const companyId = searchParams.get('companyId')
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
