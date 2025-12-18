@@ -5,6 +5,7 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Metric } from "@/lib/types"
 import { Clock, MessageCircle, Percent, FileText } from "lucide-react"
+import { ChartContainer } from "@/components/ui/chart";
 
 interface KpiCardProps {
   title: string;
@@ -28,6 +29,12 @@ function KpiCard({ title, value, unit, icon: Icon }: KpiCardProps) {
   )
 }
 
+const chartConfig = {
+  value: {
+    label: "Value",
+  },
+} satisfies import("recharts/types/chart/generateCategoricalChart").ChartProps;
+
 
 export function KpiOverview({ metrics }: { metrics: Metric | undefined }) {
   const trpeData = [{ name: "TRPE", value: metrics?.trpe || 0 }];
@@ -46,7 +53,7 @@ export function KpiOverview({ metrics }: { metrics: Metric | undefined }) {
              <div>
                 <h3 className="text-md font-medium mb-2">Resolução Pós-Escalonamento (TRPE)</h3>
                 <div className="h-[80px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer config={chartConfig} className="w-full h-full">
                     <BarChart data={trpeData} layout="vertical" margin={{ left: -10 }}>
                         <XAxis type="number" domain={[0, 100]} hide />
                         <YAxis type="category" dataKey="name" hide />
@@ -61,7 +68,7 @@ export function KpiOverview({ metrics }: { metrics: Metric | undefined }) {
                             />
                         </Bar>
                     </BarChart>
-                </ResponsiveContainer>
+                </ChartContainer>
                 </div>
             </div>
         </CardContent>

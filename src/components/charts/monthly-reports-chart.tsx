@@ -9,8 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { ChartTooltipContent } from "@/components/ui/chart"
+import { ChartTooltipContent, ChartContainer } from "@/components/ui/chart"
 import type { MonthlyReportData } from "@/lib/types"
+
+const chartConfig = {
+  count: {
+    label: "Relatos",
+    color: "hsl(var(--primary))",
+  },
+} satisfies import("recharts/types/chart/generateCategoricalChart").ChartProps;
+
 
 export function MonthlyReportsChart({ data }: { data: MonthlyReportData[] }) {
   return (
@@ -21,7 +29,7 @@ export function MonthlyReportsChart({ data }: { data: MonthlyReportData[] }) {
       </CardHeader>
       <CardContent>
         <div className="h-[250px]">
-          <ResponsiveContainer width="100%" height="100%">
+           <ChartContainer config={chartConfig} className="w-full h-full">
             <LineChart
               data={data}
               margin={{
@@ -47,7 +55,7 @@ export function MonthlyReportsChart({ data }: { data: MonthlyReportData[] }) {
                     activeDot={{ r: 6, fill: "hsl(var(--primary))" }}
                 />
             </LineChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         </div>
       </CardContent>
     </Card>
