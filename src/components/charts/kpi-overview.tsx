@@ -1,10 +1,10 @@
 "use client"
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, XAxis, YAxis } from "recharts"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Metric } from "@/lib/types"
-import { Clock, MessageCircle, Percent, FileText } from "lucide-react"
+import { Clock, MessageCircle, FileText } from "lucide-react"
 import { ChartContainer } from "@/components/ui/chart";
 
 interface KpiCardProps {

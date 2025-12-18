@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import type { Company } from "@/lib/types"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 const formSchema = z.object({
   companyId: z.string({ required_error: "Por favor, selecione uma empresa." }),
@@ -43,10 +44,13 @@ type ReportFormProps = {
 
 export function ReportForm({ companies }: ReportFormProps) {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const companyId = searchParams.get("companyId");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      companyId: companyId || undefined,
       isAnonymous: false,
       terms: false,
     },
