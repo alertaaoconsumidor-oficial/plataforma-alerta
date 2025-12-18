@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart2, Clock, FileText, SlashCircle } from "lucide-react";
+import { BarChart2, Clock, FileText, Ban } from "lucide-react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -51,7 +51,7 @@ export default function MetodologiaPage() {
                   <p className="mt-1 text-muted-foreground">Mede a média de dias entre a data prometida para entrega/resolução e a data do relato, para casos ainda não solucionados. Ajuda a quantificar a demora da empresa.</p>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg flex items-center gap-2"><SlashCircle className="h-5 w-5" /> SD: Silêncio Documentado</h3>
+                  <h3 className="font-bold text-lg flex items-center gap-2"><Ban className="h-5 w-5" /> SD: Silêncio Documentado</h3>
                   <p className="mt-1 text-muted-foreground">Contabiliza o número de relatos onde o consumidor afirma não ter recebido nenhuma resposta da empresa através dos canais oficiais de atendimento. Indica falha na comunicação.</p>
                 </div>
                 <div>
