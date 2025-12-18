@@ -1,4 +1,4 @@
-import { ReportForm } from "@/components/report-form";
+import { ReportFormWrapper } from "@/components/report-form-wrapper";
 import { getCompanies } from "@/lib/api";
 import { ShieldCheck } from "lucide-react";
 import type { Metadata } from 'next';
@@ -27,7 +27,7 @@ export default async function EnviarRelatoPage() {
 
           <div className="mt-12 grid md:grid-cols-3 gap-8 lg:gap-12">
             <div className="md:col-span-2">
-                <ReportForm companies={companies} />
+                <ReportFormWrapper companies={companies} />
             </div>
             <div className="space-y-6">
                 <div className="p-6 rounded-lg border bg-card">

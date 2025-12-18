@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,7 +22,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import type { Company } from "@/lib/types"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 
 const formSchema = z.object({
   companyId: z.string({ required_error: "Por favor, selecione uma empresa." }),
@@ -40,13 +40,12 @@ const formSchema = z.object({
 
 type ReportFormProps = {
     companies: Company[];
+    companyId?: string | null;
 }
 
-export function ReportForm({ companies }: ReportFormProps) {
+export function ReportForm({ companies, companyId }: ReportFormProps) {
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const companyId = searchParams.get("companyId");
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,6 +54,12 @@ export function ReportForm({ companies }: ReportFormProps) {
       terms: false,
     },
   })
+
+  useEffect(() => {
+    if (companyId) {
+      form.setValue("companyId", companyId);
+    }
+  }, [companyId, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
@@ -75,7 +80,7 @@ export function ReportForm({ companies }: ReportFormProps) {
             render={({ field }) => (
                 <FormItem>
                 <FormLabel>Qual é a empresa?</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                     <FormControl>
                     <SelectTrigger>
                         <SelectValue placeholder="Selecione a empresa relacionada ao seu relato" />
