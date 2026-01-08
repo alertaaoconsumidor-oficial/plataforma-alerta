@@ -2,6 +2,7 @@ import { ReportForm } from "@/components/report-form";
 import { getCompanies } from "@/lib/api";
 import { ShieldCheck } from "lucide-react";
 import type { Metadata } from 'next';
+import { Suspense } from 'react'; // Adicionado o import do Suspense
 
 export const metadata: Metadata = {
   title: 'Enviar Relato',
@@ -26,7 +27,10 @@ export default async function EnviarRelatoPage() {
     
               <div className="mt-12 grid md:grid-cols-3 gap-8 lg:gap-12">
                 <div className="md:col-span-2">
-                    <ReportForm companies={companies} />
+                    {/* O Suspense envolve o formulário para corrigir o erro da Vercel */}
+                    <Suspense fallback={<div className="p-8 text-center">Carregando formulário...</div>}>
+                        <ReportForm companies={companies} />
+                    </Suspense>
                 </div>
                 <div className="space-y-6">
                     <div className="p-6 rounded-lg border bg-card">
