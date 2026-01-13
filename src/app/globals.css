@@ -4,56 +4,52 @@
 
 @layer base {
   :root {
+    /* Fundo levemente acinzentado para destacar os cards brancos, como no layout */
     --background: 0 0% 98%;
-    --foreground: 224 71.4% 4.1%;
+    --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 350 97% 43%; /* #D90429 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220 13% 9%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 351 96% 33%; /* #A6031C */
-    --accent-foreground: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    /* AMARELO ALERTA (Baseado na sua logo) */
+    --primary: 47 100% 50%; /* #FFD600 */
+    /* Texto sobre o amarelo deve ser PRETO para leitura */
+    --primary-foreground: 26 5.8% 10%;
+
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 25 5.3% 44.7%;
+
+    /* ACENTUAÇÃO (Um amarelo mais escuro para efeitos de hover) */
+    --accent: 47 100% 45%;
+    --accent-foreground: 24 9.8% 10%;
+
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 350 97% 43%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 47 100% 50%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 350 97% 43%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 351 96% 33%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 350 97% 43%;
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    --primary: 47 100% 50%;
+    --primary-foreground: 26 5.8% 10%;
+    /* Outras cores do dark mode podemos ajustar conforme o design evoluir */
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    /* Adicionando a fonte padrão para ser mais próxima do layout profissional */
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
