@@ -1,4 +1,4 @@
-# 🎯 Alerta ao Consumidor
+# Alerta ao Consumidor
 
 O **Alerta ao Consumidor** é uma plataforma independente de interesse público voltada à **educação, orientação e proteção do consumidor**, com base no Código de Defesa do Consumidor (CDC), em dados reais e em experiências documentadas de consumidores.
 
@@ -6,7 +6,7 @@ A plataforma **não atua como órgão fiscalizador, julgador ou acusatório**. S
 
 ---
 
-## 🧭 Propósito do Projeto
+## Propósito do Projeto
 
 - Reduzir a assimetria de informação entre empresas e consumidores  
 - Facilitar o acesso ao Código de Defesa do Consumidor de forma prática  
@@ -16,7 +16,7 @@ A plataforma **não atua como órgão fiscalizador, julgador ou acusatório**. S
 
 ---
 
-## ⚖️ Posicionamento Jurídico
+## Posicionamento Jurídico
 
 O **Alerta ao Consumidor**:
 
@@ -34,7 +34,7 @@ A plataforma:
 
 ---
 
-## 👥 Público-Alvo
+## Público-Alvo
 
 - Consumidores que desejam **pesquisar antes de contratar**  
 - Consumidores que **já foram lesados**  
@@ -43,7 +43,7 @@ A plataforma:
 
 ---
 
-## 🧠 Estrutura do Produto
+## Estrutura do Produto
 
 O projeto é organizado em módulos:
 
@@ -57,7 +57,7 @@ O projeto é organizado em módulos:
 
 ---
 
-## 🚦 Princípios Fundamentais
+## Princípios Fundamentais
 
 - Transparência  
 - Responsabilidade  
@@ -68,7 +68,7 @@ O projeto é organizado em módulos:
 
 ---
 
-## 📈 Visão de Longo Prazo
+## Visão de Longo Prazo
 
 O **Alerta ao Consumidor** nasce como uma ferramenta educativa e evolui para uma **plataforma de inteligência de consumo**, capaz de:
 
@@ -79,7 +79,7 @@ O **Alerta ao Consumidor** nasce como uma ferramenta educativa e evolui para uma
 
 ---
 
-## ⚠️ Aviso Legal
+## Aviso Legal
 
 O Alerta ao Consumidor é uma plataforma informativa e educativa.  
 Os dados apresentados são baseados em relatos enviados por usuários e tratados de forma agregada e responsável.  
@@ -87,13 +87,13 @@ A plataforma **não substitui órgãos oficiais de defesa do consumidor nem asse
 
 ---
 
-## 🤝 Contribuição
+## Contribuição
 
 Contribuições são bem-vindas.  
 Em breve, serão disponibilizadas diretrizes para colaboração.
 
 ---
 
-## 📄 Licença
+## Licença
 
 A definir.
