@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Send } from "lucide-react"; // Ícones para fechar e enviar
+import { X, Send } from "lucide-react";
 
 export function ChatbotButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {/* BOTÃO FLUTUANTE (O que já fizemos) */}
       <div
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 z-50 group cursor-pointer transition-all hover:scale-105 active:scale-95 ${
@@ -37,7 +36,6 @@ export function ChatbotButton() {
       {/* JANELA DE CHAT (O Modal) */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 z-[60] w-[350px] sm:w-[400px] h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col border border-black/5 animate-in slide-in-from-bottom-5">
-          {/* Cabeçalho do Chat */}
           <div className="bg-[#FFD700] p-4 rounded-t-2xl flex items-center justify-between border-b border-black/10">
             <div className="flex items-center gap-3">
               <Image
@@ -58,18 +56,16 @@ export function ChatbotButton() {
             </button>
           </div>
 
-          {/* Área de Mensagens */}
           <div className="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3 text-sm">
             <div className="bg-white p-3 rounded-tr-xl rounded-b-xl shadow-sm border border-black/5 max-w-[85%]">
               <p className="text-gray-800">
-                Olá! 👋 Eu sou a Inteligência do **Alerta ao Consumidor**. Posso
-                te ajudar a verificar se um site é seguro ou analisar uma
-                empresa suspeita. O que você gostaria de saber hoje?
+                Olá! Eu sou o assistente do Alerta ao Consumidor. Posso ajudar
+                com orientações preventivas e informações gerais sobre relações
+                de consumo. O que você gostaria de saber hoje?
               </p>
             </div>
           </div>
 
-          {/* Input de Texto */}
           <div className="p-4 border-t bg-white rounded-b-2xl">
             <div className="flex items-center gap-2 bg-gray-100 p-2 rounded-xl">
               <input

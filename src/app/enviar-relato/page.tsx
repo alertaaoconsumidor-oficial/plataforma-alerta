@@ -45,7 +45,7 @@ export default async function EnviarRelatoPage() {
                             </li>
                             <li className="flex items-start gap-2">
                                 <span className="text-primary mt-1">✔</span>
-                                <span><strong>Dados privados:</strong> Documentos enviados como evidência são confidenciais e jamais serão publicados.</span>
+                                <span><strong>Dados privados:</strong> nesta etapa inicial, não solicitamos documentos. Nenhuma informação será publicada automaticamente.</span>
                             </li>
                             <li className="flex items-start gap-2">
                                 <span className="text-primary mt-1">✔</span>

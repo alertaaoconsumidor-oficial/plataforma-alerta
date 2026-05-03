@@ -14,14 +14,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Alerta ao Consumidor | Observatório de Fraudes e Golpes",
+  title: "Alerta ao Consumidor | Orientação Preventiva",
   description: "Portal informativo e preventivo para direitos do consumidor.",
   icons: {
     icon: "/icon.svg",
   },
 };
 
-// IMPORTANTE: O "export default" deve estar exatamente assim
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,7 +40,6 @@ export default function RootLayout({
           <Footer />
         </div>
 
-        {/* Componentes flutuantes */}
         <ChatbotButton />
         <Toaster />
       </body>

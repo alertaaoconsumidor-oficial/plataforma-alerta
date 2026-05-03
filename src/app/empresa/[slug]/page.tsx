@@ -11,14 +11,15 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const company = await getCompanyBySlug(params.slug);
+  const { slug } = await params;
+  const company = await getCompanyBySlug(slug);
   if (!company) {
     return {
       title: 'Empresa não encontrada',
@@ -45,7 +46,8 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function CompanyPage({ params }: Props) {
-  const company = await getCompanyBySlug(params.slug);
+  const { slug } = await params;
+  const company = await getCompanyBySlug(slug);
 
   if (!company) {
     notFound();
