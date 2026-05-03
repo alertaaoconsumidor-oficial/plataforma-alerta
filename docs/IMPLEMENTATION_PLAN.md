@@ -25,6 +25,8 @@ Critério de aceite:
 
 Objetivo: criar primeira entrega funcional sem risco de LGPD.
 
+Status: implementada a primeira versão demonstrativa em `/casos/varejo-digital-demo/estatisticas`.
+
 Rota recomendada:
 
 ```txt

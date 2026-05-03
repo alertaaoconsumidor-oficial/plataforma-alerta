@@ -13,6 +13,7 @@ O projeto está em estágio de protótipo visual. A identidade visual amarela e 
 - Página inicial.
 - Página pública por empresa.
 - Página de envio de relato com validação client-side e envio simulado.
+- Página pública de estatísticas demonstrativas em `/casos/varejo-digital-demo/estatisticas`.
 - Páginas institucionais: metodologia, aviso legal e contato.
 - Tela visual de acesso administrativo.
 - Dados mockados em `src/lib/seed-data.ts`.
@@ -49,4 +50,4 @@ O script `npm run lint` ainda não é uma validação automatizada, pois `next l
 
 ## Próxima meta
 
-Deixar a base limpa, compilando e pronta para a primeira implementação segura: página pública de estatísticas demonstrativas com dados agregados.
+Ajustar o formulário inicial sem upload para aproximá-lo do modelo futuro de pré-registro e, depois, decidir o backend para persistência privada.

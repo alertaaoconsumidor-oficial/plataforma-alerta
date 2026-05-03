@@ -63,6 +63,16 @@ export default async function Home() {
             >
               <Link href="/metodologia">Ver Metodologia</Link>
             </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
+              <Link href="/casos/varejo-digital-demo/estatisticas">
+                Painel Demonstrativo
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
