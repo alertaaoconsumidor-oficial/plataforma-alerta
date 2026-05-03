@@ -2,8 +2,8 @@ import { getCompanyBySlug, getMetricsByCompanyId, getReportsByCompanyId, getNews
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Building, Clock, FileText, Newspaper, BarChart2, MessageCircle, ExternalLink, User, Calendar } from "lucide-react";
-import type { Metadata, ResolvingMetadata } from 'next';
+import { Building, Clock, FileText, Newspaper, BarChart2, ExternalLink, User, Calendar } from "lucide-react";
+import type { Metadata } from 'next';
 import { KpiOverview } from "@/components/charts/kpi-overview";
 import { MonthlyReportsChart } from "@/components/charts/monthly-reports-chart";
 import { Button } from "@/components/ui/button";
@@ -15,8 +15,7 @@ type Props = {
 }
 
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
+  { params }: Props
 ): Promise<Metadata> {
   const { slug } = await params;
   const company = await getCompanyBySlug(slug);

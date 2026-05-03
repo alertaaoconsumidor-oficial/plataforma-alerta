@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getRecentReports, getTopCompaniesByReports } from "@/lib/api";
-import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   BarChart2,
