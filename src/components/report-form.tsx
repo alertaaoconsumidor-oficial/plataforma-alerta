@@ -33,7 +33,6 @@ const formSchema = z.object({
   narrative: z.string().min(50, "Descreva sua experiência com pelo menos 50 caracteres."),
   channel: z.string().min(2, "Informe o canal de contato."),
   isAnonymous: z.boolean().default(false),
-  evidence: z.any().optional(),
   terms: z.boolean().refine((val) => val === true, {
     message: "Você deve concordar com os termos.",
   }),
@@ -174,22 +173,11 @@ export function ReportForm({ companies }: ReportFormProps) {
             )}
             />
             
-            <FormField
-            control={form.control}
-            name="evidence"
-            render={({ field }) => (
-                <FormItem>
-                <FormLabel>Anexar evidência (opcional)</FormLabel>
-                <FormControl>
-                    <Input type="file" {...field} />
-                </FormControl>
-                <FormDescription>
-                    Nota fiscal, prints de conversas, e-mails. O arquivo é privado e não será publicado.
-                </FormDescription>
-                <FormMessage />
-                </FormItem>
-            )}
-            />
+            <div className="rounded-md border border-primary/30 bg-primary/10 p-4 text-sm text-muted-foreground">
+              Nesta etapa inicial, ainda não solicitamos documentos ou anexos.
+              Quando o upload for liberado, ele ficará restrito à área logada,
+              com armazenamento privado e controle de acesso.
+            </div>
 
             <FormField
             control={form.control}

@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartTooltipContent, ChartContainer } from "@/components/ui/chart"
+import type { ChartConfig } from "@/components/ui/chart"
 import type { MonthlyReportData } from "@/lib/types"
 
 const chartConfig = {
@@ -17,7 +18,7 @@ const chartConfig = {
     label: "Relatos",
     color: "hsl(var(--primary))",
   },
-} satisfies import("recharts/types/chart/generateCategoricalChart").ChartProps;
+} satisfies ChartConfig;
 
 
 export function MonthlyReportsChart({ data }: { data: MonthlyReportData[] }) {

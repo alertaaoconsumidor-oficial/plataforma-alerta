@@ -1,11 +1,11 @@
 "use client"
 
-import { Bar, BarChart, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Metric } from "@/lib/types"
 import { Clock, MessageCircle, FileText } from "lucide-react"
-import { ChartContainer } from "@/components/ui/chart";
+import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 
 interface KpiCardProps {
   title: string;
@@ -31,9 +31,9 @@ function KpiCard({ title, value, unit, icon: Icon }: KpiCardProps) {
 
 const chartConfig = {
   value: {
-    label: "Value",
+    label: "Valor",
   },
-} satisfies import("recharts/types/chart/generateCategoricalChart").ChartProps;
+} satisfies ChartConfig;
 
 
 export function KpiOverview({ metrics }: { metrics: Metric | undefined }) {
@@ -58,8 +58,7 @@ export function KpiOverview({ metrics }: { metrics: Metric | undefined }) {
                         <XAxis type="number" domain={[0, 100]} hide />
                         <YAxis type="category" dataKey="name" hide />
                         <Bar dataKey="value" fill="var(--color-primary)" radius={[4, 4, 4, 4]} background={{ fill: 'hsl(var(--muted))', radius: 4 }}>
-                             {/* @ts-ignore */}
-                            <labelList
+                            <LabelList
                                 dataKey="value"
                                 position="insideRight"
                                 offset={-8}
