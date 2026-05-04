@@ -1,8 +1,9 @@
 import { ReportForm } from "@/components/report-form";
 import { getCompanies } from "@/lib/api";
-import { ShieldCheck } from "lucide-react";
+import { FileText, ShieldCheck } from "lucide-react";
 import type { Metadata } from 'next';
 import { Suspense } from 'react'; // Adicionado o import do Suspense
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: 'Enviar Relato',
@@ -25,6 +26,29 @@ export default async function EnviarRelatoPage() {
                 </p>
               </div>
     
+              <div className="mt-8 rounded-lg border border-primary/30 bg-primary/10 p-5">
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <h2 className="flex items-center gap-2 text-lg font-bold">
+                      <FileText className="h-5 w-5 text-primary" />
+                      Foco operacional inicial: CASO RAZOR
+                    </h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      Neste primeiro momento, a plataforma estÃ¡ priorizando a
+                      organizaÃ§Ã£o de relatos relacionados ao CASO RAZOR. Outros
+                      casos poderÃ£o ser avaliados futuramente conforme volume,
+                      documentaÃ§Ã£o e capacidade de moderaÃ§Ã£o.
+                    </p>
+                  </div>
+                  <Link
+                    href="/casos/razor"
+                    className="shrink-0 text-sm font-medium text-primary hover:underline"
+                  >
+                    Ver pÃ¡gina do caso
+                  </Link>
+                </div>
+              </div>
+
               <div className="mt-12 grid md:grid-cols-3 gap-8 lg:gap-12">
                 <div className="md:col-span-2">
                     {/* O Suspense envolve o formulário para corrigir o erro da Vercel */}

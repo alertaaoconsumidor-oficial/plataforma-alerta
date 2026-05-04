@@ -19,6 +19,8 @@ import { Logo } from "@/components/logo";
 const navLinks = [
   { href: "/", label: "Início" },
 
+  { href: "/casos/razor", label: "CASO RAZOR" },
+
   { href: "/metodologia", label: "Metodologia" },
 
   { href: "/aviso-legal", label: "Aviso Legal" },
