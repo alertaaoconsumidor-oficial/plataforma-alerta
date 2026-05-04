@@ -7,6 +7,7 @@ export type CaseMetric = {
 export type CaseDistributionItem = {
   label: string;
   value: number;
+  helper?: string;
 };
 
 export type CaseCityStat = {
@@ -14,6 +15,28 @@ export type CaseCityStat = {
   state: string;
   reports: number;
   estimatedLoss: number;
+  latitude: number;
+  longitude: number;
+};
+
+export type CaseTimelineItem = {
+  date: string;
+  title: string;
+  description: string;
+};
+
+export type RelatedCnpj = {
+  cnpj: string;
+  legalName: string;
+  tradeName: string;
+  status: string;
+  openedAt: string;
+  mainActivity: string;
+  address: string;
+  city: string;
+  state: string;
+  partners: string[];
+  sourceNote: string;
 };
 
 export type PublicCaseStats = {

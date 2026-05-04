@@ -1,11 +1,14 @@
 import type { CaseDistributionItem } from "../types";
+import { AnimatedProgressBar } from "./animated-progress-bar";
 
 export function CaseBarList({
   items,
   total,
+  valueSuffix = "",
 }: {
   items: CaseDistributionItem[];
   total: number;
+  valueSuffix?: string;
 }) {
   return (
     <div className="space-y-4">
@@ -15,15 +18,20 @@ export function CaseBarList({
         return (
           <div key={item.label} className="space-y-2">
             <div className="flex items-center justify-between gap-4 text-sm">
-              <span className="font-medium">{item.label}</span>
-              <span className="text-muted-foreground">{item.value}</span>
+              <span className="font-medium">
+                {item.label}
+                {item.helper ? (
+                  <span className="ml-2 font-normal text-muted-foreground">
+                    {item.helper}
+                  </span>
+                ) : null}
+              </span>
+              <span className="text-muted-foreground">
+                {item.value}
+                {valueSuffix}
+              </span>
             </div>
-            <div className="h-2 rounded-full bg-muted">
-              <div
-                className="h-2 rounded-full bg-primary"
-                style={{ width: `${Math.max(percent, 4)}%` }}
-              />
-            </div>
+            <AnimatedProgressBar percent={percent} />
           </div>
         );
       })}
