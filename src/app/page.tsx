@@ -101,8 +101,21 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col bg-background">
-      <section className="w-full overflow-hidden bg-[#111111] text-white">
-        <div className="container mx-auto grid min-h-[560px] gap-10 px-4 py-14 md:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:py-0">
+      <section className="relative w-full overflow-hidden bg-[#111111] text-white">
+        <div className="absolute inset-0">
+          <Image
+            src={homePhotos.hero}
+            alt="Consumidora analisando documentos em ambiente de trabalho"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[70%_center] opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/92 to-[#111111]/35" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent" />
+        </div>
+
+        <div className="container relative mx-auto grid min-h-[560px] px-4 py-16 md:px-6 lg:items-center lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="mb-5 inline-flex rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               Plataforma preventiva de informação ao consumidor
@@ -145,9 +158,16 @@ export default async function Home() {
                 <Link href="/metodologia">Ver metodologia</Link>
               </Button>
             </div>
+            <div className="mt-10 hidden max-w-sm rounded-lg border border-white/15 bg-black/45 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
+              <p className="font-bold text-primary">Dados com contexto</p>
+              <p className="mt-1 text-white/75">
+                Relatos organizados para consulta publica, sem exposicao
+                automatica de dados pessoais.
+              </p>
+            </div>
           </div>
 
-          <div className="relative min-h-[360px] overflow-hidden rounded-lg lg:min-h-[560px] lg:rounded-l-[44px] lg:rounded-r-none">
+          <div className="hidden">
             <Image
               src={homePhotos.hero}
               alt="Consumidora analisando documentos em ambiente de trabalho"
@@ -409,7 +429,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-primary py-12 text-primary-foreground">
+      <section className="hidden bg-primary py-12 text-primary-foreground">
         <div className="container mx-auto flex flex-col gap-6 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-bold">Receba alertas e novidades</h2>
