@@ -14,6 +14,14 @@ export type CaseCityStat = {
   state: string;
   reports: number;
   estimatedLoss: number;
+  latitude: number;
+  longitude: number;
+};
+
+export type CaseTimelineItem = {
+  date: string;
+  title: string;
+  description: string;
 };
 
 export type PublicCaseStats = {

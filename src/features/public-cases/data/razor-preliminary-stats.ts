@@ -37,13 +37,62 @@ export const razorPreliminaryStats: PublicCaseStats = {
     { label: "Mai", value: 4 },
   ],
   cities: [
-    { city: "Cuiaba", state: "MT", reports: 7, estimatedLoss: 68500 },
-    { city: "Varzea Grande", state: "MT", reports: 4, estimatedLoss: 37400 },
-    { city: "Campo Grande", state: "MS", reports: 3, estimatedLoss: 28200 },
-    { city: "Goiania", state: "GO", reports: 2, estimatedLoss: 18100 },
-    { city: "Rondonopolis", state: "MT", reports: 2, estimatedLoss: 17600 },
-    { city: "Dourados", state: "MS", reports: 1, estimatedLoss: 8400 },
-    { city: "Anapolis", state: "GO", reports: 1, estimatedLoss: 8200 },
+    {
+      city: "Cuiaba",
+      state: "MT",
+      reports: 7,
+      estimatedLoss: 68500,
+      latitude: -15.601,
+      longitude: -56.097,
+    },
+    {
+      city: "Varzea Grande",
+      state: "MT",
+      reports: 4,
+      estimatedLoss: 37400,
+      latitude: -15.646,
+      longitude: -56.132,
+    },
+    {
+      city: "Campo Grande",
+      state: "MS",
+      reports: 3,
+      estimatedLoss: 28200,
+      latitude: -20.469,
+      longitude: -54.621,
+    },
+    {
+      city: "Goiania",
+      state: "GO",
+      reports: 2,
+      estimatedLoss: 18100,
+      latitude: -16.686,
+      longitude: -49.264,
+    },
+    {
+      city: "Rondonopolis",
+      state: "MT",
+      reports: 2,
+      estimatedLoss: 17600,
+      latitude: -16.467,
+      longitude: -54.637,
+    },
+    {
+      city: "Dourados",
+      state: "MS",
+      reports: 1,
+      estimatedLoss: 8400,
+      latitude: -22.221,
+      longitude: -54.806,
+    },
+    {
+      city: "Anapolis",
+      state: "GO",
+      reports: 1,
+      estimatedLoss: 8200,
+      latitude: -16.328,
+      longitude: -48.953,
+    },
   ],
   problemTypes: [
     { label: "Produto ou servico nao entregue", value: 8 },
@@ -77,5 +126,55 @@ export const razorPrimaryMetrics = [
     label: "Cidades afetadas",
     value: razorPreliminaryStats.affectedCities.toString(),
     helper: `${razorPreliminaryStats.affectedStates} Estados informados`,
+  },
+];
+
+export const razorDocumentationMetrics = [
+  {
+    label: "Documentos informados",
+    value: razorPreliminaryStats.reportsWithDocuments,
+  },
+  {
+    label: "Comprovantes de pagamento",
+    value: razorPreliminaryStats.reportsWithPaymentProof,
+  },
+  {
+    label: "Contrato ou proposta",
+    value: razorPreliminaryStats.reportsWithContract,
+  },
+  {
+    label: "Prints ou conversas",
+    value: razorPreliminaryStats.reportsWithMessages,
+  },
+  {
+    label: "Protocolos",
+    value: razorPreliminaryStats.reportsWithProtocol,
+  },
+];
+
+export const razorTimeline = [
+  {
+    date: "Etapa 1",
+    title: "Organizacao inicial",
+    description:
+      "Consolidacao dos primeiros relatos conhecidos e definicao de linguagem institucional.",
+  },
+  {
+    date: "Etapa 2",
+    title: "Painel preliminar",
+    description:
+      "Publicacao de dados agregados para dar dimensao coletiva ao caso sem expor vitimas.",
+  },
+  {
+    date: "Etapa 3",
+    title: "Chamamento de consumidores",
+    description:
+      "Direcionamento de novas vitimas ao formulario oficial para ampliar a base documental.",
+  },
+  {
+    date: "Proxima etapa",
+    title: "Dossie e encaminhamentos",
+    description:
+      "Validacao dos relatos, organizacao privada de provas e preparacao de material tecnico.",
   },
 ];
