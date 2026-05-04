@@ -81,6 +81,20 @@ const commitments = [
   },
 ];
 
+const homePhotos = {
+  hero:
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85",
+  evidence:
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
+  phone:
+    "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
+  alertThumbs: [
+    "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
+    "https://images.unsplash.com/photo-1605902711622-cfb43c4437d7?auto=format&fit=crop&w=420&q=80",
+  ],
+};
+
 export default async function Home() {
   const recentReports = await getRecentReports(3);
   const topCompanies = await getTopCompaniesByReports(3);
@@ -133,16 +147,23 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="relative min-h-[360px] lg:min-h-[560px]">
-            <div className="absolute inset-y-0 right-0 w-[112%] rounded-l-[44px] bg-primary/12 blur-3xl" />
+          <div className="relative min-h-[360px] overflow-hidden rounded-lg lg:min-h-[560px] lg:rounded-l-[44px] lg:rounded-r-none">
             <Image
-              src="/images/home/consumer-dashboard.svg"
-              alt="Painel ilustrado com indicadores e alertas da plataforma"
-              width={1200}
-              height={860}
+              src={homePhotos.hero}
+              alt="Consumidora analisando documentos em ambiente de trabalho"
+              fill
               priority
-              className="relative h-full min-h-[360px] w-full object-contain drop-shadow-2xl"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/45 to-transparent lg:from-[#111111]/35" />
+            <div className="absolute bottom-6 left-6 hidden max-w-xs rounded-lg border border-white/15 bg-black/50 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
+              <p className="font-bold text-primary">Dados com contexto</p>
+              <p className="mt-1 text-white/75">
+                Relatos organizados para consulta pública, sem exposição
+                automática de dados pessoais.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -189,19 +210,37 @@ export default async function Home() {
                 action="Enviar relato"
               />
               <div className="space-y-4">
-                {recentReports.map((report) => (
+                {recentReports.map((report, index) => (
                   <Card key={report.id} className="overflow-hidden">
-                    <CardContent className="p-5">
-                      <p className="font-bold">{report.companyName}</p>
-                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
-                        {report.narrative}
-                      </p>
-                      <Link
-                        href={`/empresa/${report.companySlug}`}
-                        className="mt-3 inline-flex items-center text-sm font-semibold text-primary-foreground/80 hover:text-primary-foreground"
-                      >
-                        Ver detalhes <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                      </Link>
+                    <CardContent className="grid gap-4 p-4 sm:grid-cols-[96px_1fr]">
+                      <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
+                        <Image
+                          src={
+                            homePhotos.alertThumbs[
+                              index % homePhotos.alertThumbs.length
+                            ]
+                          }
+                          alt={`Imagem relacionada ao relato sobre ${report.companyName}`}
+                          fill
+                          sizes="96px"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate font-bold">
+                          {report.companyName}
+                        </p>
+                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                          {report.narrative}
+                        </p>
+                        <Link
+                          href={`/empresa/${report.companySlug}`}
+                          className="mt-3 inline-flex items-center text-sm font-semibold text-primary-foreground/80 hover:text-primary-foreground"
+                        >
+                          Ver detalhes{" "}
+                          <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                        </Link>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -305,25 +344,44 @@ export default async function Home() {
               })}
             </div>
           </div>
-          <Image
-            src="/images/home/evidence-flow.svg"
-            alt="Ilustração do fluxo de pesquisa, relato e evidências"
-            width={960}
-            height={720}
-            className="mx-auto w-full max-w-md rounded-lg object-contain"
-          />
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-lg">
+            <Image
+              src={homePhotos.phone}
+              alt="Pessoa usando celular para consultar informações de consumo"
+              fill
+              sizes="(min-width: 1024px) 360px, 90vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/92 p-4 shadow-xl">
+              <p className="text-sm font-bold">Consulta rápida</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                A experiência deve orientar a próxima ação do consumidor sem
+                excesso de texto.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="bg-background py-16 md:py-24">
         <div className="container mx-auto grid gap-10 px-4 md:px-6 lg:grid-cols-[360px_1fr] lg:items-center">
-          <Image
-            src="/images/home/rights-shield.svg"
-            alt="Escudo ilustrando proteção de direitos e dados"
-            width={960}
-            height={720}
-            className="mx-auto w-full max-w-sm rounded-lg object-contain"
-          />
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-lg">
+            <Image
+              src={homePhotos.evidence}
+              alt="Documentos, anotações e evidências organizadas sobre uma mesa"
+              fill
+              sizes="(min-width: 1024px) 360px, 90vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-primary p-4 text-primary-foreground shadow-xl">
+              <p className="text-sm font-bold">Evidências preservadas</p>
+              <p className="mt-1 text-xs leading-5 opacity-75">
+                A plataforma diferencia informação pública de prova privada.
+              </p>
+            </div>
+          </div>
           <div>
             <h2 className="text-3xl font-bold md:text-4xl">
               Compromissos da plataforma
