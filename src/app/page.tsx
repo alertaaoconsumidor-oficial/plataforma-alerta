@@ -7,6 +7,7 @@ import {
   BarChart2,
   FileText,
   Search,
+  ShieldCheck,
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
@@ -62,6 +63,38 @@ export default async function Home() {
             >
               <Link href="/metodologia">Ver Metodologia</Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full border-b bg-background py-10 md:py-14">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase text-primary">
+                Caso piloto
+              </p>
+              <h2 className="mt-2 text-3xl font-bold font-headline">
+                CASO RAZOR
+              </h2>
+              <p className="mt-3 max-w-3xl text-muted-foreground">
+                Estamos organizando relatos relacionados ao CASO RAZOR com foco
+                em dados agregados, proteÃ§Ã£o de dados pessoais, preservaÃ§Ã£o de
+                provas privadas e direito de resposta.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+              <Button asChild>
+                <Link href="/casos/razor">
+                  Acessar caso <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/casos/razor/estatisticas">
+                  Ver estatÃ­sticas
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -126,7 +159,10 @@ export default async function Home() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">O que medimos?</CardTitle>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <ShieldCheck className="h-5 w-5 text-primary" />
+                      O que medimos?
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2 text-muted-foreground">
