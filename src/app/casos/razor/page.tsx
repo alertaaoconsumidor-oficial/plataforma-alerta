@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Building,
   Calendar,
   ExternalLink,
   FileCheck2,
@@ -10,6 +9,7 @@ import {
   MessageSquareText,
   Newspaper,
   ShieldCheck,
+  TriangleAlert,
   User,
 } from "lucide-react";
 
@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { KpiOverview } from "@/components/charts/kpi-overview";
 import { MonthlyReportsChart } from "@/components/charts/monthly-reports-chart";
+import { AnimatedNumber } from "@/features/public-cases/components/animated-number";
 import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-map";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
@@ -36,16 +37,10 @@ import {
   razorTimeline,
 } from "@/features/public-cases/data/razor-preliminary-stats";
 
-const currencyFormatter = new Intl.NumberFormat("pt-BR", {
-  style: "currency",
-  currency: "BRL",
-  maximumFractionDigits: 0,
-});
-
 export const metadata: Metadata = {
   title: "CASO RAZOR | Alerta ao Consumidor",
   description:
-    "Caso inicial do Alerta ao Consumidor para organizacao documental e estatistica de relatos agregados.",
+    "Dossie publico do CASO RAZOR com organizacao documental e estatistica de relatos agregados.",
 };
 
 export default function CasoRazorPage() {
@@ -55,16 +50,16 @@ export default function CasoRazorPage() {
         <header className="mb-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-start">
             <div className="max-w-4xl">
+              <Badge className="mb-4 border-amber-200 bg-amber-100 text-base text-amber-800">
+                Em organizacao coletiva
+              </Badge>
               <div className="flex items-center gap-3">
-                <Building className="h-8 w-8 text-muted-foreground" />
+                <TriangleAlert className="h-10 w-10 shrink-0 text-primary md:h-12 md:w-12" />
                 <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
                   {razorPreliminaryStats.title}
                 </h1>
               </div>
-              <p className="mt-2 text-lg text-muted-foreground">
-                {razorPreliminaryStats.subtitle}
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-3 text-base font-semibold text-foreground/80">
                 CNPJ principal informado: 12.345.678/0001-90
               </p>
               <p className="mt-4 max-w-3xl text-muted-foreground">
@@ -74,41 +69,38 @@ export default function CasoRazorPage() {
               </p>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex flex-col items-start gap-2 lg:items-end">
-                <Badge className="border-amber-200 bg-amber-100 text-base text-amber-800">
-                  Em organizacao coletiva
-                </Badge>
-                <Badge variant="outline">Dados preliminares</Badge>
-                <p className="text-sm text-muted-foreground">
-                  Atualizado em {razorPreliminaryStats.lastUpdatedAt}
-                </p>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Card>
-                  <CardContent className="p-4">
-                    <p className="text-sm font-medium text-muted-foreground">
+            <div className="space-y-4 lg:pt-10">
+              <p className="text-sm text-muted-foreground lg:text-right">
+                Atualizado em {razorPreliminaryStats.lastUpdatedAt}
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Card className="border-primary/40 bg-primary text-primary-foreground shadow-md">
+                  <CardContent className="p-5">
+                    <p className="text-sm font-semibold opacity-80">
                       Total de relatos
                     </p>
-                    <p className="mt-2 text-3xl font-bold">
-                      {razorPreliminaryStats.totalReports}
+                    <p className="mt-3 text-4xl font-bold">
+                      <AnimatedNumber
+                        value={razorPreliminaryStats.totalReports}
+                      />
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Dados preliminares
+                    <p className="mt-2 text-xs font-medium opacity-75">
+                      Relatos agregados
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <p className="text-sm font-medium text-muted-foreground">
+                <Card className="border-foreground/10 bg-foreground text-background shadow-md">
+                  <CardContent className="p-5">
+                    <p className="text-sm font-semibold opacity-75">
                       Prejuizo estimado
                     </p>
-                    <p className="mt-2 text-2xl font-bold">
-                      {currencyFormatter.format(
-                        razorPreliminaryStats.totalEstimatedLoss
-                      )}
+                    <p className="mt-3 text-3xl font-bold">
+                      <AnimatedNumber
+                        value={razorPreliminaryStats.totalEstimatedLoss}
+                        currency
+                      />
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
+                    <p className="mt-2 text-xs font-medium opacity-70">
                       Valor declarado
                     </p>
                   </CardContent>

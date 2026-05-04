@@ -1,4 +1,5 @@
 import type { CaseDistributionItem } from "../types";
+import { AnimatedProgressBar } from "./animated-progress-bar";
 
 export function CaseBarList({
   items,
@@ -30,12 +31,7 @@ export function CaseBarList({
                 {valueSuffix}
               </span>
             </div>
-            <div className="h-2 rounded-full bg-muted">
-              <div
-                className="h-2 rounded-full bg-primary transition-[width] duration-1000 ease-out"
-                style={{ width: `${Math.max(percent, 4)}%` }}
-              />
-            </div>
+            <AnimatedProgressBar percent={percent} />
           </div>
         );
       })}

@@ -4,7 +4,7 @@ import type { Metric, MonthlyReportData, News, Report } from "@/lib/types";
 export const razorPreliminaryStats: PublicCaseStats = {
   slug: "razor",
   title: "CASO RAZOR",
-  subtitle: "Caso inicial do Alerta ao Consumidor",
+  subtitle: "Dossie publico em organizacao",
   lastUpdatedAt: "2026-05-03",
   totalReports: 20,
   totalVictims: 20,

@@ -24,7 +24,7 @@ export function RelatedCnpjsDialog({ items }: { items: RelatedCnpj[] }) {
           Outros CNPJs relacionados
         </Button>
       </DialogTrigger>
-      <DialogContent className="top-[50%] flex max-h-[88vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
+      <DialogContent className="bottom-8 top-8 flex h-auto max-h-none translate-y-0 flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="shrink-0 border-b p-6 pb-4 pr-12">
           <DialogTitle>CNPJs relacionados ao caso</DialogTitle>
           <DialogDescription>

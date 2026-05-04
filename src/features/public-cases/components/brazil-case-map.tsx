@@ -93,7 +93,7 @@ function buildStateSummaries(cities: CaseCityStat[]) {
 }
 
 function markerRadius(reports: number) {
-  return Math.max(3.5, Math.min(9, 3.5 + reports * 0.65));
+  return Math.max(2.8, Math.min(6.5, 2.8 + reports * 0.45));
 }
 
 export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
@@ -143,7 +143,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
 
   return (
     <>
-      <div className="relative min-h-[460px]">
+      <div className="relative min-h-[500px] overflow-visible">
         <div className="relative">
           {hoveredState ? (
             <div className="absolute left-4 top-4 z-10 max-w-[230px] rounded-md border bg-background p-3 text-sm shadow-lg">
@@ -160,7 +160,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
             </div>
           ) : null}
 
-          <div className="mx-auto -my-6 max-w-[680px]">
+          <div className="mx-auto -my-10 max-w-[760px]">
             <svg
               viewBox="0 0 470 470"
               role="img"
@@ -198,7 +198,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       }
                     }}
                     className="outline-none transition-colors focus-visible:stroke-primary"
-                    fill={isAffected ? "hsl(var(--primary))" : "#e8e6df"}
+                    fill={isAffected ? "hsl(var(--primary))" : "#dedbd2"}
                     fillOpacity={isAffected ? 0.9 : 1}
                     stroke="#ffffff"
                     strokeWidth={isAffected ? 1.6 : 1}
@@ -208,19 +208,35 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
 
               {cities.map((city) => {
                 const point = projection([city.longitude, city.latitude]);
+                const summary = stateSummaries[city.state];
 
                 if (!point) {
                   return null;
                 }
 
                 return (
-                  <g key={`${city.city}-${city.state}`}>
+                  <g
+                    key={`${city.city}-${city.state}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${city.city}/${city.state}: ${city.reports} relatos`}
+                    className="cursor-pointer outline-none"
+                    onMouseEnter={() => setHoveredState(summary ?? null)}
+                    onMouseLeave={() => setHoveredState(null)}
+                    onFocus={() => setHoveredState(summary ?? null)}
+                    onBlur={() => setHoveredState(null)}
+                    onClick={() => {
+                      if (summary) {
+                        setSelectedState(summary);
+                      }
+                    }}
+                  >
                     <circle
                       cx={point[0]}
                       cy={point[1]}
-                      r={markerRadius(city.reports) + 7}
+                      r={markerRadius(city.reports) + 4}
                       fill="hsl(var(--primary))"
-                      opacity="0.22"
+                      opacity="0.16"
                     />
                     <circle
                       cx={point[0]}
@@ -228,7 +244,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       r={markerRadius(city.reports)}
                       fill="#1c1c1a"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="2.5"
+                      strokeWidth="2"
                     />
                   </g>
                 );
