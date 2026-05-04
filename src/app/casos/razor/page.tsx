@@ -24,11 +24,13 @@ import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-ma
 import { CaseCityTable } from "@/features/public-cases/components/case-city-table";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
+import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
 import {
   razorDocumentationMetrics,
   razorMetrics,
   razorMonthlyReportData,
   razorPreliminaryStats,
+  razorRelatedCnpjs,
   razorPublicNews,
   razorPublicReports,
   razorTimeline,
@@ -56,6 +58,9 @@ export default function CasoRazorPage() {
               <p className="mt-2 text-lg text-muted-foreground">
                 {razorPreliminaryStats.subtitle}
               </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                CNPJ principal informado: 12.345.678/0001-90
+              </p>
               <p className="mt-4 max-w-3xl text-muted-foreground">
                 Organizacao de relatos, preservacao de provas privadas e
                 consolidacao de dados preliminares com responsabilidade
@@ -65,8 +70,9 @@ export default function CasoRazorPage() {
 
             <div className="flex flex-col items-start gap-2 lg:items-end">
               <Badge className="border-amber-200 bg-amber-100 text-base text-amber-800">
-                Caso piloto
+                Em organizacao coletiva
               </Badge>
+              <Badge variant="outline">Dados preliminares</Badge>
               <p className="text-sm text-muted-foreground">
                 Atualizado em {razorPreliminaryStats.lastUpdatedAt}
               </p>
@@ -86,6 +92,7 @@ export default function CasoRazorPage() {
                 Direito de resposta
               </Link>
             </Button>
+            <RelatedCnpjsDialog items={razorRelatedCnpjs} />
           </div>
         </header>
 
@@ -113,19 +120,21 @@ export default function CasoRazorPage() {
                   Distribuicao geografica
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Mapa interativo com estados reais do Brasil, destaque por
-                  relatos e modal com dados agregados por UF.
+                  Mapa interativo com estados reais do Brasil e tabela de apoio
+                  com as cidades informadas.
                 </p>
               </div>
-              <BrazilCaseMap cities={razorPreliminaryStats.cities} />
-              <Card>
-                <CardHeader>
-                  <CardTitle>Cidades informadas</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CaseCityTable cities={razorPreliminaryStats.cities} />
-                </CardContent>
-              </Card>
+              <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+                <BrazilCaseMap cities={razorPreliminaryStats.cities} />
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Cidades informadas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CaseCityTable cities={razorPreliminaryStats.cities} />
+                  </CardContent>
+                </Card>
+              </div>
             </section>
 
             <Separator />

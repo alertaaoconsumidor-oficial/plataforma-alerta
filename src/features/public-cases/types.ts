@@ -24,6 +24,20 @@ export type CaseTimelineItem = {
   description: string;
 };
 
+export type RelatedCnpj = {
+  cnpj: string;
+  legalName: string;
+  tradeName: string;
+  status: string;
+  openedAt: string;
+  mainActivity: string;
+  address: string;
+  city: string;
+  state: string;
+  partners: string[];
+  sourceNote: string;
+};
+
 export type PublicCaseStats = {
   slug: string;
   title: string;

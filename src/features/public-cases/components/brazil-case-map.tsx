@@ -3,8 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
-import { MapPin } from "lucide-react";
-
 import {
   Dialog,
   DialogContent,
@@ -104,20 +102,12 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
   const [selectedState, setSelectedState] = useState<StateSummary | null>(null);
 
   const stateSummaries = useMemo(() => buildStateSummaries(cities), [cities]);
-  const affectedStates = Object.values(stateSummaries).sort(
-    (a, b) => b.reports - a.reports
-  );
-  const totalReports = affectedStates.reduce(
-    (sum, state) => sum + state.reports,
-    0
-  );
-
   const projection = useMemo(
     () =>
       geoMercator()
         .center([-52, -15])
-        .scale(560)
-        .translate([260, 260]),
+        .scale(500)
+        .translate([235, 235]),
     []
   );
   const path = useMemo(() => geoPath(projection), [projection]);
@@ -154,44 +144,28 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
   return (
     <>
       <div className="overflow-hidden rounded-lg border bg-card">
-        <div className="border-b p-5">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="text-xl font-bold">Mapa de alcance</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Passe o mouse ou clique nos estados destacados para ver detalhes
-                agregados do CASO RAZOR.
+        <div className="relative bg-white p-4">
+          {hoveredState ? (
+            <div className="absolute left-4 top-4 z-10 max-w-[230px] rounded-md border bg-background p-3 text-sm shadow-lg">
+              <p className="font-bold">
+                {hoveredState.stateName} ({hoveredState.state})
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                {hoveredState.reports} relatos em{" "}
+                {hoveredState.cities.length} cidades
+              </p>
+              <p className="text-muted-foreground">
+                {currencyFormatter.format(hoveredState.estimatedLoss)}
               </p>
             </div>
-            <div className="rounded-md bg-primary px-3 py-2 text-right text-primary-foreground">
-              <p className="text-xs font-medium">Relatos</p>
-              <p className="text-xl font-bold">{totalReports}</p>
-            </div>
-          </div>
-        </div>
+          ) : null}
 
-        <div className="grid gap-0 xl:grid-cols-[1fr_220px]">
-          <div className="relative bg-[#171716] p-4">
-            {hoveredState ? (
-              <div className="absolute left-4 top-4 z-10 max-w-[230px] rounded-md border bg-background p-3 text-sm shadow-lg">
-                <p className="font-bold">
-                  {hoveredState.stateName} ({hoveredState.state})
-                </p>
-                <p className="mt-1 text-muted-foreground">
-                  {hoveredState.reports} relatos em{" "}
-                  {hoveredState.cities.length} cidades
-                </p>
-                <p className="text-muted-foreground">
-                  {currencyFormatter.format(hoveredState.estimatedLoss)}
-                </p>
-              </div>
-            ) : null}
-
+          <div className="mx-auto max-w-[430px]">
             <svg
-              viewBox="0 0 520 520"
+              viewBox="0 0 470 470"
               role="img"
               aria-label="Mapa real dos estados do Brasil com marcadores do CASO RAZOR"
-              className="mx-auto aspect-square w-full max-w-[620px]"
+              className="aspect-square w-full"
             >
               {features.map((geo) => {
                 const state = geo.id;
@@ -224,10 +198,10 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       }
                     }}
                     className="outline-none transition-colors focus-visible:stroke-primary"
-                    fill={isAffected ? "hsl(var(--primary))" : "#20201f"}
-                    fillOpacity={isAffected ? 0.92 : 1}
-                    stroke="#f4f2eb"
-                    strokeWidth={isAffected ? 1.8 : 1}
+                    fill={isAffected ? "hsl(var(--primary))" : "#f1f1ef"}
+                    fillOpacity={isAffected ? 0.9 : 1}
+                    stroke="#d7d4cc"
+                    strokeWidth={isAffected ? 1.6 : 1}
                   />
                 );
               })}
@@ -246,60 +220,20 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       cy={point[1]}
                       r={markerRadius(city.reports) + 7}
                       fill="hsl(var(--primary))"
-                      opacity="0.25"
+                      opacity="0.22"
                     />
                     <circle
                       cx={point[0]}
                       cy={point[1]}
                       r={markerRadius(city.reports)}
-                      fill="#171716"
+                      fill="#1c1c1a"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="4"
+                      strokeWidth="3"
                     />
                   </g>
                 );
               })}
             </svg>
-          </div>
-
-          <div className="space-y-4 p-5">
-            <div>
-              <p className="text-sm font-semibold text-muted-foreground">
-                Estados destacados
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {affectedStates.map((state) => (
-                  <button
-                    key={state.state}
-                    type="button"
-                    onClick={() => setSelectedState(state)}
-                    className="rounded-md bg-primary px-2.5 py-1 text-xs font-bold text-primary-foreground transition-opacity hover:opacity-80"
-                  >
-                    {state.state}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {affectedStates.map((state) => (
-                <button
-                  key={state.state}
-                  type="button"
-                  onClick={() => setSelectedState(state)}
-                  className="w-full rounded-md border p-3 text-left transition-colors hover:border-primary hover:bg-primary/10"
-                >
-                  <p className="flex items-center gap-2 text-sm font-bold">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    {state.stateName}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {state.reports} relatos -{" "}
-                    {currencyFormatter.format(state.estimatedLoss)}
-                  </p>
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </div>
