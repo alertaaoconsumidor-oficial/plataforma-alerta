@@ -143,8 +143,8 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-lg border bg-card">
-        <div className="relative bg-white p-4">
+      <div className="relative min-h-[460px]">
+        <div className="relative">
           {hoveredState ? (
             <div className="absolute left-4 top-4 z-10 max-w-[230px] rounded-md border bg-background p-3 text-sm shadow-lg">
               <p className="font-bold">
@@ -160,7 +160,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
             </div>
           ) : null}
 
-          <div className="mx-auto max-w-[560px]">
+          <div className="mx-auto -my-6 max-w-[680px]">
             <svg
               viewBox="0 0 470 470"
               role="img"
@@ -198,7 +198,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       }
                     }}
                     className="outline-none transition-colors focus-visible:stroke-primary"
-                    fill={isAffected ? "hsl(var(--primary))" : "#f1f1ef"}
+                    fill={isAffected ? "hsl(var(--primary))" : "#e8e6df"}
                     fillOpacity={isAffected ? 0.9 : 1}
                     stroke="#ffffff"
                     strokeWidth={isAffected ? 1.6 : 1}

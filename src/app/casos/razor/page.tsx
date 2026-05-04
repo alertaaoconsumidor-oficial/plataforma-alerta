@@ -36,6 +36,12 @@ import {
   razorTimeline,
 } from "@/features/public-cases/data/razor-preliminary-stats";
 
+const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+  style: "currency",
+  currency: "BRL",
+  maximumFractionDigits: 0,
+});
+
 export const metadata: Metadata = {
   title: "CASO RAZOR | Alerta ao Consumidor",
   description:
@@ -47,7 +53,7 @@ export default function CasoRazorPage() {
     <div className="bg-background">
       <div className="container mx-auto px-4 py-10 md:px-6 md:py-12">
         <header className="mb-12">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-start">
             <div className="max-w-4xl">
               <div className="flex items-center gap-3">
                 <Building className="h-8 w-8 text-muted-foreground" />
@@ -68,14 +74,46 @@ export default function CasoRazorPage() {
               </p>
             </div>
 
-            <div className="flex flex-col items-start gap-2 lg:items-end">
-              <Badge className="border-amber-200 bg-amber-100 text-base text-amber-800">
-                Em organizacao coletiva
-              </Badge>
-              <Badge variant="outline">Dados preliminares</Badge>
-              <p className="text-sm text-muted-foreground">
-                Atualizado em {razorPreliminaryStats.lastUpdatedAt}
-              </p>
+            <div className="space-y-4">
+              <div className="flex flex-col items-start gap-2 lg:items-end">
+                <Badge className="border-amber-200 bg-amber-100 text-base text-amber-800">
+                  Em organizacao coletiva
+                </Badge>
+                <Badge variant="outline">Dados preliminares</Badge>
+                <p className="text-sm text-muted-foreground">
+                  Atualizado em {razorPreliminaryStats.lastUpdatedAt}
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Total de relatos
+                    </p>
+                    <p className="mt-2 text-3xl font-bold">
+                      {razorPreliminaryStats.totalReports}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Dados preliminares
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Prejuizo estimado
+                    </p>
+                    <p className="mt-2 text-2xl font-bold">
+                      {currencyFormatter.format(
+                        razorPreliminaryStats.totalEstimatedLoss
+                      )}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Valor declarado
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
 
