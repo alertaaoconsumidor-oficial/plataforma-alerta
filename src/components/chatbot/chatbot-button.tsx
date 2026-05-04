@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Send } from "lucide-react";
+import { ShieldCheck, X, Send } from "lucide-react";
 
 export function ChatbotButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,25 +11,15 @@ export function ChatbotButton() {
     <>
       <div
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 group cursor-pointer transition-all hover:scale-105 active:scale-95 ${
+        className={`fixed bottom-6 right-6 z-50 group cursor-pointer transition-all ${
           isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
         }`}
       >
-        <div className="flex items-center relative h-[38px]">
-          <div className="absolute -left-1 z-10 flex items-center justify-center">
-            <Image
-              src="/chatbot-icon.svg"
-              alt="Alerta"
-              width={68}
-              height={68}
-              className="object-contain drop-shadow-sm"
-            />
-          </div>
-          <div className="bg-[#FFD700]/80 pl-16 pr-4 h-full flex items-center rounded-lg shadow-md border border-black/5 backdrop-blur-sm">
-            <span className="text-black font-black text-[13px] uppercase tracking-tighter whitespace-nowrap">
-              Pergunte ao Alerta!
-            </span>
-          </div>
+        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white opacity-0 shadow-xl transition-opacity whitespace-nowrap pointer-events-none group-hover:opacity-100">
+          Pergunte ao Alerta!
+        </div>
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-amber-400 bg-slate-900 text-amber-400 shadow-2xl transition-transform hover:scale-110 active:scale-95">
+          <ShieldCheck size={32} />
         </div>
       </div>
 

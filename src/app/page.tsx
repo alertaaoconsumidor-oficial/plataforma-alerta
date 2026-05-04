@@ -12,6 +12,7 @@ import {
   Search,
   ShieldCheck,
   TrendingUp,
+  Check,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -81,6 +82,14 @@ const commitments = [
   },
 ];
 
+const frontItems = [
+  "Relatos individuais padronizados",
+  "Registro cronológico dos fatos",
+  "Documentação de evidências",
+  "Indicadores públicos agregados",
+  "Orientação para caminhos legais e administrativos",
+];
+
 const homePhotos = {
   hero:
     "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85",
@@ -88,6 +97,8 @@ const homePhotos = {
     "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
   phone:
     "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
+  campaign:
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=85",
   alertThumbs: [
     "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
@@ -188,32 +199,57 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="w-full border-b bg-background py-10 md:py-14">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 rounded-lg border border-primary/25 bg-primary/10 p-6 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <ShieldCheck className="h-8 w-8" />
-            </div>
+      <section className="relative overflow-hidden border-b bg-primary py-16 text-primary-foreground md:py-24">
+        <Image
+          src={homePhotos.campaign}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-12 mix-blend-multiply"
+        />
+        <div className="absolute inset-0 bg-primary/90" />
+        <div className="container relative mx-auto px-4 md:px-6">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase text-muted-foreground">
-                Em organização coletiva
+              <p className="mb-6 inline-flex rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-2 text-sm font-bold text-primary-foreground/80">
+                Frente solidária
               </p>
-              <h2 className="mt-1 text-3xl font-bold">CASO RAZOR</h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-                Relatos relacionados ao CASO RAZOR estão sendo organizados com
-                foco em dados agregados, proteção de dados pessoais, preservação
-                de provas privadas e direito de resposta.
+              <h2 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+                Frente solidária para consumidores afetados pela Razor
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-primary-foreground/72">
+                A plataforma disponibiliza sua estrutura para organização
+                responsável de relatos, documentação de evidências e orientação
+                informativa aos consumidores impactados.
               </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-              <Button asChild>
-                <Link href="/casos/razor">
-                  Acessar caso <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href="/casos/razor#estatisticas">Ver indicadores</Link>
-              </Button>
+            <div className="space-y-3 lg:justify-self-end">
+              {frontItems.slice(0, 4).map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-3 rounded-lg border border-primary-foreground/15 bg-primary-foreground/14 px-4 py-3 text-sm font-bold shadow-sm backdrop-blur-sm"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-foreground/15">
+                    <Check className="h-4 w-4" />
+                  </span>
+                  {item}
+                </div>
+              ))}
+              <div className="flex flex-col gap-3 pt-3 sm:flex-row lg:justify-end">
+                <Button asChild variant="secondary">
+                  <Link href="/enviar-relato?caso=razor">
+                    Participar da frente{" "}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-primary-foreground/25 bg-transparent hover:bg-primary-foreground/10"
+                >
+                  <Link href="/metodologia">Entender metodologia</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
