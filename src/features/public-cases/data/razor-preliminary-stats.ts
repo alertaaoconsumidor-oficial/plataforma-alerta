@@ -153,6 +153,35 @@ export const razorDocumentationMetrics = [
   },
 ];
 
+export const razorStateComparison = Object.values(
+  razorPreliminaryStats.cities.reduce<
+    Record<string, { label: string; value: number; helper: string; loss: number }>
+  >((acc, city) => {
+    const current = acc[city.state] ?? {
+      label: city.state,
+      value: 0,
+      helper: "",
+      loss: 0,
+    };
+
+    current.value += city.reports;
+    current.loss += city.estimatedLoss;
+    acc[city.state] = current;
+
+    return acc;
+  }, {})
+)
+  .map((state) => ({
+    label: state.label,
+    value: state.value,
+    helper: new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      maximumFractionDigits: 0,
+    }).format(state.loss),
+  }))
+  .sort((a, b) => b.value - a.value);
+
 export const razorTimeline = [
   {
     date: "Etapa 1",

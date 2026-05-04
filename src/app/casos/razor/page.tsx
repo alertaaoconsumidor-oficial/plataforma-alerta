@@ -21,7 +21,6 @@ import { KpiOverview } from "@/components/charts/kpi-overview";
 import { MonthlyReportsChart } from "@/components/charts/monthly-reports-chart";
 import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-map";
-import { CaseCityTable } from "@/features/public-cases/components/case-city-table";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
 import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
@@ -33,6 +32,7 @@ import {
   razorRelatedCnpjs,
   razorPublicNews,
   razorPublicReports,
+  razorStateComparison,
   razorTimeline,
 } from "@/features/public-cases/data/razor-preliminary-stats";
 
@@ -105,10 +105,7 @@ export default function CasoRazorPage() {
                 <ShieldCheck className="h-7 w-7 text-primary" />
                 Indicadores Chave
               </h2>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <KpiOverview metrics={razorMetrics} />
-                <MonthlyReportsChart data={razorMonthlyReportData} />
-              </div>
+              <KpiOverview metrics={razorMetrics} />
             </section>
 
             <Separator />
@@ -120,18 +117,22 @@ export default function CasoRazorPage() {
                   Distribuicao geografica
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Mapa interativo com estados reais do Brasil e tabela de apoio
-                  com as cidades informadas.
+                  Mapa interativo com estados reais do Brasil e comparativo por
+                  UF para leitura rapida do alcance.
                 </p>
               </div>
-              <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+              <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
                 <BrazilCaseMap cities={razorPreliminaryStats.cities} />
                 <Card>
                   <CardHeader>
-                    <CardTitle>Cidades informadas</CardTitle>
+                    <CardTitle>Comparativo por estado</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CaseCityTable cities={razorPreliminaryStats.cities} />
+                    <CaseBarList
+                      items={razorStateComparison}
+                      total={razorPreliminaryStats.totalReports}
+                      valueSuffix=" relatos"
+                    />
                   </CardContent>
                 </Card>
               </div>
@@ -140,6 +141,8 @@ export default function CasoRazorPage() {
             <Separator />
 
             <section className="grid gap-6 md:grid-cols-2">
+              <MonthlyReportsChart data={razorMonthlyReportData} />
+
               <Card>
                 <CardHeader>
                   <CardTitle>Status dos relatos</CardTitle>

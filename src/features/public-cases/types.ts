@@ -7,6 +7,7 @@ export type CaseMetric = {
 export type CaseDistributionItem = {
   label: string;
   value: number;
+  helper?: string;
 };
 
 export type CaseCityStat = {

@@ -93,7 +93,7 @@ function buildStateSummaries(cities: CaseCityStat[]) {
 }
 
 function markerRadius(reports: number) {
-  return Math.max(5, Math.min(15, 5 + reports * 1.2));
+  return Math.max(3.5, Math.min(9, 3.5 + reports * 0.65));
 }
 
 export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
@@ -160,7 +160,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
             </div>
           ) : null}
 
-          <div className="mx-auto max-w-[430px]">
+          <div className="mx-auto max-w-[560px]">
             <svg
               viewBox="0 0 470 470"
               role="img"
@@ -200,7 +200,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                     className="outline-none transition-colors focus-visible:stroke-primary"
                     fill={isAffected ? "hsl(var(--primary))" : "#f1f1ef"}
                     fillOpacity={isAffected ? 0.9 : 1}
-                    stroke="#d7d4cc"
+                    stroke="#ffffff"
                     strokeWidth={isAffected ? 1.6 : 1}
                   />
                 );
@@ -228,7 +228,7 @@ export function BrazilCaseMap({ cities }: { cities: CaseCityStat[] }) {
                       r={markerRadius(city.reports)}
                       fill="#1c1c1a"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="3"
+                      strokeWidth="2.5"
                     />
                   </g>
                 );

@@ -24,8 +24,8 @@ export function RelatedCnpjsDialog({ items }: { items: RelatedCnpj[] }) {
           Outros CNPJs relacionados
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-4xl">
-        <DialogHeader>
+      <DialogContent className="top-[52%] flex max-h-[88vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
+        <DialogHeader className="border-b p-6 pb-4">
           <DialogTitle>CNPJs relacionados ao caso</DialogTitle>
           <DialogDescription>
             Informacoes cadastrais publicas em formato demonstrativo para teste
@@ -34,7 +34,7 @@ export function RelatedCnpjsDialog({ items }: { items: RelatedCnpj[] }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4">
+        <div className="grid gap-4 overflow-y-auto p-6">
           {items.map((item) => (
             <div key={item.cnpj} className="rounded-lg border p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
