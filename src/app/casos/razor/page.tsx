@@ -1,28 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRight,
-  CalendarClock,
+  Building,
+  Calendar,
+  ExternalLink,
   FileCheck2,
   FileText,
   MapPinned,
   MessageSquareText,
+  Newspaper,
   ShieldCheck,
+  User,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { KpiOverview } from "@/components/charts/kpi-overview";
+import { MonthlyReportsChart } from "@/components/charts/monthly-reports-chart";
 import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-map";
 import { CaseCityTable } from "@/features/public-cases/components/case-city-table";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
-import { CaseStatCardGrid } from "@/features/public-cases/components/case-stat-card-grid";
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
 import {
   razorDocumentationMetrics,
+  razorMetrics,
+  razorMonthlyReportData,
   razorPreliminaryStats,
-  razorPrimaryMetrics,
+  razorPublicNews,
+  razorPublicReports,
   razorTimeline,
 } from "@/features/public-cases/data/razor-preliminary-stats";
 
@@ -32,286 +40,253 @@ export const metadata: Metadata = {
     "Caso inicial do Alerta ao Consumidor para organizacao documental e estatistica de relatos agregados.",
 };
 
-const actionCards = [
-  {
-    title: "Registrar relato",
-    description:
-      "Consumidores afetados podem registrar informacoes factuais para organizacao coletiva.",
-    href: "/enviar-relato?caso=razor",
-    icon: FileText,
-  },
-  {
-    title: "Direito de resposta",
-    description:
-      "Canal para manifestacao formal de representantes, compliance ou interessados.",
-    href: "/casos/razor/direito-de-resposta",
-    icon: MessageSquareText,
-  },
-];
-
 export default function CasoRazorPage() {
   return (
     <div className="bg-background">
-      <section className="border-b bg-primary py-14 text-primary-foreground md:py-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+      <div className="container mx-auto px-4 py-10 md:px-6 md:py-12">
+        <header className="mb-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-4xl">
-              <Badge variant="secondary">Caso piloto</Badge>
-              <h1 className="mt-5 text-4xl font-bold tracking-tight md:text-6xl">
-                {razorPreliminaryStats.title}
-              </h1>
-              <p className="mt-4 max-w-3xl text-lg text-primary-foreground/90 md:text-xl">
-                {razorPreliminaryStats.subtitle}: organizacao de relatos,
-                preservacao de provas privadas e consolidacao de dados
-                preliminares com responsabilidade informativa.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" variant="secondary">
-                  <Link href="/enviar-relato?caso=razor">
-                    Registrar relato <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                >
-                  <Link href="#estatisticas">Ver painel do caso</Link>
-                </Button>
+              <div className="flex items-center gap-3">
+                <Building className="h-8 w-8 text-muted-foreground" />
+                <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
+                  {razorPreliminaryStats.title}
+                </h1>
               </div>
+              <p className="mt-2 text-lg text-muted-foreground">
+                {razorPreliminaryStats.subtitle}
+              </p>
+              <p className="mt-4 max-w-3xl text-muted-foreground">
+                Organizacao de relatos, preservacao de provas privadas e
+                consolidacao de dados preliminares com responsabilidade
+                informativa.
+              </p>
             </div>
 
-            <div className="rounded-lg border border-primary-foreground/30 bg-primary-foreground/10 p-5">
-              <p className="flex items-center gap-2 text-sm font-semibold">
-                <CalendarClock className="h-4 w-4" />
+            <div className="flex flex-col items-start gap-2 lg:items-end">
+              <Badge className="border-amber-200 bg-amber-100 text-base text-amber-800">
+                Caso piloto
+              </Badge>
+              <p className="text-sm text-muted-foreground">
                 Atualizado em {razorPreliminaryStats.lastUpdatedAt}
               </p>
-              <p className="mt-3 text-sm leading-6 text-primary-foreground/85">
-                Os dados sao preliminares, agregados e baseados em relatos
-                informados voluntariamente. Nenhum dado pessoal ou documento e
-                exibido publicamente.
-              </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="container mx-auto space-y-10 px-4 py-10 md:px-6 md:py-14">
-        <ClosedCompanyNotice />
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button asChild>
+              <Link href="/enviar-relato?caso=razor">
+                <FileText className="mr-2 h-4 w-4" />
+                Registrar relato sobre o caso
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/casos/razor/direito-de-resposta">
+                <MessageSquareText className="mr-2 h-4 w-4" />
+                Direito de resposta
+              </Link>
+            </Button>
+          </div>
+        </header>
 
-        <div id="estatisticas" className="scroll-mt-24 space-y-8">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase text-primary">
-                Painel do caso
-              </p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight">
-                Panorama preliminar
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <main className="space-y-12 lg:col-span-2">
+            <ClosedCompanyNotice />
+
+            <section id="estatisticas" className="scroll-mt-24">
+              <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold">
+                <ShieldCheck className="h-7 w-7 text-primary" />
+                Indicadores Chave
               </h2>
-            </div>
-            <p className="max-w-2xl text-sm text-muted-foreground">
-              Esta secao consolida a visao estatistica, geografica e documental
-              do CASO RAZOR em uma unica pagina.
-            </p>
-          </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <KpiOverview metrics={razorMetrics} />
+                <MonthlyReportsChart data={razorMonthlyReportData} />
+              </div>
+            </section>
 
-          <CaseStatCardGrid metrics={razorPrimaryMetrics} />
-        </div>
+            <Separator />
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {actionCards.map((card) => (
-            <Card key={card.title}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-xl">
-                  <card.icon className="h-5 w-5 text-primary" />
-                  {card.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {card.description}
+            <section className="space-y-6">
+              <div>
+                <h2 className="flex items-center gap-3 text-3xl font-bold">
+                  <MapPinned className="h-7 w-7 text-primary" />
+                  Distribuicao geografica
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Mapa interativo com estados reais do Brasil, destaque por
+                  relatos e modal com dados agregados por UF.
                 </p>
-                <Button asChild variant="link" className="mt-4 px-0">
-                  <Link href={card.href}>
-                    Acessar <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+              <BrazilCaseMap cities={razorPreliminaryStats.cities} />
+              <Card>
+                <CardHeader>
+                  <CardTitle>Cidades informadas</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CaseCityTable cities={razorPreliminaryStats.cities} />
+                </CardContent>
+              </Card>
+            </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <ShieldCheck className="h-5 w-5 text-primary" />
-                Comunicacao responsavel
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>Dados publicos sempre agregados e preliminares.</li>
-                <li>Nenhum documento e publicado automaticamente.</li>
-                <li>Nomes de vitimas e dados pessoais nao sao exibidos.</li>
-                <li>A plataforma nao declara culpa definitiva.</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
+            <Separator />
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <Card>
-            <CardHeader>
-              <CardTitle>Finalidade do caso</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm leading-7 text-muted-foreground">
-              <p>
-                O CASO RAZOR reune relatos de consumidores que afirmam ter
-                sofrido prejuizos relacionados a contratacoes, pagamentos ou
-                negociacoes vinculadas a empresa atualmente encerrada, inativa
-                ou sem operacao identificada.
-              </p>
-              <p>
-                A finalidade publica e dar escala, contexto e organizacao aos
-                relatos, sem substituir avaliacao juridica ou institucional dos
-                fatos.
-              </p>
-            </CardContent>
-          </Card>
+            <section className="grid gap-6 md:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Status dos relatos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CaseBarList
+                    items={razorPreliminaryStats.statusDistribution}
+                    total={razorPreliminaryStats.totalReports}
+                  />
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <MapPinned className="h-5 w-5 text-primary" />
-                Alcance territorial
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm leading-7 text-muted-foreground">
-              As cidades informadas ajudam a visualizar a distribuicao
-              preliminar dos relatos. A localizacao no mapa e aproximada e tem
-              finalidade informativa, nao pericial.
-            </CardContent>
-          </Card>
-        </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Faixas de prejuizo informado</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CaseBarList
+                    items={razorPreliminaryStats.lossRanges}
+                    total={razorPreliminaryStats.totalReports}
+                  />
+                </CardContent>
+              </Card>
 
-        <section className="space-y-5">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              Distribuicao geografica
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
-              Mapa do Brasil com marcacoes aproximadas nas cidades informadas e
-              tabela de apoio para leitura detalhada.
-            </p>
-          </div>
-          <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-            <BrazilCaseMap cities={razorPreliminaryStats.cities} />
-            <Card>
-              <CardHeader>
-                <CardTitle>Cidades informadas</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CaseCityTable cities={razorPreliminaryStats.cities} />
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tipos de problema relatado</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CaseBarList
+                    items={razorPreliminaryStats.problemTypes}
+                    total={razorPreliminaryStats.totalReports}
+                  />
+                </CardContent>
+              </Card>
 
-        <section className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Status dos relatos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CaseBarList
-                items={razorPreliminaryStats.statusDistribution}
-                total={razorPreliminaryStats.totalReports}
-              />
-            </CardContent>
-          </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <FileCheck2 className="h-5 w-5 text-primary" />
+                    Documentacao informada
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CaseBarList
+                    items={razorDocumentationMetrics}
+                    total={razorPreliminaryStats.totalReports}
+                  />
+                </CardContent>
+              </Card>
+            </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Faixas de prejuizo informado</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CaseBarList
-                items={razorPreliminaryStats.lossRanges}
-                total={razorPreliminaryStats.totalReports}
-              />
-            </CardContent>
-          </Card>
+            <Separator />
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Evolucao mensal</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CaseBarList
-                items={razorPreliminaryStats.monthlyReports}
-                total={Math.max(
-                  ...razorPreliminaryStats.monthlyReports.map(
-                    (item) => item.value
-                  )
-                )}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Tipos de problema relatado</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CaseBarList
-                items={razorPreliminaryStats.problemTypes}
-                total={razorPreliminaryStats.totalReports}
-              />
-            </CardContent>
-          </Card>
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <FileCheck2 className="h-5 w-5 text-primary" />
-                Documentacao informada
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CaseBarList
-                items={razorDocumentationMetrics}
-                total={razorPreliminaryStats.totalReports}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Linha do tempo coletiva</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="relative space-y-6 pl-6 before:absolute before:inset-y-0 before:left-2 before:w-px before:bg-border">
-                {razorTimeline.map((event) => (
-                  <div key={event.title} className="relative">
-                    <div className="absolute left-[-23px] top-1 h-4 w-4 rounded-full border-4 border-background bg-primary" />
-                    <p className="text-xs font-semibold uppercase text-primary">
-                      {event.date}
-                    </p>
-                    <p className="mt-1 font-semibold">{event.title}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {event.description}
-                    </p>
-                  </div>
+            <section>
+              <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold">
+                <FileText className="h-7 w-7 text-primary" />
+                Relatos de Consumidores
+              </h2>
+              <div className="space-y-6">
+                {razorPublicReports.map((report) => (
+                  <Card key={report.id}>
+                    <CardHeader>
+                      <CardTitle className="text-xl">
+                        Relato sobre: {report.currentStatus}
+                      </CardTitle>
+                      <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1.5">
+                          <User className="h-4 w-4" />
+                          {report.isAnonymous
+                            ? "Anonimo"
+                            : report.publicNameInitials}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="h-4 w-4" />
+                          {new Date(report.createdAt).toLocaleDateString(
+                            "pt-BR"
+                          )}
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-card-foreground/80">
+                        {report.narrative}
+                      </p>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
-            </CardContent>
-          </Card>
-        </section>
+            </section>
 
-        <CaseLgpdNotice />
-      </section>
+            <Separator />
+
+            <section>
+              <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold">
+                <Newspaper className="h-7 w-7 text-primary" />
+                Noticias Publicas
+              </h2>
+              <div className="space-y-6">
+                {razorPublicNews.map((item) => (
+                  <Card key={item.id}>
+                    <CardHeader>
+                      <CardTitle className="text-xl">{item.title}</CardTitle>
+                      <p className="text-sm text-muted-foreground">
+                        Fonte: {item.sourceName} -{" "}
+                        {new Date(item.publishedAt).toLocaleDateString(
+                          "pt-BR"
+                        )}
+                      </p>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-4 text-card-foreground/80">
+                        {item.excerpt}
+                      </p>
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={item.url}>
+                          Ler mais <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+
+            <CaseLgpdNotice />
+          </main>
+
+          <aside className="lg:col-span-1">
+            <div className="sticky top-24">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3 text-2xl">
+                    <Calendar className="h-6 w-6 text-primary" />
+                    Linha do Tempo
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="relative space-y-8 pl-6 before:absolute before:inset-y-0 before:left-2 before:w-px before:bg-border">
+                    {razorTimeline.map((event) => (
+                      <div key={event.title} className="relative">
+                        <div className="absolute left-[-29px] top-1 h-4 w-4 rounded-full border-4 border-background bg-primary" />
+                        <p className="font-semibold">{event.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {event.date}
+                        </p>
+                        <p className="mt-1 text-sm">{event.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </aside>
+        </div>
+      </div>
     </div>
   );
 }

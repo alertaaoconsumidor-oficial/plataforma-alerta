@@ -1,4 +1,5 @@
 import type { PublicCaseStats } from "../types";
+import type { Metric, MonthlyReportData, News, Report } from "@/lib/types";
 
 export const razorPreliminaryStats: PublicCaseStats = {
   slug: "razor",
@@ -176,5 +177,99 @@ export const razorTimeline = [
     title: "Dossie e encaminhamentos",
     description:
       "Validacao dos relatos, organizacao privada de provas e preparacao de material tecnico.",
+  },
+];
+
+export const razorMetrics: Metric = {
+  totalReports: razorPreliminaryStats.totalReports,
+  tmr: razorPreliminaryStats.averageDaysUnresolved,
+  sd: 12,
+  trpe: 8,
+};
+
+export const razorMonthlyReportData: MonthlyReportData[] =
+  razorPreliminaryStats.monthlyReports.map((item) => ({
+    month: item.label,
+    count: item.value,
+  }));
+
+export const razorPublicReports: Report[] = [
+  {
+    id: "razor-report-1",
+    companyId: "razor",
+    companyName: "CASO RAZOR",
+    companySlug: "razor",
+    amountRange: "Acima de R$ 10 mil",
+    purchaseDate: "2025-08-12",
+    currentStatus: "Aguardando validacao documental",
+    narrative:
+      "Consumidor relata pagamento realizado, promessa de entrega e ausencia de solucao ate o momento. Documentos foram informados para analise privada.",
+    isAnonymous: true,
+    moderationStatus: "Aprovado",
+    createdAt: "2026-05-01",
+  },
+  {
+    id: "razor-report-2",
+    companyId: "razor",
+    companyName: "CASO RAZOR",
+    companySlug: "razor",
+    amountRange: "R$ 5 mil a R$ 10 mil",
+    purchaseDate: "2025-10-04",
+    currentStatus: "Sem resposta documentada",
+    narrative:
+      "Relato aponta tentativas de contato por canais digitais, com registros de conversas e comprovante de pagamento preservados pelo consumidor.",
+    isAnonymous: true,
+    moderationStatus: "Aprovado",
+    createdAt: "2026-05-02",
+  },
+  {
+    id: "razor-report-3",
+    companyId: "razor",
+    companyName: "CASO RAZOR",
+    companySlug: "razor",
+    amountRange: "R$ 2 mil a R$ 5 mil",
+    purchaseDate: "2025-11-18",
+    currentStatus: "Em organizacao coletiva",
+    narrative:
+      "Consumidor informa prejuizo estimado e interesse em integrar base coletiva. Dados pessoais nao sao publicados.",
+    isAnonymous: true,
+    moderationStatus: "Aprovado",
+    createdAt: "2026-05-03",
+  },
+];
+
+export const razorPublicNews: News[] = [
+  {
+    id: "razor-news-1",
+    companyId: "razor",
+    title: "Organizacao coletiva de consumidores ganha pagina dedicada",
+    sourceName: "Alerta ao Consumidor",
+    url: "/casos/razor",
+    publishedAt: "2026-05-03",
+    excerpt:
+      "A pagina do CASO RAZOR consolida dados agregados preliminares, orientacoes e canal de direito de resposta.",
+    createdAt: "2026-05-03",
+  },
+  {
+    id: "razor-news-2",
+    companyId: "razor",
+    title: "Dados pessoais e documentos permanecem em camada restrita",
+    sourceName: "Alerta ao Consumidor",
+    url: "/casos/razor#estatisticas",
+    publishedAt: "2026-05-03",
+    excerpt:
+      "O painel publico exibe apenas estatisticas agregadas, sem documentos, nomes de vitimas ou dados sensiveis.",
+    createdAt: "2026-05-03",
+  },
+  {
+    id: "razor-news-3",
+    companyId: "razor",
+    title: "Canal de manifestacao preserva contraditorio",
+    sourceName: "Alerta ao Consumidor",
+    url: "/casos/razor/direito-de-resposta",
+    publishedAt: "2026-05-03",
+    excerpt:
+      "Representantes legais, compliance e demais interessados podem enviar manifestacoes formais para analise.",
+    createdAt: "2026-05-03",
   },
 ];
