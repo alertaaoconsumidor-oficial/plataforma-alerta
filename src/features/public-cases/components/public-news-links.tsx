@@ -25,7 +25,7 @@ type PublicNewsLinksProps = {
 
 export function PublicNewsLinks({ items }: PublicNewsLinksProps) {
   const [expanded, setExpanded] = useState(false);
-  const visibleItems = expanded ? items : items.slice(0, 3);
+  const visibleItems = expanded ? items : items.slice(0, 4);
 
   return (
     <section>
@@ -47,27 +47,31 @@ export function PublicNewsLinks({ items }: PublicNewsLinksProps) {
         ) : null}
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         {visibleItems.map((item) => (
-          <Card key={item.id} className="overflow-hidden">
-            <CardContent className="grid gap-4 p-4 md:grid-cols-[180px_1fr]">
-              <div className="relative aspect-video overflow-hidden rounded-lg bg-muted md:aspect-[4/3]">
+          <Card
+            key={item.id}
+            className="group overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg"
+          >
+            <CardContent className="p-0">
+              <div className="relative aspect-[16/9] overflow-hidden bg-muted">
                 <Image
                   src={item.thumbnailUrl}
                   alt={`Miniatura da fonte ${item.sourceName}`}
                   fill
-                  sizes="(min-width: 768px) 180px, 100vw"
-                  className="object-cover"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <p className="absolute bottom-3 left-4 text-xs font-bold uppercase tracking-[0.18em] text-primary">
                   {item.sourceName}
                 </p>
-                <h3 className="mt-2 text-lg font-bold leading-snug">
+              </div>
+              <div className="min-w-0 p-5">
+                <h3 className="line-clamp-2 text-lg font-bold leading-snug">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
                   {item.excerpt}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">

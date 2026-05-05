@@ -133,6 +133,26 @@
   .case-bar-grow {
     animation: case-bar-grow 1200ms ease-out both;
   }
+
+  .custom-scrollbar {
+    scrollbar-color: hsl(var(--primary)) hsl(var(--muted));
+    scrollbar-width: thin;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 999px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border: 2px solid hsl(var(--muted));
+    border-radius: 999px;
+  }
 }
 
 @media print {

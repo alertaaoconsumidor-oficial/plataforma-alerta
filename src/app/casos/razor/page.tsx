@@ -17,7 +17,6 @@ import {
   MessageSquareText,
   ShieldCheck,
   TriangleAlert,
-  User,
   Users,
 } from "lucide-react";
 
@@ -31,7 +30,9 @@ import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
 import { PublicNewsLinks } from "@/features/public-cases/components/public-news-links";
+import { PublicReportCard } from "@/features/public-cases/components/public-report-card";
 import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
+import { ScrollGrowBar } from "@/features/public-cases/components/scroll-grow-bar";
 import {
   razorDocumentationMetrics,
   razorMediaReferences,
@@ -96,11 +97,7 @@ const nextSteps = [
   "Preparar dossiê informativo com metodologia e fontes públicas.",
 ];
 
-const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-});
+const reportViews = [4800, 3400, 2700];
 
 export default function CasoRazorPage() {
   return (
@@ -173,7 +170,11 @@ export default function CasoRazorPage() {
                     Direito de resposta
                   </Link>
                 </Button>
-                <RelatedCnpjsDialog items={razorRelatedCnpjs} />
+                <RelatedCnpjsDialog
+                  items={razorRelatedCnpjs}
+                  triggerSize="lg"
+                  triggerClassName="border-white/25 bg-black/20 text-white hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                />
               </div>
             </div>
 
@@ -250,9 +251,19 @@ export default function CasoRazorPage() {
 
             <section
               id="indicadores"
-              className="scroll-mt-24 rounded-lg bg-[#111111] p-5 text-white shadow-xl md:p-7"
+              className="relative isolate scroll-mt-24 overflow-hidden rounded-lg bg-[#111111] p-5 text-white shadow-xl md:p-7"
             >
-              <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <Image
+                src="/home-hero-consumo.png"
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover object-center opacity-20 mix-blend-screen"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/88 to-[#111111]/62" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-[#111111]/65" />
+
+              <div className="relative mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-sm font-bold uppercase tracking-[0.18em] text-primary">
                     Indicadores públicos
@@ -273,34 +284,39 @@ export default function CasoRazorPage() {
                 </Button>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+              <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                 <DarkMetricCard
                   label="Relatos"
                   value={razorMetrics.totalReports}
                   description="Base agregada"
+                  icon={FileCheck2}
                 />
                 <DarkMetricCard
                   label="TMR"
                   value={razorMetrics.tmr}
                   suffix="dias"
                   description="Tempo médio sem resolução"
+                  icon={Calendar}
                 />
                 <DarkMetricCard
                   label="SD"
                   value={razorMetrics.sd}
                   suffix="casos"
                   description="Silêncio documentado"
+                  icon={MessageSquareText}
                 />
                 <DarkMetricCard
                   label="TRPE"
                   value={razorMetrics.trpe}
                   suffix="%"
                   description="Pós-escalonamento"
+                  icon={ShieldCheck}
                 />
                 <DarkMetricCard
                   label="Cidades"
                   value={razorPreliminaryStats.affectedCities}
                   description={`${razorPreliminaryStats.affectedStates} estados informados`}
+                  icon={MapPinned}
                 />
               </div>
             </section>
@@ -339,8 +355,12 @@ export default function CasoRazorPage() {
                 icon={FileText}
               />
               <div className="mt-6 grid gap-5">
-                {razorPublicReports.map((report) => (
-                  <PublicReportCard key={report.id} report={report} />
+                {razorPublicReports.map((report, index) => (
+                  <PublicReportCard
+                    key={report.id}
+                    report={report}
+                    views={reportViews[index] ?? 1200}
+                  />
                 ))}
               </div>
             </section>
@@ -493,17 +513,22 @@ function DarkMetricCard({
   value,
   description,
   suffix,
+  icon: Icon,
 }: {
   label: string;
   value: number;
   description: string;
   suffix?: string;
+  icon: LucideIcon;
 }) {
   return (
-    <div className="rounded-lg border border-white/12 bg-white/[0.05] p-5">
-      <p className="text-sm font-bold uppercase tracking-[0.12em] text-primary">
-        {label}
-      </p>
+    <div className="group rounded-lg border border-white/12 bg-white/[0.05] p-5 transition duration-300 hover:-translate-y-1 hover:border-primary/70 hover:bg-primary/10 hover:shadow-xl">
+      <div className="flex items-start justify-between gap-4">
+        <p className="text-sm font-bold uppercase tracking-[0.12em] text-primary">
+          {label}
+        </p>
+        <Icon className="h-5 w-5 text-primary/80 transition duration-300 group-hover:-translate-y-1 group-hover:text-primary" />
+      </div>
       <p className="mt-4 text-4xl font-extrabold">
         <AnimatedNumber value={value} duration={1150} />
         {suffix ? (
@@ -560,10 +585,7 @@ function MiniMonthlyChart() {
       {razorMonthlyReportData.map((item) => (
         <div key={item.month} className="flex flex-1 flex-col items-center gap-2">
           <div className="flex h-[210px] w-full items-end rounded-lg bg-muted/70 px-2">
-            <div
-              className="case-bar-grow w-full origin-bottom rounded-t-md bg-primary"
-              style={{ height: `${Math.max((item.count / max) * 100, 12)}%` }}
-            />
+            <ScrollGrowBar percent={Math.max((item.count / max) * 100, 12)} />
           </div>
           <span className="text-xs text-muted-foreground">{item.month}</span>
         </div>
@@ -591,42 +613,6 @@ function DistributionCard({
       </CardHeader>
       <CardContent>
         <CaseBarList items={items} total={razorPreliminaryStats.totalReports} />
-      </CardContent>
-    </Card>
-  );
-}
-
-function PublicReportCard({
-  report,
-}: {
-  report: (typeof razorPublicReports)[number];
-}) {
-  return (
-    <Card className="shadow-sm">
-      <CardHeader>
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <Badge variant="secondary">{report.amountRange}</Badge>
-            <CardTitle className="mt-3 text-xl">
-              {report.currentStatus}
-            </CardTitle>
-          </div>
-          <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <User className="h-4 w-4" />
-              {report.isAnonymous ? "Anônimo" : report.publicNameInitials}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" />
-              {dateFormatter.format(new Date(report.createdAt))}
-            </span>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm leading-7 text-card-foreground/78">
-          {report.narrative}
-        </p>
       </CardContent>
     </Card>
   );
