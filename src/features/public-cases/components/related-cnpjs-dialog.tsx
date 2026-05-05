@@ -9,16 +9,20 @@ import {
   FileSearch,
   Search,
   Users,
+  X,
 } from "lucide-react";
 import Link from "next/link";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
-  DialogContent,
+  DialogClose,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -91,7 +95,17 @@ export function RelatedCnpjsDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="!grid !h-[calc(100vh-2rem)] !w-[calc(100vw-2rem)] !max-w-6xl grid-rows-[auto_minmax(0,1fr)] gap-0 overflow-hidden p-0">
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Content
+          className="fixed left-1/2 top-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-xl border bg-background p-0 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+          style={{
+            height: "calc(100vh - 2rem)",
+            maxHeight: "calc(100vh - 2rem)",
+            maxWidth: "calc(100vw - 2rem)",
+            width: "min(1180px, calc(100vw - 2rem))",
+          }}
+        >
         <DialogHeader className="shrink-0 border-b bg-background p-5 pr-12 md:p-6 md:pr-14">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
@@ -334,7 +348,13 @@ export function RelatedCnpjsDialog({
             )}
           </section>
         </div>
-      </DialogContent>
+
+          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Fechar</span>
+          </DialogClose>
+        </DialogPrimitive.Content>
+      </DialogPortal>
     </Dialog>
   );
 }
