@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ShieldCheck, X, Send } from "lucide-react";
+import { X, Send } from "lucide-react";
 
 export function ChatbotButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,8 +18,14 @@ export function ChatbotButton() {
         <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white opacity-0 shadow-xl transition-opacity whitespace-nowrap pointer-events-none group-hover:opacity-100">
           Pergunte ao Alerta!
         </div>
-        <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-amber-400 bg-slate-900 text-amber-400 shadow-2xl transition-transform hover:scale-110 active:scale-95">
-          <ShieldCheck size={32} />
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-amber-400 bg-slate-900 shadow-2xl transition-transform hover:scale-110 active:scale-95">
+          <Image
+            src="/chatbot-icon.svg"
+            alt="Pergunte ao Alerta"
+            width={42}
+            height={42}
+            className="object-contain"
+          />
         </div>
       </div>
 

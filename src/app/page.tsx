@@ -129,17 +129,15 @@ export default async function Home() {
         <div className="container relative mx-auto grid min-h-[560px] px-4 py-16 md:px-6 lg:items-center lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="mb-5 inline-flex rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              Plataforma preventiva de informação ao consumidor
+              Informação responsável para decisões de consumo
             </p>
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
-              Alerta Preventivo ao Consumidor
+            <h1 className="text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+              Consulte antes de comprar. Relate com responsabilidade.
             </h1>
-            <p className="mt-5 text-xl font-bold text-primary md:text-2xl">
-              Pesquise, relate e proteja-se.
-            </p>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 md:text-base">
-              Informação é a sua melhor defesa. Consulte empresas, acompanhe
-              relatos agregados e contribua com evidências de forma responsável.
+              O Alerta ao Consumidor reúne relatos, indicadores e informações
+              públicas para ajudar consumidores a tomar decisões mais seguras,
+              com transparência, cautela jurídica e direito de resposta.
             </p>
 
             <div className="mt-9 flex max-w-xl flex-col gap-3 rounded-lg bg-white p-2 shadow-2xl sm:flex-row">
@@ -157,7 +155,7 @@ export default async function Home() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
                 <Link href="/enviar-relato">
-                  Enviar relato <ArrowRight className="ml-2 h-4 w-4" />
+                  Consultar empresa <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -166,7 +164,7 @@ export default async function Home() {
                 size="lg"
                 className="border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
-                <Link href="/metodologia">Ver metodologia</Link>
+                <Link href="/enviar-relato">Enviar relato documentado</Link>
               </Button>
             </div>
             <div className="mt-10 hidden max-w-sm rounded-lg border border-white/15 bg-black/45 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
@@ -178,7 +176,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="hidden">
+          <div className="hidden" aria-hidden="true">
             <Image
               src={homePhotos.hero}
               alt="Consumidora analisando documentos em ambiente de trabalho"
@@ -205,15 +203,12 @@ export default async function Home() {
           alt=""
           fill
           sizes="100vw"
-          className="object-cover opacity-12 mix-blend-multiply"
+          className="object-cover opacity-22 mix-blend-multiply"
         />
-        <div className="absolute inset-0 bg-primary/90" />
+        <div className="absolute inset-0 bg-primary/78" />
         <div className="container relative mx-auto px-4 md:px-6">
           <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
             <div>
-              <p className="mb-6 inline-flex rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-2 text-sm font-bold text-primary-foreground/80">
-                Frente solidária
-              </p>
               <h2 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-6xl">
                 Frente solidária para consumidores afetados pela Razor
               </h2>
@@ -227,9 +222,9 @@ export default async function Home() {
               {frontItems.slice(0, 4).map((item) => (
                 <div
                   key={item}
-                  className="flex items-center gap-3 rounded-lg border border-primary-foreground/15 bg-primary-foreground/14 px-4 py-3 text-sm font-bold shadow-sm backdrop-blur-sm"
+                  className="flex items-center gap-3 rounded-lg border border-primary-foreground/20 bg-primary-foreground/88 px-4 py-3 text-sm font-bold text-primary-foreground shadow-md backdrop-blur-sm"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-foreground/15">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/80 text-primary-foreground">
                     <Check className="h-4 w-4" />
                   </span>
                   {item}
