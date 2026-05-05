@@ -116,7 +116,7 @@ const homePhotos = {
     "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
   phone:
     "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
-  campaign: "https://s01.video.glbimg.com/x720/14282024.jpg",
+  campaign: "/razor-bg.webp",
   alertThumbs: [
     "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
@@ -196,36 +196,37 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate flex min-h-[620px] items-center overflow-hidden border-b bg-primary py-16 text-zinc-950 shadow-[inset_0_-1px_0_rgba(17,17,17,0.08)] md:py-24">
+      <section className="relative isolate flex min-h-[420px] items-center overflow-hidden border-b bg-primary py-12 text-zinc-950 shadow-[inset_0_-1px_0_rgba(17,17,17,0.08)] md:min-h-[500px] md:py-16">
         <Image
           src={homePhotos.campaign}
-          alt="Fachada com logotipo da Razor"
+          alt="Pessoas de mãos dadas com balança da justiça ao fundo"
           fill
           sizes="100vw"
-          className="scale-[1.03] object-cover object-center opacity-45 saturate-75 contrast-110"
+          className="scale-[1.02] object-cover object-center opacity-55 saturate-[0.85] contrast-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/55" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-zinc-950/10" />
-        <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-primary via-primary/92 to-transparent" />
+        <div className="absolute inset-0 bg-primary/72" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/88 to-primary/28" />
+        <div className="absolute inset-y-0 left-0 w-[72%] bg-gradient-to-r from-primary via-primary/94 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/18 via-transparent to-zinc-950/12" />
         <div className="container relative mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
-            <div className="w-full space-y-8 lg:w-3/5">
-              <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_1px_0_rgba(255,255,255,0.35)] md:text-6xl">
-                Frente solidária para consumidores afetados pela Razor
+          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+            <div className="w-full space-y-5 lg:w-3/5">
+              <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_1px_0_rgba(255,255,255,0.35)] md:text-5xl">
+                Frente solidária: Caso Razor
               </h2>
-              <p className="max-w-xl text-lg leading-relaxed text-zinc-900/85 md:text-xl">
-                A plataforma disponibiliza sua estrutura para organização
-                responsável de relatos, documentação de evidências e orientação
-                informativa aos consumidores impactados.
+              <p className="max-w-2xl text-base font-semibold leading-relaxed text-zinc-900/85 md:text-lg">
+                Equipe que organiza colaborativamente documentos, relatos e
+                informações, com finalidade informativa, preventiva e apoio a
+                pessoas afetadas.
               </p>
-              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+              <div className="flex flex-col gap-4 pt-3 sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-zinc-950 text-white shadow-xl hover:bg-zinc-800"
+                  className="bg-zinc-950 px-7 text-white shadow-xl shadow-zinc-950/20 hover:bg-zinc-800"
                 >
-                  <Link href="/enviar-relato?caso=razor">
-                    Participar da frente{" "}
+                  <Link href="/casos/razor">
+                    Acompanhar caso{" "}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -233,17 +234,19 @@ export default async function Home() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-2 border-zinc-900/25 bg-white/20 text-zinc-900 backdrop-blur-sm hover:bg-white/35"
+                  className="border-2 border-zinc-900/30 bg-white/15 px-7 text-zinc-900 backdrop-blur-sm hover:bg-white/35"
                 >
-                  <Link href="/metodologia">Entender metodologia</Link>
+                  <Link href="/enviar-relato?caso=razor">
+                    Enviar informações
+                  </Link>
                 </Button>
               </div>
             </div>
-            <div className="w-full space-y-3 lg:w-1/3">
+            <div className="w-full space-y-3 lg:w-[34%]">
               {frontItems.slice(0, 4).map((item) => (
                 <div
                   key={item}
-                  className="flex items-center gap-4 rounded-2xl border border-white/45 bg-white/45 p-4 text-zinc-900 shadow-[0_16px_40px_rgba(17,17,17,0.10)] backdrop-blur-md transition-all hover:bg-white/60"
+                  className="flex items-center gap-4 rounded-xl border border-white/45 bg-white/32 p-4 text-zinc-900 shadow-[0_16px_40px_rgba(17,17,17,0.10)] backdrop-blur-md transition-all hover:bg-white/50"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-yellow-400">
                     <Check className="h-5 w-5" />
