@@ -197,41 +197,32 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b bg-primary py-16 text-primary-foreground md:py-24">
+      <section className="relative flex min-h-[600px] items-center overflow-hidden border-b bg-primary py-16 text-primary-foreground md:py-24">
         <Image
           src={homePhotos.campaign}
           alt=""
           fill
           sizes="100vw"
-          className="object-cover opacity-22 mix-blend-multiply"
+          className="scale-105 object-cover blur-[2px]"
         />
-        <div className="absolute inset-0 bg-primary/78" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 to-yellow-500/85" />
         <div className="container relative mx-auto px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-            <div>
-              <h2 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+          <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
+            <div className="w-full space-y-8 lg:w-3/5">
+              <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
                 Frente solidária para consumidores afetados pela Razor
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-primary-foreground/72">
+              <p className="max-w-xl text-lg leading-relaxed text-zinc-900/90 md:text-xl">
                 A plataforma disponibiliza sua estrutura para organização
                 responsável de relatos, documentação de evidências e orientação
                 informativa aos consumidores impactados.
               </p>
-            </div>
-            <div className="space-y-3 lg:justify-self-end">
-              {frontItems.slice(0, 4).map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-lg border border-primary-foreground/20 bg-primary-foreground/88 px-4 py-3 text-sm font-bold text-primary-foreground shadow-md backdrop-blur-sm"
+              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-zinc-950 text-white shadow-xl hover:bg-zinc-800"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/80 text-primary-foreground">
-                    <Check className="h-4 w-4" />
-                  </span>
-                  {item}
-                </div>
-              ))}
-              <div className="flex flex-col gap-3 pt-3 sm:flex-row lg:justify-end">
-                <Button asChild variant="secondary">
                   <Link href="/enviar-relato?caso=razor">
                     Participar da frente{" "}
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -240,11 +231,25 @@ export default async function Home() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-primary-foreground/25 bg-transparent hover:bg-primary-foreground/10"
+                  size="lg"
+                  className="border-2 border-zinc-900/20 bg-transparent text-zinc-900 hover:bg-zinc-900/5"
                 >
                   <Link href="/metodologia">Entender metodologia</Link>
                 </Button>
               </div>
+            </div>
+            <div className="w-full space-y-3 lg:w-1/3">
+              {frontItems.slice(0, 4).map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-4 rounded-2xl border border-white/20 bg-white/10 p-4 text-zinc-900 shadow-sm backdrop-blur-md transition-all hover:bg-white/20"
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-yellow-400">
+                    <Check className="h-5 w-5" />
+                  </span>
+                  <span className="font-semibold">{item}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
