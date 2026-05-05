@@ -303,6 +303,70 @@ export const razorPublicNews: News[] = [
   },
 ];
 
+export const razorMediaReferences = [
+  {
+    id: "startups-razor-operacoes",
+    title: "Razor Computadores encerra as operações",
+    sourceName: "Startups",
+    url: "https://startups.com.br/negocios/razor-computadores-encerra-as-operacoes/",
+    thumbnailUrl:
+      "https://startups.com.br/wp-content/uploads/2022/02/computadores-razor.webp",
+    publishedAt: "27/01/2026",
+    accessedAt: "04/05/2026",
+    excerpt:
+      "Reportagem informa o encerramento das operações da fabricante e contextualiza dificuldades financeiras, atrasos e impactos operacionais.",
+  },
+  {
+    id: "gauchazh-mp-justica",
+    title:
+      "Ministério Público entra na Justiça contra empresa de Passo Fundo por não entrega de computadores",
+    sourceName: "GZH",
+    url: "https://gauchazh.clicrbs.com.br/passo-fundo/geral/noticia/2025/09/ministerio-publico-entra-na-justica-contra-empresa-de-passo-fundo-por-nao-entrega-de-computadores-cmfmpj1ax009401fjh2tmps9f.html",
+    thumbnailUrl:
+      "https://www.rbsdirect.com.br/filestore/4/9/8/0/2/4/5_b65ee4eb5a309bc/5420894_477a41a668f855a.jpg?w=1200&h=675&a=c&version=1575255600",
+    publishedAt: "16/09/2025",
+    accessedAt: "04/05/2026",
+    excerpt:
+      "Matéria registra ação do Ministério Público envolvendo alegações de não entrega de computadores por empresa de Passo Fundo.",
+  },
+  {
+    id: "g1-razor-atividades",
+    title:
+      "Razor encerra atividades após acúmulo de dívidas e ações em Passo Fundo",
+    sourceName: "G1",
+    url: "https://g1.globo.com/rs/rio-grande-do-sul/videos-jornal-do-almoco-rs-cruz-alta-erechim-passo-fundo-e-santa-rosa/video/razor-encerra-atividades-apos-acumulo-de-dividas-e-acoes-em-passo-fundo-14282024.ghtml",
+    thumbnailUrl: "https://s01.video.glbimg.com/x720/14282024.jpg",
+    publishedAt: "23/01/2026",
+    accessedAt: "04/05/2026",
+    excerpt:
+      "Vídeo do G1 informa o encerramento de atividades e menciona ação civil pública do Ministério Público do Rio Grande do Sul.",
+  },
+  {
+    id: "razor-site-oficial",
+    title: "Site oficial da Razor",
+    sourceName: "Razor",
+    url: "https://razor.com.br/?srsltid=AfmBOor0KCmosVSUUrGlANWMHdIiY9B5YsBz-oOKuCB44SrDPKUSdKkp",
+    thumbnailUrl: "https://razor.com.br/wp-content/uploads/2025/08/capa-do-site.png",
+    publishedAt: "Consulta pública",
+    accessedAt: "04/05/2026",
+    excerpt:
+      "Página institucional informada para referência visual e conferência pública da marca relacionada ao caso.",
+  },
+  {
+    id: "uirapuru-crise-financeira",
+    title:
+      "Razor Computadores encerra atividades após crise financeira em Passo Fundo",
+    sourceName: "Rádio Uirapuru",
+    url: "https://rduirapuru.com.br/razor-computadores-encerra-atividades-apos-crise-financeira-em-passo-fundo/",
+    thumbnailUrl:
+      "https://rduirapuru.com.br/wp-content/uploads/2022/04/razor-1-1024x768.jpg",
+    publishedAt: "23/01/2026",
+    accessedAt: "04/05/2026",
+    excerpt:
+      "Reportagem local relata encerramento das atividades, crise financeira, dívidas e processos judiciais envolvendo a empresa.",
+  },
+];
+
 export const razorRelatedCnpjs = [
   {
     cnpj: "12.345.678/0001-90",

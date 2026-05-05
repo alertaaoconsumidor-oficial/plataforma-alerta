@@ -10,8 +10,11 @@ import {
   LockKeyhole,
   MessageSquareText,
   Search,
+  Scale,
+  ShieldAlert,
   ShieldCheck,
   TrendingUp,
+  Check,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -81,6 +84,31 @@ const commitments = [
   },
 ];
 
+const frontItems = [
+  "Relatos individuais padronizados",
+  "Registro cronológico dos fatos",
+  "Documentação de evidências",
+  "Indicadores públicos agregados",
+  "Orientação para caminhos legais e administrativos",
+];
+
+const guidanceCards = [
+  {
+    title: "Defenda-se de golpes",
+    description:
+      "Aprenda sinais de alerta, cuidados com Pix, boletos e falsos atendimentos.",
+    href: "/golpes",
+    icon: ShieldAlert,
+  },
+  {
+    title: "Guia rápido do CDC",
+    description:
+      "Veja direitos essenciais do consumidor em linguagem direta e prática.",
+    href: "/cdc",
+    icon: Scale,
+  },
+];
+
 const homePhotos = {
   hero:
     "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85",
@@ -88,6 +116,7 @@ const homePhotos = {
     "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
   phone:
     "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
+  campaign: "https://s01.video.glbimg.com/x720/14282024.jpg",
   alertThumbs: [
     "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
@@ -100,7 +129,7 @@ export default async function Home() {
   const topCompanies = await getTopCompaniesByReports(3);
 
   return (
-    <div className="flex flex-col bg-background">
+    <>
       <section className="relative w-full overflow-hidden bg-[#111111] text-white">
         <div className="absolute inset-0">
           <Image
@@ -118,17 +147,15 @@ export default async function Home() {
         <div className="container relative mx-auto grid min-h-[560px] px-4 py-16 md:px-6 lg:items-center lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="mb-5 inline-flex rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              Plataforma preventiva de informação ao consumidor
+              Informação responsável para decisões de consumo
             </p>
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
-              Alerta Preventivo ao Consumidor
+            <h1 className="text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+              Consulte antes de comprar. Relate com responsabilidade.
             </h1>
-            <p className="mt-5 text-xl font-bold text-primary md:text-2xl">
-              Pesquise, relate e proteja-se.
-            </p>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 md:text-base">
-              Informação é a sua melhor defesa. Consulte empresas, acompanhe
-              relatos agregados e contribua com evidências de forma responsável.
+              O Alerta ao Consumidor reúne relatos, indicadores e informações
+              públicas para ajudar consumidores a tomar decisões mais seguras,
+              com transparência, cautela jurídica e direito de resposta.
             </p>
 
             <div className="mt-9 flex max-w-xl flex-col gap-3 rounded-lg bg-white p-2 shadow-2xl sm:flex-row">
@@ -146,7 +173,7 @@ export default async function Home() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
                 <Link href="/enviar-relato">
-                  Enviar relato <ArrowRight className="ml-2 h-4 w-4" />
+                  Consultar empresa <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -155,29 +182,10 @@ export default async function Home() {
                 size="lg"
                 className="border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
-                <Link href="/metodologia">Ver metodologia</Link>
+                <Link href="/enviar-relato">Enviar relato documentado</Link>
               </Button>
             </div>
             <div className="mt-10 hidden max-w-sm rounded-lg border border-white/15 bg-black/45 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
-              <p className="font-bold text-primary">Dados com contexto</p>
-              <p className="mt-1 text-white/75">
-                Relatos organizados para consulta publica, sem exposicao
-                automatica de dados pessoais.
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden">
-            <Image
-              src={homePhotos.hero}
-              alt="Consumidora analisando documentos em ambiente de trabalho"
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/45 to-transparent lg:from-[#111111]/35" />
-            <div className="absolute bottom-6 left-6 hidden max-w-xs rounded-lg border border-white/15 bg-black/50 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
               <p className="font-bold text-primary">Dados com contexto</p>
               <p className="mt-1 text-white/75">
                 Relatos organizados para consulta pública, sem exposição
@@ -188,32 +196,61 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="w-full border-b bg-background py-10 md:py-14">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 rounded-lg border border-primary/25 bg-primary/10 p-6 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <ShieldCheck className="h-8 w-8" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold uppercase text-muted-foreground">
-                Em organização coletiva
+      <section className="relative isolate flex min-h-[620px] items-center overflow-hidden border-b bg-primary py-16 text-zinc-950 shadow-[inset_0_-1px_0_rgba(17,17,17,0.08)] md:py-24">
+        <Image
+          src={homePhotos.campaign}
+          alt="Fachada com logotipo da Razor"
+          fill
+          sizes="100vw"
+          className="scale-[1.03] object-cover object-center opacity-45 saturate-75 contrast-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-zinc-950/10" />
+        <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-primary via-primary/92 to-transparent" />
+        <div className="container relative mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
+            <div className="w-full space-y-8 lg:w-3/5">
+              <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_1px_0_rgba(255,255,255,0.35)] md:text-6xl">
+                Frente solidária para consumidores afetados pela Razor
+              </h2>
+              <p className="max-w-xl text-lg leading-relaxed text-zinc-900/85 md:text-xl">
+                A plataforma disponibiliza sua estrutura para organização
+                responsável de relatos, documentação de evidências e orientação
+                informativa aos consumidores impactados.
               </p>
-              <h2 className="mt-1 text-3xl font-bold">CASO RAZOR</h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-                Relatos relacionados ao CASO RAZOR estão sendo organizados com
-                foco em dados agregados, proteção de dados pessoais, preservação
-                de provas privadas e direito de resposta.
-              </p>
+              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-zinc-950 text-white shadow-xl hover:bg-zinc-800"
+                >
+                  <Link href="/enviar-relato?caso=razor">
+                    Participar da frente{" "}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-zinc-900/25 bg-white/20 text-zinc-900 backdrop-blur-sm hover:bg-white/35"
+                >
+                  <Link href="/metodologia">Entender metodologia</Link>
+                </Button>
+              </div>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-              <Button asChild>
-                <Link href="/casos/razor">
-                  Acessar caso <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href="/casos/razor#estatisticas">Ver indicadores</Link>
-              </Button>
+            <div className="w-full space-y-3 lg:w-1/3">
+              {frontItems.slice(0, 4).map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-4 rounded-2xl border border-white/45 bg-white/45 p-4 text-zinc-900 shadow-[0_16px_40px_rgba(17,17,17,0.10)] backdrop-blur-md transition-all hover:bg-white/60"
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-yellow-400">
+                    <Check className="h-5 w-5" />
+                  </span>
+                  <span className="font-semibold">{item}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -331,6 +368,33 @@ export default async function Home() {
                     Saiba mais sobre a metodologia
                   </Link>
                 </Button>
+                <div className="grid gap-3 pt-2">
+                  {guidanceCards.map((card) => {
+                    const Icon = card.icon;
+
+                    return (
+                      <Link
+                        key={card.href}
+                        href={card.href}
+                        className="group rounded-lg border bg-background p-4 transition hover:border-primary/60 hover:shadow-md"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15">
+                            <Icon className="h-5 w-5 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-bold group-hover:text-primary">
+                              {card.title}
+                            </p>
+                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                              {card.description}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -429,28 +493,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="hidden bg-primary py-12 text-primary-foreground">
-        <div className="container mx-auto flex flex-col gap-6 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h2 className="text-2xl font-bold">Receba alertas e novidades</h2>
-            <p className="mt-2 max-w-2xl text-sm text-primary-foreground/75">
-              Acompanhe melhorias da plataforma, novos casos públicos e
-              orientações preventivas.
-            </p>
-          </div>
-          <div className="flex w-full max-w-md gap-3">
-            <Input
-              type="email"
-              placeholder="Seu melhor e-mail"
-              className="h-12 border-primary-foreground/20 bg-white text-foreground"
-            />
-            <Button variant="secondary" className="h-12 px-6">
-              Assinar
-            </Button>
-          </div>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }
 

@@ -23,6 +23,10 @@ const navLinks = [
 
   { href: "/metodologia", label: "Metodologia" },
 
+  { href: "/golpes", label: "Golpes" },
+
+  { href: "/cdc", label: "CDC" },
+
   { href: "/aviso-legal", label: "Aviso Legal" },
 
   { href: "/contato", label: "Contato" },
