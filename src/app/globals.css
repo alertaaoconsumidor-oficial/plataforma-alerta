@@ -53,3 +53,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .dossier-print-area,
+  .dossier-print-area * {
+    visibility: visible;
+  }
+
+  .dossier-print-area {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    border: 0;
+    box-shadow: none;
+  }
+}
