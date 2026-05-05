@@ -18,23 +18,29 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
-  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres."),
-  email: z.string().email("Por favor, insira um e-mail válido."),
-  companyName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres."),
-  subject: z.string().min(5, "Assunto deve ter pelo menos 5 caracteres."),
-  message: z.string().min(20, "A mensagem deve ter pelo menos 20 caracteres."),
+  name: z.string().min(2, "Informe seu nome completo."),
+  email: z.string().email("Informe um e-mail válido."),
+  organization: z.string().min(2, "Informe empresa, órgão ou identificação."),
+  role: z.string().min(2, "Informe seu vínculo ou função."),
+  subject: z.string().min(5, "Informe um assunto objetivo."),
+  referenceUrl: z.string().optional(),
+  message: z
+    .string()
+    .min(30, "Descreva a solicitação com pelo menos 30 caracteres."),
 })
 
 export function ContactForm() {
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
-      companyName: "",
+      organization: "",
+      role: "",
       subject: "",
+      referenceUrl: "",
       message: "",
     },
   })
@@ -42,69 +48,109 @@ export function ContactForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     toast({
-      title: "Mensagem Enviada!",
-      description: "Recebemos sua solicitação e entraremos em contato em breve.",
+      title: "Solicitação enviada",
+      description:
+        "Recebemos sua mensagem e analisaremos o contexto informado.",
     })
     form.reset()
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid sm:grid-cols-2 gap-4">
-            <FormField
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-                <FormItem>
-                <FormLabel>Seu Nome</FormLabel>
+              <FormItem>
+                <FormLabel>Nome completo</FormLabel>
                 <FormControl>
-                    <Input placeholder="Nome completo" {...field} />
+                  <Input placeholder="Nome e sobrenome" {...field} />
                 </FormControl>
                 <FormMessage />
-                </FormItem>
+              </FormItem>
             )}
-            />
-            <FormField
+          />
+          <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-                <FormItem>
-                <FormLabel>Seu Email</FormLabel>
+              <FormItem>
+                <FormLabel>E-mail de contato</FormLabel>
                 <FormControl>
-                    <Input placeholder="email@empresa.com" {...field} />
+                  <Input placeholder="email@empresa.com.br" {...field} />
                 </FormControl>
                 <FormMessage />
-                </FormItem>
+              </FormItem>
             )}
-            />
+          />
         </div>
-        <FormField
-          control={form.control}
-          name="companyName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nome da Empresa</FormLabel>
-              <FormControl>
-                <Input placeholder="Empresa que você representa" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="subject"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Assunto</FormLabel>
-              <FormControl>
-                <Input placeholder="Ex: Contestação de relato ID 123" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="organization"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Empresa, órgão ou identificação</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Empresa que representa ou identificação institucional"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vínculo ou função</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: jurídico, imprensa, titular de dados" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Assunto</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Ex: direito de resposta, correção, privacidade"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="referenceUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>URL ou referência</FormLabel>
+                <FormControl>
+                  <Input placeholder="Link da página, relato ou empresa" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name="message"
@@ -113,8 +159,8 @@ export function ContactForm() {
               <FormLabel>Mensagem</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Descreva detalhadamente sua solicitação..."
-                  className="min-h-[120px]"
+                  placeholder="Descreva a solicitação, o fundamento, a página relacionada e documentos ou links de apoio."
+                  className="min-h-[150px]"
                   {...field}
                 />
               </FormControl>
@@ -122,7 +168,10 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">Enviar Mensagem</Button>
+
+        <Button type="submit" className="w-full">
+          Enviar solicitação
+        </Button>
       </form>
     </Form>
   )
