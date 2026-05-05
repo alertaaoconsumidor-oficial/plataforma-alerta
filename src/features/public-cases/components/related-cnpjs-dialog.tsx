@@ -106,11 +106,11 @@ export function RelatedCnpjsDialog({
             width: "min(1180px, calc(100vw - 2rem))",
           }}
         >
-        <DialogHeader className="shrink-0 border-b bg-background p-5 pr-12 md:p-6 md:pr-14">
+        <DialogHeader className="shrink-0 border-b bg-background p-4 pr-12 md:pr-14">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
               <DialogTitle>CNPJs relacionados</DialogTitle>
-              <DialogDescription className="mt-2">
+              <DialogDescription className="mt-2 max-w-2xl text-xs leading-5">
                 Painel público para leitura cadastral com origem, status de
                 conferência e documento oficial quando anexado. Relação entre
                 CNPJs não implica responsabilidade automática.
@@ -128,9 +128,12 @@ export function RelatedCnpjsDialog({
           </div>
         </DialogHeader>
 
-        <div className="grid min-h-0 bg-muted/35 md:grid-cols-[330px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="flex min-h-0 flex-col border-b bg-background md:border-b-0 md:border-r">
-            <div className="shrink-0 border-b p-4">
+        <div
+          className="grid min-h-0 bg-muted/35"
+          style={{ gridTemplateColumns: "320px minmax(0, 1fr)" }}
+        >
+          <aside className="flex min-h-0 flex-col border-r bg-background">
+            <div className="shrink-0 border-b p-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -138,17 +141,17 @@ export function RelatedCnpjsDialog({
                   onChange={(event) => {
                     setQuery(event.target.value);
                   }}
-                  placeholder="Buscar por nome, CNPJ, cidade ou status"
+                  placeholder="Buscar CNPJ, nome ou cidade"
                   className="pl-9"
                 />
               </div>
-              <p className="mt-3 text-xs leading-5 text-muted-foreground">
-                Selecione um CNPJ para abrir a ficha detalhada ao lado.
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                Selecione um registro para abrir a ficha ao lado.
               </p>
             </div>
 
-            <ScrollArea className="h-[260px] md:h-auto md:min-h-0 md:flex-1">
-              <div className="space-y-2 p-3">
+            <ScrollArea className="min-h-0 flex-1">
+              <div className="space-y-2 p-2.5">
                 {filteredItems.length > 0 ? (
                   filteredItems.map((item, index) => (
                     <button
@@ -156,7 +159,7 @@ export function RelatedCnpjsDialog({
                       type="button"
                       onClick={() => setSelectedCnpj(item.cnpj)}
                       className={cn(
-                        "w-full rounded-lg border bg-card p-3 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
+                        "w-full rounded-lg border bg-card p-2.5 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
                         selectedItem?.cnpj === item.cnpj &&
                           "border-primary bg-primary/10"
                       )}
@@ -177,13 +180,13 @@ export function RelatedCnpjsDialog({
                         </div>
                         <StatusBadge status={item.status} />
                       </div>
-                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
                         <span className="font-mono font-semibold">{item.cnpj}</span>
                         <span className="text-muted-foreground">
                           {item.city}/{item.state}
                         </span>
                       </div>
-                      <p className="mt-2 text-xs text-muted-foreground">
+                      <p className="mt-1.5 text-xs text-muted-foreground">
                         Conferência: {item.lastCheckedAt ?? "Pendente"}
                       </p>
                     </button>
@@ -197,16 +200,16 @@ export function RelatedCnpjsDialog({
             </ScrollArea>
           </aside>
 
-          <section className="min-h-0 min-w-0">
+          <section className="min-h-0 min-w-0 bg-background">
             {selectedItem ? (
-              <ScrollArea className="h-[520px] md:h-full">
-                <div className="p-4 md:p-6">
-                  <div className="mb-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
+              <ScrollArea className="h-full">
+                <div className="p-4">
+                  <div className="mb-3 rounded-lg border border-primary/30 bg-primary/10 p-3">
                     <p className="flex items-center gap-2 text-sm font-bold">
                       <FileSearch className="h-4 w-4 text-primary" />
                       Padrão de leitura cadastral
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
                       A ficha exibe apenas dados públicos estruturados. Em
                       produção, cada CNPJ deve ter data de conferência, fonte,
                       documento oficial anexado e histórico de atualização.
@@ -214,11 +217,11 @@ export function RelatedCnpjsDialog({
                   </div>
 
                   <div className="rounded-lg border bg-card shadow-sm">
-                    <div className="border-b p-5">
-                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                    <div className="border-b p-4">
+                      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-2xl font-bold">
+                            <h3 className="text-xl font-bold">
                               {selectedItem.tradeName}
                             </h3>
                             <StatusBadge status={selectedItem.status} />
@@ -226,12 +229,12 @@ export function RelatedCnpjsDialog({
                           <p className="mt-2 text-sm text-muted-foreground">
                             {selectedItem.legalName}
                           </p>
-                          <p className="mt-3 font-mono text-base font-bold">
+                          <p className="mt-2 font-mono text-sm font-bold">
                             CNPJ: {selectedItem.cnpj}
                           </p>
                         </div>
 
-                        <div className="grid gap-2 rounded-lg bg-muted p-3 text-sm md:min-w-[230px]">
+                        <div className="grid gap-1.5 rounded-lg bg-muted p-3 text-sm md:min-w-[230px]">
                           <DetailRow label="Abertura" value={selectedItem.openedAt} />
                           <DetailRow
                             label="Conferência"
@@ -249,7 +252,7 @@ export function RelatedCnpjsDialog({
                       </div>
                     </div>
 
-                    <div className="grid gap-4 p-5 md:grid-cols-2">
+                    <div className="grid gap-3 p-4 md:grid-cols-2">
                       <InfoBlock
                         title="Atividade principal"
                         value={selectedItem.mainActivity}
@@ -260,13 +263,13 @@ export function RelatedCnpjsDialog({
                       />
                     </div>
 
-                    <div className="px-5 pb-5">
-                      <div className="rounded-lg border p-4">
+                    <div className="px-4 pb-4">
+                      <div className="rounded-lg border p-3">
                         <p className="flex items-center gap-2 text-sm font-semibold">
                           <Users className="h-4 w-4 text-primary" />
                           Sócios ou administradores informados
                         </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
+                        <div className="mt-2 flex flex-wrap gap-2">
                           {selectedItem.partners.map((partner) => (
                             <Badge key={partner} variant="secondary">
                               {partner}
@@ -276,15 +279,15 @@ export function RelatedCnpjsDialog({
                       </div>
                     </div>
 
-                    <div className="border-t bg-muted/45 p-5">
+                    <div className="border-t bg-muted/45 p-4">
                       <p className="flex items-start gap-2 text-sm leading-6 text-muted-foreground">
                         <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                         {selectedItem.sourceNote}
                       </p>
 
-                      <Separator className="my-4" />
+                      <Separator className="my-3" />
 
-                      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div className="text-sm">
                           <p className="font-semibold">
                             Fonte prevista:{" "}
@@ -299,7 +302,7 @@ export function RelatedCnpjsDialog({
                         </div>
                         <div className="flex flex-col gap-2 sm:flex-row">
                           {selectedItem.sourceUrl ? (
-                            <Button asChild variant="outline">
+                            <Button asChild variant="outline" size="sm">
                               <Link
                                 href={selectedItem.sourceUrl}
                                 target="_blank"
@@ -311,14 +314,14 @@ export function RelatedCnpjsDialog({
                             </Button>
                           ) : null}
                           {selectedItem.federalDocumentUrl ? (
-                            <Button asChild>
+                            <Button asChild size="sm">
                               <Link href={selectedItem.federalDocumentUrl}>
                                 <Download className="mr-2 h-4 w-4" />
                                 Baixar PDF Receita
                               </Link>
                             </Button>
                           ) : (
-                            <Button disabled variant="secondary">
+                            <Button disabled variant="secondary" size="sm">
                               <Download className="mr-2 h-4 w-4" />
                               PDF Receita pendente
                             </Button>
@@ -328,7 +331,7 @@ export function RelatedCnpjsDialog({
                     </div>
                   </div>
 
-                  <div className="mt-4 rounded-lg border bg-background p-4 text-sm leading-6 text-muted-foreground">
+                  <div className="mt-3 rounded-lg border bg-background p-3 text-sm leading-6 text-muted-foreground">
                     <div className="flex gap-3">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                       <p>
