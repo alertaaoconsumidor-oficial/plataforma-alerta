@@ -91,7 +91,7 @@ export function RelatedCnpjsDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="flex max-h-[calc(100vh-2rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-6xl">
+      <DialogContent className="!grid !h-[calc(100vh-2rem)] !w-[calc(100vw-2rem)] !max-w-6xl grid-rows-[auto_minmax(0,1fr)] gap-0 overflow-hidden p-0">
         <DialogHeader className="shrink-0 border-b bg-background p-5 pr-12 md:p-6 md:pr-14">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-3xl">
@@ -114,9 +114,9 @@ export function RelatedCnpjsDialog({
           </div>
         </DialogHeader>
 
-        <div className="grid min-h-0 flex-1 bg-muted/35 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="flex min-h-0 flex-col border-b bg-background lg:border-b-0 lg:border-r">
-            <div className="border-b p-4">
+        <div className="grid min-h-0 bg-muted/35 md:grid-cols-[330px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
+          <aside className="flex min-h-0 flex-col border-b bg-background md:border-b-0 md:border-r">
+            <div className="shrink-0 border-b p-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -133,7 +133,7 @@ export function RelatedCnpjsDialog({
               </p>
             </div>
 
-            <ScrollArea className="h-[260px] lg:h-[calc(100vh-19rem)]">
+            <ScrollArea className="h-[260px] md:h-auto md:min-h-0 md:flex-1">
               <div className="space-y-2 p-3">
                 {filteredItems.length > 0 ? (
                   filteredItems.map((item, index) => (
@@ -183,9 +183,9 @@ export function RelatedCnpjsDialog({
             </ScrollArea>
           </aside>
 
-          <section className="min-h-0">
+          <section className="min-h-0 min-w-0">
             {selectedItem ? (
-              <ScrollArea className="h-[calc(100vh-13.4rem)] min-h-[520px]">
+              <ScrollArea className="h-[520px] md:h-full">
                 <div className="p-4 md:p-6">
                   <div className="mb-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
                     <p className="flex items-center gap-2 text-sm font-bold">
