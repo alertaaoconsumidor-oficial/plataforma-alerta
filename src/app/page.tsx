@@ -332,6 +332,58 @@ export default async function Home() {
               );
             })}
           </div>
+
+          <div className="mt-8">
+            <div className="relative isolate overflow-hidden rounded-lg border border-primary/45 bg-primary px-5 py-6 shadow-lg md:px-8">
+              <Image
+                src={homePhotos.campaign}
+                alt="Imagem pública relacionada ao Caso Razor"
+                fill
+                sizes="100vw"
+                className="object-cover object-center opacity-45"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/35" />
+              <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col gap-5 md:flex-row md:items-center">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center">
+                    <Image
+                      src="/chatbot-icon.svg"
+                      alt="Logo do Alerta ao Consumidor"
+                      width={84}
+                      height={84}
+                      className="object-contain drop-shadow-xl"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-extrabold md:text-3xl">
+                      Frente solidária: Caso Razor
+                    </h2>
+                    <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-zinc-900/80">
+                      Espaço de organização colaborativa de relatos e documentos
+                      relacionados ao caso, com finalidade informativa,
+                      preventiva e apoio às pessoas afetadas.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Button asChild className="bg-zinc-950 text-white hover:bg-zinc-800">
+                    <Link href="/casos/razor">
+                      Acompanhar caso <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-zinc-900/30 bg-white/20 text-zinc-950 hover:bg-white/40"
+                  >
+                    <Link href="/enviar-relato?caso=razor">
+                      Enviar informações
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -420,60 +472,6 @@ export default async function Home() {
             {indicatorCards.map((item) => (
               <IndicatorCard key={item.label} {...item} />
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-background py-8 md:py-10">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="relative isolate overflow-hidden rounded-lg border border-primary/45 bg-primary px-5 py-6 shadow-lg md:px-8">
-            <Image
-              src={homePhotos.campaign}
-              alt="Pessoas de mãos dadas com balança da justiça ao fundo"
-              fill
-              sizes="100vw"
-              className="object-cover object-center opacity-45"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/35" />
-            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="flex flex-col gap-5 md:flex-row md:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-[#111111] shadow-xl">
-                  <Image
-                    src="/chatbot-icon.svg"
-                    alt="Logo do Alerta ao Consumidor"
-                    width={72}
-                    height={72}
-                    className="object-contain"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-extrabold md:text-3xl">
-                    Frente solidária: Caso Razor
-                  </h2>
-                  <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-zinc-900/80">
-                    Espaço de organização colaborativa de relatos e documentos
-                    relacionados ao caso, com finalidade informativa,
-                    preventiva e apoio às pessoas afetadas.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Button asChild className="bg-zinc-950 text-white hover:bg-zinc-800">
-                  <Link href="/casos/razor">
-                    Acompanhar caso <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-zinc-900/30 bg-white/20 text-zinc-950 hover:bg-white/40"
-                >
-                  <Link href="/enviar-relato?caso=razor">
-                    Enviar informações
-                  </Link>
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -638,14 +636,16 @@ function IndicatorCard({
   percent?: number;
 }) {
   return (
-    <div className="rounded-lg border border-white/15 bg-white/[0.04] p-6">
+    <div className="group rounded-lg border border-white/15 bg-white/[0.04] p-6 transition duration-300 hover:-translate-y-1 hover:border-primary/70 hover:bg-primary/10 hover:shadow-[0_22px_70px_rgba(255,214,0,0.14)]">
       <div className="flex items-start justify-between gap-5">
         <div>
-          <p className="text-5xl font-extrabold text-primary">{label}</p>
+          <p className="text-5xl font-extrabold text-primary transition duration-300 group-hover:drop-shadow-[0_0_18px_rgba(255,214,0,0.34)]">
+            {label}
+          </p>
           <h3 className="mt-2 font-bold">{title}</h3>
         </div>
         <div className="text-right">
-          <p className="text-4xl font-bold">
+          <p className="text-4xl font-bold transition duration-300 group-hover:text-primary">
             <AnimatedNumber value={value} duration={1150} />
             {suffix ? (
               <span
@@ -661,11 +661,13 @@ function IndicatorCard({
       </div>
       <div className="mt-6 grid min-h-24 grid-cols-[1fr_110px] gap-4">
         <p className="text-sm leading-6 text-white/65">{description}</p>
-        {chart === "line" ? (
-          <MiniLineChart />
-        ) : (
-          <DonutChart value={percent ?? 0} />
-        )}
+        <div className="transition duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]">
+          {chart === "line" ? (
+            <MiniLineChart />
+          ) : (
+            <DonutChart value={percent ?? 0} />
+          )}
+        </div>
       </div>
     </div>
   );
