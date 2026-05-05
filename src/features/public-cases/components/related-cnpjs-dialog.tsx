@@ -1,8 +1,18 @@
 "use client";
 
-import { Building2, Download, ExternalLink, FileSearch, Users } from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+  Building2,
+  CheckCircle2,
+  Download,
+  ExternalLink,
+  FileSearch,
+  Search,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 
+import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +22,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 import type { RelatedCnpj } from "../types";
 
@@ -27,8 +40,46 @@ export function RelatedCnpjsDialog({
   triggerSize?: ButtonProps["size"];
   triggerVariant?: ButtonProps["variant"];
 }) {
+  const [query, setQuery] = useState("");
+  const [selectedCnpj, setSelectedCnpj] = useState(items[0]?.cnpj ?? "");
+
+  const filteredItems = useMemo(() => {
+    const normalizedQuery = normalizeText(query);
+
+    if (!normalizedQuery) {
+      return items;
+    }
+
+    return items.filter((item) => {
+      const searchable = normalizeText(
+        [
+          item.cnpj,
+          item.tradeName,
+          item.legalName,
+          item.status,
+          item.city,
+          item.state,
+          item.mainActivity,
+        ].join(" ")
+      );
+
+      return searchable.includes(normalizedQuery);
+    });
+  }, [items, query]);
+
+  const selectedItem =
+    filteredItems.find((item) => item.cnpj === selectedCnpj) ??
+    filteredItems[0] ??
+    items[0];
+
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(open) => {
+        if (open && items[0] && !selectedCnpj) {
+          setSelectedCnpj(items[0].cnpj);
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant={triggerVariant}
@@ -39,141 +90,308 @@ export function RelatedCnpjsDialog({
           Outros CNPJs relacionados
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex max-h-[calc(100vh-3rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl">
-        <DialogHeader className="shrink-0 border-b p-6 pb-4 pr-12">
-          <DialogTitle>CNPJs relacionados ao caso</DialogTitle>
-          <DialogDescription>
-            Informações cadastrais públicas em formato demonstrativo. Na versão
-            operacional, cada ficha será conferida em fonte oficial, vinculada
-            ao documento gerado na Receita Federal e contextualizada com
-            linguagem cautelosa.
-          </DialogDescription>
+
+      <DialogContent className="flex max-h-[calc(100vh-2rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-6xl">
+        <DialogHeader className="shrink-0 border-b bg-background p-5 pr-12 md:p-6 md:pr-14">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-3xl">
+              <DialogTitle>CNPJs relacionados</DialogTitle>
+              <DialogDescription className="mt-2">
+                Painel público para leitura cadastral com origem, status de
+                conferência e documento oficial quando anexado. Relação entre
+                CNPJs não implica responsabilidade automática.
+              </DialogDescription>
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-sm md:min-w-[240px]">
+              <SummaryPill label="Registros" value={items.length.toString()} />
+              <SummaryPill
+                label="Conferidos"
+                value={items
+                  .filter((item) => item.lastCheckedAt && item.lastCheckedAt !== "Pendente")
+                  .length.toString()}
+              />
+            </div>
+          </div>
         </DialogHeader>
 
-        <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto p-6">
-          <div className="mb-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
-            <p className="flex items-center gap-2 text-sm font-bold">
-              <FileSearch className="h-4 w-4 text-primary" />
-              Arquitetura prevista para alimentação cadastral
-            </p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Os dados entram por um registro estruturado do CNPJ, com data de
-              conferência, fonte pública, documento oficial anexado e histórico
-              de alterações. Ao integrar o banco de dados, o painel poderá
-              diferenciar informação conferida, pendente e substituída.
-            </p>
-          </div>
-
-          <div className="grid gap-4 xl:grid-cols-2">
-          {items.map((item) => (
-            <div
-              key={item.cnpj}
-              className="rounded-lg border bg-card p-4 shadow-sm transition hover:border-primary/60 hover:shadow-md"
-            >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg font-bold">{item.tradeName}</h3>
-                    <Badge variant="outline">{item.status}</Badge>
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.legalName}
-                  </p>
-                  <p className="mt-2 text-sm font-medium">CNPJ: {item.cnpj}</p>
-                </div>
-                <div className="text-sm text-muted-foreground sm:text-right">
-                  <p>Abertura: {item.openedAt}</p>
-                  {item.lastCheckedAt ? (
-                    <p>Conferência: {item.lastCheckedAt}</p>
-                  ) : null}
-                </div>
+        <div className="grid min-h-0 flex-1 bg-muted/35 lg:grid-cols-[360px_minmax(0,1fr)]">
+          <aside className="flex min-h-0 flex-col border-b bg-background lg:border-b-0 lg:border-r">
+            <div className="border-b p-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                  }}
+                  placeholder="Buscar por nome, CNPJ, cidade ou status"
+                  className="pl-9"
+                />
               </div>
-
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <div className="rounded-md bg-muted p-3 text-sm">
-                  <p className="font-semibold">Atividade principal</p>
-                  <p className="mt-1 text-muted-foreground">
-                    {item.mainActivity}
-                  </p>
-                </div>
-                <div className="rounded-md bg-muted p-3 text-sm">
-                  <p className="font-semibold">Endereço cadastral</p>
-                  <p className="mt-1 text-muted-foreground">
-                    {item.address} - {item.city}/{item.state}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-md border p-3">
-                <p className="flex items-center gap-2 text-sm font-semibold">
-                  <Users className="h-4 w-4 text-primary" />
-                  Sócios ou administradores informados
-                </p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {item.partners.map((partner) => (
-                    <Badge key={partner} variant="secondary">
-                      {partner}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              <p className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-                <ExternalLink className="mt-0.5 h-3.5 w-3.5" />
-                {item.sourceNote}
+              <p className="mt-3 text-xs leading-5 text-muted-foreground">
+                Selecione um CNPJ para abrir a ficha detalhada ao lado.
               </p>
-
-              <div className="mt-4 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-xs text-muted-foreground">
-                  <p className="font-semibold text-foreground">
-                    Fonte prevista: {item.sourceName ?? "Receita Federal"}
-                  </p>
-                  <p>
-                    Documento oficial:{" "}
-                    {item.federalDocumentStatus === "Disponivel"
-                      ? "disponível"
-                      : "pendente de anexação"}
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {item.sourceUrl ? (
-                    <Button asChild size="sm" variant="outline">
-                      <Link href={item.sourceUrl} target="_blank" rel="noreferrer">
-                        Consultar fonte
-                        <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                      </Link>
-                    </Button>
-                  ) : null}
-                  <Button
-                    asChild={Boolean(item.federalDocumentUrl)}
-                    size="sm"
-                    variant="secondary"
-                    disabled={!item.federalDocumentUrl}
-                    title={
-                      item.federalDocumentUrl
-                        ? "Baixar comprovante da Receita Federal"
-                        : "Documento será anexado após conferência oficial"
-                    }
-                  >
-                    {item.federalDocumentUrl ? (
-                      <Link href={item.federalDocumentUrl}>
-                        <Download className="mr-2 h-3.5 w-3.5" />
-                        Baixar ficha
-                      </Link>
-                    ) : (
-                      <>
-                        <Download className="mr-2 h-3.5 w-3.5" />
-                        PDF Receita
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
             </div>
-          ))}
-          </div>
+
+            <ScrollArea className="h-[260px] lg:h-[calc(100vh-19rem)]">
+              <div className="space-y-2 p-3">
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((item, index) => (
+                    <button
+                      key={item.cnpj}
+                      type="button"
+                      onClick={() => setSelectedCnpj(item.cnpj)}
+                      className={cn(
+                        "w-full rounded-lg border bg-card p-3 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
+                        selectedItem?.cnpj === item.cnpj &&
+                          "border-primary bg-primary/10"
+                      )}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="truncate font-bold">{item.tradeName}</p>
+                            {index === 0 && !query ? (
+                              <Badge className="bg-primary text-primary-foreground">
+                                Principal
+                              </Badge>
+                            ) : null}
+                          </div>
+                          <p className="mt-1 truncate text-xs text-muted-foreground">
+                            {item.legalName}
+                          </p>
+                        </div>
+                        <StatusBadge status={item.status} />
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <span className="font-mono font-semibold">{item.cnpj}</span>
+                        <span className="text-muted-foreground">
+                          {item.city}/{item.state}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        Conferência: {item.lastCheckedAt ?? "Pendente"}
+                      </p>
+                    </button>
+                  ))
+                ) : (
+                  <div className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">
+                    Nenhum CNPJ encontrado para o filtro informado.
+                  </div>
+                )}
+              </div>
+            </ScrollArea>
+          </aside>
+
+          <section className="min-h-0">
+            {selectedItem ? (
+              <ScrollArea className="h-[calc(100vh-13.4rem)] min-h-[520px]">
+                <div className="p-4 md:p-6">
+                  <div className="mb-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
+                    <p className="flex items-center gap-2 text-sm font-bold">
+                      <FileSearch className="h-4 w-4 text-primary" />
+                      Padrão de leitura cadastral
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      A ficha exibe apenas dados públicos estruturados. Em
+                      produção, cada CNPJ deve ter data de conferência, fonte,
+                      documento oficial anexado e histórico de atualização.
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border bg-card shadow-sm">
+                    <div className="border-b p-5">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-2xl font-bold">
+                              {selectedItem.tradeName}
+                            </h3>
+                            <StatusBadge status={selectedItem.status} />
+                          </div>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            {selectedItem.legalName}
+                          </p>
+                          <p className="mt-3 font-mono text-base font-bold">
+                            CNPJ: {selectedItem.cnpj}
+                          </p>
+                        </div>
+
+                        <div className="grid gap-2 rounded-lg bg-muted p-3 text-sm md:min-w-[230px]">
+                          <DetailRow label="Abertura" value={selectedItem.openedAt} />
+                          <DetailRow
+                            label="Conferência"
+                            value={selectedItem.lastCheckedAt ?? "Pendente"}
+                          />
+                          <DetailRow
+                            label="Documento"
+                            value={
+                              selectedItem.federalDocumentStatus === "Disponivel"
+                                ? "Anexado"
+                                : "Pendente"
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 p-5 md:grid-cols-2">
+                      <InfoBlock
+                        title="Atividade principal"
+                        value={selectedItem.mainActivity}
+                      />
+                      <InfoBlock
+                        title="Endereço cadastral"
+                        value={`${selectedItem.address} - ${selectedItem.city}/${selectedItem.state}`}
+                      />
+                    </div>
+
+                    <div className="px-5 pb-5">
+                      <div className="rounded-lg border p-4">
+                        <p className="flex items-center gap-2 text-sm font-semibold">
+                          <Users className="h-4 w-4 text-primary" />
+                          Sócios ou administradores informados
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {selectedItem.partners.map((partner) => (
+                            <Badge key={partner} variant="secondary">
+                              {partner}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t bg-muted/45 p-5">
+                      <p className="flex items-start gap-2 text-sm leading-6 text-muted-foreground">
+                        <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {selectedItem.sourceNote}
+                      </p>
+
+                      <Separator className="my-4" />
+
+                      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="text-sm">
+                          <p className="font-semibold">
+                            Fonte prevista:{" "}
+                            {selectedItem.sourceName ?? "Receita Federal"}
+                          </p>
+                          <p className="mt-1 text-muted-foreground">
+                            Documento oficial:{" "}
+                            {selectedItem.federalDocumentStatus === "Disponivel"
+                              ? "disponível"
+                              : "pendente de anexação"}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-2 sm:flex-row">
+                          {selectedItem.sourceUrl ? (
+                            <Button asChild variant="outline">
+                              <Link
+                                href={selectedItem.sourceUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Consultar fonte
+                                <ExternalLink className="ml-2 h-4 w-4" />
+                              </Link>
+                            </Button>
+                          ) : null}
+                          {selectedItem.federalDocumentUrl ? (
+                            <Button asChild>
+                              <Link href={selectedItem.federalDocumentUrl}>
+                                <Download className="mr-2 h-4 w-4" />
+                                Baixar PDF Receita
+                              </Link>
+                            </Button>
+                          ) : (
+                            <Button disabled variant="secondary">
+                              <Download className="mr-2 h-4 w-4" />
+                              PDF Receita pendente
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 rounded-lg border bg-background p-4 text-sm leading-6 text-muted-foreground">
+                    <div className="flex gap-3">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      <p>
+                        Este padrão será usado em todas as páginas que
+                        consultarem CNPJs relacionados, mantendo consistência de
+                        leitura e facilitando conferência futura no painel
+                        administrativo.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollArea>
+            ) : (
+              <div className="p-6 text-sm text-muted-foreground">
+                Nenhum CNPJ disponível.
+              </div>
+            )}
+          </section>
         </div>
       </DialogContent>
     </Dialog>
   );
+}
+
+function SummaryPill({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border bg-card px-3 py-2">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="font-bold">{value}</p>
+    </div>
+  );
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const statusLower = status.toLowerCase();
+  const active = statusLower === "ativa";
+  const warning =
+    statusLower.includes("inativa") ||
+    statusLower.includes("inapta") ||
+    statusLower.includes("baixada") ||
+    statusLower.includes("suspensa");
+
+  return (
+    <Badge
+      variant="outline"
+      className={cn(
+        "shrink-0",
+        active && "border-emerald-500/50 bg-emerald-500/10 text-emerald-700",
+        warning && "border-amber-500/60 bg-amber-500/10 text-amber-700"
+      )}
+    >
+      {status}
+    </Badge>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="font-medium">{value}</span>
+    </div>
+  );
+}
+
+function InfoBlock({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-muted p-4 text-sm">
+      <p className="font-semibold">{title}</p>
+      <p className="mt-2 leading-6 text-muted-foreground">{value}</p>
+    </div>
+  );
+}
+
+function normalizeText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
