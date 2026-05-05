@@ -116,8 +116,7 @@ const homePhotos = {
     "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
   phone:
     "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
-  campaign:
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=85",
+  campaign: "https://s01.video.glbimg.com/x720/14282024.jpg",
   alertThumbs: [
     "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
@@ -200,13 +199,13 @@ export default async function Home() {
       <section className="relative flex min-h-[600px] items-center overflow-hidden border-b bg-primary py-16 text-primary-foreground md:py-24">
         <Image
           src={homePhotos.campaign}
-          alt=""
+          alt="Fachada com logotipo da Razor"
           fill
           sizes="100vw"
-          className="scale-105 object-cover blur-[2px]"
+          className="scale-105 object-cover object-center blur-[1px]"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 to-yellow-500/85" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/20 to-white/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/88 via-primary/82 to-yellow-500/78" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/15 via-primary/35 to-white/12" />
         <div className="container relative mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
             <div className="w-full space-y-8 lg:w-3/5">

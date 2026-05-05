@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Calendar,
-  ExternalLink,
   FileCheck2,
   FileText,
   MapPinned,
   MessageSquareText,
-  Newspaper,
   ShieldCheck,
   TriangleAlert,
   User,
@@ -24,14 +22,15 @@ import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-map";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
+import { PublicNewsLinks } from "@/features/public-cases/components/public-news-links";
 import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
 import {
   razorDocumentationMetrics,
+  razorMediaReferences,
   razorMetrics,
   razorMonthlyReportData,
   razorPreliminaryStats,
   razorRelatedCnpjs,
-  razorPublicNews,
   razorPublicReports,
   razorStateComparison,
   razorTimeline,
@@ -266,37 +265,7 @@ export default function CasoRazorPage() {
 
             <Separator />
 
-            <section>
-              <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold">
-                <Newspaper className="h-7 w-7 text-primary" />
-                Noticias Publicas
-              </h2>
-              <div className="space-y-6">
-                {razorPublicNews.map((item) => (
-                  <Card key={item.id}>
-                    <CardHeader>
-                      <CardTitle className="text-xl">{item.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
-                        Fonte: {item.sourceName} -{" "}
-                        {new Date(item.publishedAt).toLocaleDateString(
-                          "pt-BR"
-                        )}
-                      </p>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="mb-4 text-card-foreground/80">
-                        {item.excerpt}
-                      </p>
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={item.url}>
-                          Ler mais <ExternalLink className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
+            <PublicNewsLinks items={razorMediaReferences} />
 
             <CaseLgpdNotice />
           </main>
