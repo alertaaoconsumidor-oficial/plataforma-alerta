@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function ScrollGrowBar({ percent }: { percent: number }) {
+export function ScrollGrowBar({
+  percent,
+  delayMs = 0,
+}: {
+  percent: number;
+  delayMs?: number;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -32,10 +38,11 @@ export function ScrollGrowBar({ percent }: { percent: number }) {
   return (
     <div
       ref={ref}
-      className="w-full origin-bottom rounded-t-md bg-primary transition-transform duration-[3200ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+      className="w-full origin-bottom rounded-t-md bg-primary transition-transform duration-[3600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
       style={{
         height: `${percent}%`,
         transform: visible ? "scaleY(1)" : "scaleY(0)",
+        transitionDelay: visible ? `${delayMs}ms` : "0ms",
       }}
     />
   );

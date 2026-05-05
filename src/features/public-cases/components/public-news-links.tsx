@@ -53,17 +53,21 @@ export function PublicNewsLinks({ items }: PublicNewsLinksProps) {
             key={item.id}
             className="group overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg"
           >
-            <CardContent className="grid p-0 md:min-h-[230px] md:grid-cols-[170px_1fr]">
-              <div className="relative min-h-44 overflow-hidden bg-muted md:min-h-full">
+            <CardContent className="grid p-0 md:min-h-[210px] md:grid-cols-[150px_1fr]">
+              <div className="relative min-h-40 overflow-hidden bg-muted md:min-h-full">
                 <Image
                   src={item.thumbnailUrl}
                   alt={`Miniatura da fonte ${item.sourceName}`}
                   fill
-                  sizes="(min-width: 768px) 170px, 100vw"
+                  sizes="(min-width: 768px) 150px, 100vw"
+                  unoptimized
+                  onError={(event) => {
+                    event.currentTarget.src = "/razor-bg.webp";
+                  }}
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <p className="absolute bottom-3 left-4 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                <p className="absolute bottom-3 left-3 rounded-full bg-black/72 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
                   {item.sourceName}
                 </p>
               </div>

@@ -122,8 +122,8 @@ export default function CasoRazorPage() {
               <Badge className="mb-5 border-primary/40 bg-primary text-primary-foreground">
                 Em organização coletiva
               </Badge>
-              <div className="flex items-start gap-4">
-                <TriangleAlert className="mt-1 h-11 w-11 shrink-0 text-primary md:h-14 md:w-14" />
+              <div className="flex items-center gap-4">
+                <TriangleAlert className="h-12 w-12 shrink-0 text-primary md:h-16 md:w-16" />
                 <div>
                   <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
                     Frente solidária informativa
@@ -174,7 +174,7 @@ export default function CasoRazorPage() {
                 <RelatedCnpjsDialog
                   items={razorRelatedCnpjs}
                   triggerSize="lg"
-                  triggerClassName="border-white/25 bg-black/20 text-white hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                  triggerClassName="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
                 />
               </div>
             </div>
@@ -349,12 +349,20 @@ export default function CasoRazorPage() {
             <Separator />
 
             <section id="relatos" className="scroll-mt-24">
-              <SectionHeading
-                eyebrow="Relatos públicos"
-                title="Experiências de consumidores"
-                description="Amostras moderadas com dados pessoais suprimidos. Documentos, prints e comprovantes não são publicados automaticamente."
-                icon={FileText}
-              />
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <SectionHeading
+                  eyebrow="Relatos públicos"
+                  title="Experiências de consumidores"
+                  description="Amostras moderadas com dados pessoais suprimidos. Documentos, prints e comprovantes não são publicados automaticamente."
+                  icon={FileText}
+                />
+                <Button asChild variant="outline">
+                  <Link href="/casos/razor/relatos">
+                    Ver todos os relatos
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
               <div className="mt-6 grid gap-5">
                 {razorPublicReports.map((report, index) => (
                   <PublicReportCard
@@ -583,7 +591,7 @@ function MiniMonthlyChart() {
 
   return (
     <div className="flex h-full items-end gap-3">
-      {razorMonthlyReportData.map((item) => (
+      {razorMonthlyReportData.map((item, index) => (
         <div
           key={item.month}
           className="group/bar relative flex flex-1 flex-col items-center gap-2"
@@ -593,7 +601,10 @@ function MiniMonthlyChart() {
             {item.month}: {item.count} relatos
           </div>
           <div className="flex h-[210px] w-full items-end rounded-lg bg-muted/70 px-2">
-            <ScrollGrowBar percent={Math.max((item.count / max) * 100, 12)} />
+            <ScrollGrowBar
+              percent={Math.max((item.count / max) * 100, 12)}
+              delayMs={index * 300}
+            />
           </div>
           <span className="text-xs text-muted-foreground">{item.month}</span>
         </div>

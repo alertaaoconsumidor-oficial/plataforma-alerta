@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function CaseLgpdNotice() {
   return (
-    <Alert className="border-amber-300 bg-amber-50 text-amber-950">
+    <Alert className="border-l-4 border-amber-400 !bg-amber-50 text-amber-950 shadow-sm">
       <ShieldCheck className="h-4 w-4 text-amber-700" />
       <AlertTitle>Dados pessoais protegidos</AlertTitle>
       <AlertDescription className="text-amber-900/85">
