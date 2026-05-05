@@ -34,17 +34,17 @@ export default async function EnviarRelatoPage() {
                       Foco operacional inicial: CASO RAZOR
                     </h2>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      Neste primeiro momento, a plataforma estÃ¡ priorizando a
-                      organizaÃ§Ã£o de relatos relacionados ao CASO RAZOR. Outros
-                      casos poderÃ£o ser avaliados futuramente conforme volume,
-                      documentaÃ§Ã£o e capacidade de moderaÃ§Ã£o.
+                      Neste primeiro momento, a plataforma está priorizando a
+                      organização de relatos relacionados ao CASO RAZOR. Outros
+                      casos poderão ser avaliados futuramente conforme volume,
+                      documentação e capacidade de moderação.
                     </p>
                   </div>
                   <Link
                     href="/casos/razor"
                     className="shrink-0 text-sm font-medium text-primary hover:underline"
                   >
-                    Ver pÃ¡gina do caso
+                    Ver página do caso
                   </Link>
                 </div>
               </div>

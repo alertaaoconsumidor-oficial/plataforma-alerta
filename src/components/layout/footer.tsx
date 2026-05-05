@@ -1,13 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Clock,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +9,8 @@ const navLinks = [
   { href: "/", label: "Início" },
   { href: "/casos/razor", label: "Caso Razor" },
   { href: "/metodologia", label: "Metodologia" },
+  { href: "/golpes", label: "Golpes" },
+  { href: "/cdc", label: "CDC" },
   { href: "/aviso-legal", label: "Aviso Legal" },
   { href: "/contato", label: "Contato" },
 ];
@@ -23,7 +18,8 @@ const navLinks = [
 const institutionalLinks = [
   { href: "/aviso-legal", label: "Sobre a plataforma" },
   { href: "/metodologia", label: "Como funciona" },
-  { href: "/contato", label: "Perguntas frequentes" },
+  { href: "/usuario", label: "Área do usuário" },
+  { href: "/admin", label: "Administração" },
   { href: "/aviso-legal", label: "Termos de uso" },
   { href: "/aviso-legal", label: "Privacidade" },
 ];
@@ -60,7 +56,7 @@ export function Footer() {
       </section>
 
       <section className="bg-[#111111] py-12 text-white">
-        <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-[1.35fr_0.8fr_0.9fr_1.1fr_1fr]">
+        <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-[1.4fr_0.85fr_1fr_1.15fr]">
           <div>
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
@@ -82,20 +78,23 @@ export function Footer() {
               todos.
             </p>
             <div className="mt-6 flex gap-3">
-              <SocialLink label="Instagram" href="#">
+              <SocialLink
+                label="Instagram"
+                href="https://www.instagram.com/alertaaoconsumidor"
+              >
                 <Instagram className="h-4 w-4" />
               </SocialLink>
-              <SocialLink label="Facebook" href="#">
+              <SocialLink
+                label="Facebook"
+                href="https://www.facebook.com/alertaaoconsumidor"
+              >
                 <Facebook className="h-4 w-4" />
               </SocialLink>
-              <SocialLink label="LinkedIn" href="#">
-                <Linkedin className="h-4 w-4" />
-              </SocialLink>
               <SocialLink
-                label="E-mail"
-                href="mailto:contato@alertaaoconsumidor.com.br"
+                label="LinkedIn"
+                href="https://www.linkedin.com/company/alerta-ao-consumidor"
               >
-                <Mail className="h-4 w-4" />
+                <Linkedin className="h-4 w-4" />
               </SocialLink>
             </div>
           </div>
@@ -105,30 +104,11 @@ export function Footer() {
 
           <div>
             <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-white/50">
-              Contato
-            </h3>
-            <div className="space-y-4 text-sm font-medium text-white/62">
-              <p className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
-                contato@alertaaoconsumidor.com.br
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary" />
-                (11) 99999-9999
-              </p>
-              <p className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-primary" />
-                Seg. a Sex, 9h às 18h
-              </p>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-white/50">
               Transparência
             </h3>
             <p className="text-sm leading-6 text-white/62">
-              Acesse relatórios e indicadores atualizados da plataforma.
+              Acesse relatórios, indicadores e orientações atualizadas da
+              plataforma.
             </p>
             <Link
               href="/casos/razor#estatisticas"

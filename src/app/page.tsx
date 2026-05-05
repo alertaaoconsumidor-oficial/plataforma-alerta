@@ -10,6 +10,8 @@ import {
   LockKeyhole,
   MessageSquareText,
   Search,
+  Scale,
+  ShieldAlert,
   ShieldCheck,
   TrendingUp,
   Check,
@@ -90,6 +92,23 @@ const frontItems = [
   "Orientação para caminhos legais e administrativos",
 ];
 
+const guidanceCards = [
+  {
+    title: "Defenda-se de golpes",
+    description:
+      "Aprenda sinais de alerta, cuidados com Pix, boletos e falsos atendimentos.",
+    href: "/golpes",
+    icon: ShieldAlert,
+  },
+  {
+    title: "Guia rápido do CDC",
+    description:
+      "Veja direitos essenciais do consumidor em linguagem direta e prática.",
+    href: "/cdc",
+    icon: Scale,
+  },
+];
+
 const homePhotos = {
   hero:
     "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85",
@@ -168,25 +187,6 @@ export default async function Home() {
               </Button>
             </div>
             <div className="mt-10 hidden max-w-sm rounded-lg border border-white/15 bg-black/45 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
-              <p className="font-bold text-primary">Dados com contexto</p>
-              <p className="mt-1 text-white/75">
-                Relatos organizados para consulta publica, sem exposicao
-                automatica de dados pessoais.
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden" aria-hidden="true">
-            <Image
-              src={homePhotos.hero}
-              alt="Consumidora analisando documentos em ambiente de trabalho"
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/45 to-transparent lg:from-[#111111]/35" />
-            <div className="absolute bottom-6 left-6 hidden max-w-xs rounded-lg border border-white/15 bg-black/50 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
               <p className="font-bold text-primary">Dados com contexto</p>
               <p className="mt-1 text-white/75">
                 Relatos organizados para consulta pública, sem exposição
@@ -368,6 +368,33 @@ export default async function Home() {
                     Saiba mais sobre a metodologia
                   </Link>
                 </Button>
+                <div className="grid gap-3 pt-2">
+                  {guidanceCards.map((card) => {
+                    const Icon = card.icon;
+
+                    return (
+                      <Link
+                        key={card.href}
+                        href={card.href}
+                        className="group rounded-lg border bg-background p-4 transition hover:border-primary/60 hover:shadow-md"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15">
+                            <Icon className="h-5 w-5 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-bold group-hover:text-primary">
+                              {card.title}
+                            </p>
+                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                              {card.description}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -466,27 +493,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="hidden bg-primary py-12 text-primary-foreground" aria-hidden="true">
-        <div className="container mx-auto flex flex-col gap-6 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h2 className="text-2xl font-bold">Receba alertas e novidades</h2>
-            <p className="mt-2 max-w-2xl text-sm text-primary-foreground/75">
-              Acompanhe melhorias da plataforma, novos casos públicos e
-              orientações preventivas.
-            </p>
-          </div>
-          <div className="flex w-full max-w-md gap-3">
-            <Input
-              type="email"
-              placeholder="Seu melhor e-mail"
-              className="h-12 border-primary-foreground/20 bg-white text-foreground"
-            />
-            <Button variant="secondary" className="h-12 px-6">
-              Assinar
-            </Button>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
