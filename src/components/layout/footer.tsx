@@ -1,35 +1,39 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const navLinks = [
+const platformLinks = [
   { href: "/", label: "Início" },
+  { href: "/#como-funciona", label: "Como funciona" },
+  { href: "/#empresas", label: "Empresas" },
+  { href: "/#indicadores", label: "Indicadores" },
   { href: "/casos/razor", label: "Caso Razor" },
-  { href: "/metodologia", label: "Metodologia" },
-  { href: "/golpes", label: "Golpes" },
-  { href: "/cdc", label: "CDC" },
-  { href: "/aviso-legal", label: "Aviso Legal" },
-  { href: "/contato", label: "Contato" },
 ];
 
 const institutionalLinks = [
-  { href: "/aviso-legal", label: "Sobre a plataforma" },
-  { href: "/metodologia", label: "Como funciona" },
-  { href: "/usuario", label: "Área do usuário" },
-  { href: "/admin", label: "Administração" },
-  { href: "/aviso-legal", label: "Termos de uso" },
-  { href: "/aviso-legal", label: "Privacidade" },
+  { href: "/aviso-legal", label: "Sobre" },
+  { href: "/metodologia", label: "Metodologia" },
+  { href: "/usuario", label: "Equipe" },
+  { href: "/aviso-legal", label: "Transparência" },
+  { href: "/casos/razor#estatisticas", label: "Relatórios públicos" },
+];
+
+const helpLinks = [
+  { href: "/contato", label: "Perguntas frequentes" },
+  { href: "/enviar-relato", label: "Como enviar relato" },
+  { href: "/golpes", label: "Dicas de segurança" },
+  { href: "/contato", label: "Fale conosco" },
 ];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer>
-      <section className="bg-primary py-5 text-primary-foreground">
+    <footer className="bg-[#0d0d0d] text-white">
+      <section className="border-b border-white/10 bg-primary py-5 text-primary-foreground">
         <div className="container mx-auto flex flex-col gap-4 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary-foreground text-primary">
@@ -55,27 +59,24 @@ export function Footer() {
         </div>
       </section>
 
-      <section className="bg-[#111111] py-12 text-white">
-        <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-[1.4fr_0.85fr_1fr_1.15fr]">
+      <section className="py-12">
+        <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-[1.35fr_0.85fr_0.95fr_0.95fr_1.25fr]">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
-                <Image
-                  src="/chatbot-icon.svg"
-                  alt=""
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                />
-              </div>
+              <Image
+                src="/chatbot-icon.svg"
+                alt=""
+                width={48}
+                height={48}
+                className="object-contain"
+              />
               <div className="text-lg font-bold uppercase leading-none">
                 <p>Alerta ao</p>
                 <p>Consumidor</p>
               </div>
             </div>
-            <p className="mt-5 max-w-xs text-sm leading-6 text-white/55">
-              Informação é a sua melhor defesa. Transparência e segurança para
-              todos.
+            <p className="mt-5 max-w-xs text-sm leading-6 text-white/62">
+              Informação responsável para decisões de consumo mais seguras.
             </p>
             <div className="mt-6 flex gap-3">
               <SocialLink
@@ -90,37 +91,49 @@ export function Footer() {
               >
                 <Facebook className="h-4 w-4" />
               </SocialLink>
+              <SocialLink label="X" href="https://x.com/alertaaoconsumidor">
+                <Twitter className="h-4 w-4" />
+              </SocialLink>
               <SocialLink
                 label="LinkedIn"
                 href="https://www.linkedin.com/company/alerta-ao-consumidor"
               >
                 <Linkedin className="h-4 w-4" />
               </SocialLink>
+              <SocialLink
+                label="YouTube"
+                href="https://www.youtube.com/@alertaaoconsumidor"
+              >
+                <Youtube className="h-4 w-4" />
+              </SocialLink>
             </div>
           </div>
 
-          <FooterColumn title="Navegação" links={navLinks} />
+          <FooterColumn title="Plataforma" links={platformLinks} />
           <FooterColumn title="Institucional" links={institutionalLinks} />
+          <FooterColumn title="Ajuda" links={helpLinks} />
 
           <div>
             <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-white/50">
-              Transparência
+              Newsletter
             </h3>
-            <p className="text-sm leading-6 text-white/62">
-              Acesse relatórios, indicadores e orientações atualizadas da
-              plataforma.
+            <div className="flex gap-2">
+              <Input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                className="h-11 border-white/10 bg-white text-foreground"
+              />
+              <Button className="h-11 px-5">Assinar</Button>
+            </div>
+            <p className="mt-3 text-xs leading-5 text-white/45">
+              🔒 Respeitamos sua privacidade. Você pode cancelar quando quiser.
             </p>
-            <Link
-              href="/casos/razor#estatisticas"
-              className="mt-4 inline-flex items-center text-sm font-bold text-primary hover:underline"
-            >
-              Ver relatórios
-            </Link>
           </div>
         </div>
 
         <div className="container mx-auto mt-10 border-t border-white/10 px-4 pt-6 text-center text-xs text-white/35 md:px-6">
-          © {currentYear} Alerta ao Consumidor. Todos os direitos reservados.
+          © {currentYear} Alerta ao Consumidor - informação responsável para
+          decisões mais seguras.
         </div>
       </section>
     </footer>
