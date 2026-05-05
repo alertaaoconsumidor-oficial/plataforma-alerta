@@ -1,25 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   BarChart3,
   Bell,
-  CheckCircle2,
+  Building2,
+  CalendarDays,
+  ClipboardCheck,
+  Eye,
   FileCheck2,
+  FileText,
+  Info,
   LockKeyhole,
   MessageSquareText,
+  PenLine,
   Search,
-  Scale,
-  ShieldAlert,
   ShieldCheck,
   TrendingUp,
-  Check,
 } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AnimatedNumber } from "@/features/public-cases/components/animated-number";
 import { getRecentReports, getTopCompaniesByReports } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -28,500 +35,741 @@ export const metadata: Metadata = {
     "Pesquise empresas, envie relatos e acesse indicadores sobre direitos do consumidor.",
 };
 
-const platformMetrics = [
-  { label: "TMR", title: "Tempo médio sem resolução", value: "7,8 dias" },
-  { label: "SD", title: "Casos de silêncio documentado", value: "352 casos" },
-  { label: "TRPE", title: "Resolução pós-escalonamento", value: "38%" },
+const homePhotos = {
+  hero: "/home-hero-consumo.png",
+  campaign: "/razor-bg.webp",
+  alertThumbs: [
+    "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=420&q=80",
+  ],
+};
+
+const heroPillars = [
+  { title: "Metodologia Transparente", icon: FileCheck2 },
+  { title: "Direito de Resposta", icon: MessageSquareText },
+  { title: "Proteção de Dados", icon: ShieldCheck },
+  { title: "Monitoramento Preventivo", icon: TrendingUp },
+];
+
+const valueCards = [
+  {
+    title: "Relatos documentados",
+    description:
+      "Informações verificadas e organizadas com cautela jurídica e contexto.",
+    icon: FileText,
+  },
+  {
+    title: "Consulta por empresa",
+    description:
+      "Pesquise e visualize dados públicos sobre empresas e seus indicadores.",
+    icon: Search,
+  },
+  {
+    title: "Indicadores públicos",
+    description:
+      "Acompanhe métricas que ajudam a entender padrões de atendimento.",
+    icon: BarChart3,
+  },
+  {
+    title: "Orientação preventiva",
+    description:
+      "Conteúdos e orientações para decisões de consumo mais seguras.",
+    icon: ShieldCheck,
+  },
+];
+
+const alertMeta = [
+  {
+    category: "Caso Razor",
+    badge: "Atenção",
+    date: "04/05/2026",
+    reports: "20 relatos",
+    views: "4,8 mil",
+    icon: FileCheck2,
+  },
+  {
+    category: "Telecomunicações",
+    badge: "Observação",
+    date: "16/05/2024",
+    reports: "87 relatos",
+    views: "3,4 mil",
+    icon: MessageSquareText,
+  },
+  {
+    category: "Marketplace",
+    badge: "Atenção",
+    date: "15/05/2024",
+    reports: "64 relatos",
+    views: "2,7 mil",
+    icon: Building2,
+  },
+];
+
+const companyTableMeta = [
+  {
+    category: "Caso público",
+    reports: "20",
+    updatedAt: "04/05/2026",
+    status: "Em organização coletiva",
+    statusColor: "bg-primary",
+  },
+  {
+    category: "Varejo",
+    reports: "122",
+    updatedAt: "17/05/2024",
+    status: "Em análise",
+    statusColor: "bg-blue-400",
+  },
+  {
+    category: "Telecomunicações",
+    reports: "98",
+    updatedAt: "16/05/2024",
+    status: "Resposta parcial",
+    statusColor: "bg-orange-400",
+  },
+];
+
+const indicatorCards = [
+  {
+    label: "TMR",
+    title: "Tempo médio sem resolução",
+    value: 26,
+    suffix: "dias",
+    description:
+      "Tempo médio em dias que os relatos permanecem sem solução efetiva.",
+    chart: "line",
+  },
+  {
+    label: "SD",
+    title: "Silêncio documentado",
+    value: 46,
+    suffix: "%",
+    description:
+      "Percentual de relatos sem qualquer resposta da empresa no prazo.",
+    chart: "donut",
+    percent: 46,
+  },
+  {
+    label: "TRPE",
+    title: "Resolução pós-escalonamento",
+    value: 38,
+    suffix: "%",
+    description:
+      "Percentual de relatos resolvidos após escalonamento à empresa.",
+    chart: "donut",
+    percent: 38,
+  },
 ];
 
 const workflowSteps = [
   {
-    title: "Pesquise",
-    description: "Consulte empresas por nome ou CNPJ antes de decidir.",
+    title: "Pesquise a empresa",
+    description: "Digite nome ou CNPJ para encontrar a empresa desejada.",
     icon: Search,
   },
   {
-    title: "Relate",
-    description: "Registre o ocorrido com linguagem objetiva e responsável.",
-    icon: MessageSquareText,
+    title: "Consulte relatos",
+    description: "Veja relatos documentados e o contexto de cada situação.",
+    icon: FileText,
   },
   {
-    title: "Preserve provas",
-    description: "Documentos e evidências ficam tratados com cautela.",
-    icon: FileCheck2,
-  },
-  {
-    title: "Acompanhe",
-    description: "Veja indicadores públicos e evolução dos casos.",
+    title: "Entenda os indicadores",
+    description: "Analise métricas públicas e histórico de atendimento.",
     icon: BarChart3,
+  },
+  {
+    title: "Envie seu relato",
+    description: "Relate sua experiência com responsabilidade e documentos.",
+    icon: PenLine,
   },
 ];
 
-const commitments = [
+const responsibilityCards = [
   {
-    title: "Proteção de dados",
+    title: "Aviso Legal",
     description:
-      "Relatos públicos não devem expor dados pessoais sensíveis de consumidores.",
-    icon: LockKeyhole,
+      "Os conteúdos são informativos e não constituem juízo definitivo sobre responsabilidade ou irregularidade.",
+    icon: ClipboardCheck,
   },
   {
-    title: "Metodologia clara",
+    title: "Privacidade",
     description:
-      "Indicadores são apresentados com contexto, limites e linguagem informativa.",
-    icon: ShieldCheck,
+      "Protegemos dados pessoais em conformidade com a LGPD e boas práticas de segurança.",
+    icon: LockKeyhole,
   },
   {
     title: "Direito de resposta",
     description:
-      "Empresas citadas contam com espaço próprio para manifestação pública.",
+      "Empresas têm assegurado o direito de resposta, correção de informações e contextualização de dados.",
     icon: MessageSquareText,
   },
-  {
-    title: "Dados verificáveis",
-    description:
-      "A plataforma diferencia relato, evidência privada e informação pública.",
-    icon: CheckCircle2,
-  },
 ];
-
-const frontItems = [
-  "Relatos individuais padronizados",
-  "Registro cronológico dos fatos",
-  "Documentação de evidências",
-  "Indicadores públicos agregados",
-  "Orientação para caminhos legais e administrativos",
-];
-
-const guidanceCards = [
-  {
-    title: "Defenda-se de golpes",
-    description:
-      "Aprenda sinais de alerta, cuidados com Pix, boletos e falsos atendimentos.",
-    href: "/golpes",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Guia rápido do CDC",
-    description:
-      "Veja direitos essenciais do consumidor em linguagem direta e prática.",
-    href: "/cdc",
-    icon: Scale,
-  },
-];
-
-const homePhotos = {
-  hero:
-    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=85",
-  evidence:
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
-  phone:
-    "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=85",
-  campaign: "https://s01.video.glbimg.com/x720/14282024.jpg",
-  alertThumbs: [
-    "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
-    "https://images.unsplash.com/photo-1605902711622-cfb43c4437d7?auto=format&fit=crop&w=420&q=80",
-  ],
-};
 
 export default async function Home() {
   const recentReports = await getRecentReports(3);
   const topCompanies = await getTopCompaniesByReports(3);
 
+  const companyRows = [
+    {
+      name: "CASO RAZOR",
+      slug: "casos/razor",
+      ...companyTableMeta[0],
+    },
+    ...topCompanies.slice(0, 2).map((company, index) => ({
+      name: company.name,
+      slug: `empresa/${company.slug}`,
+      ...companyTableMeta[index + 1],
+    })),
+  ];
+
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-[#111111] text-white">
+      <section className="relative isolate overflow-hidden bg-[#0a0a0a] text-white">
         <div className="absolute inset-0">
           <Image
             src={homePhotos.hero}
-            alt="Consumidora analisando documentos em ambiente de trabalho"
+            alt="Mesa escura com notebook, balança, documentos e calculadora"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[70%_center] opacity-60"
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/92 to-[#111111]/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/82 to-[#050505]/18" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/35" />
         </div>
 
-        <div className="container relative mx-auto grid min-h-[560px] px-4 py-16 md:px-6 lg:items-center lg:py-20">
-          <div className="relative z-10 max-w-2xl">
-            <p className="mb-5 inline-flex rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              Informação responsável para decisões de consumo
-            </p>
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-              Consulte antes de comprar. Relate com responsabilidade.
+        <div className="container relative mx-auto px-4 py-16 md:px-6 lg:py-20">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
+              Consulte antes de comprar.
+              <br />
+              Relate com{" "}
+              <span className="text-primary">responsabilidade.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 md:text-base">
-              O Alerta ao Consumidor reúne relatos, indicadores e informações
-              públicas para ajudar consumidores a tomar decisões mais seguras,
-              com transparência, cautela jurídica e direito de resposta.
+            <p className="mt-5 max-w-2xl text-base leading-7 text-white/75 md:text-lg">
+              Veja relatos documentados, indicadores públicos e orientações
+              preventivas para tomar decisões de consumo mais seguras.
             </p>
 
-            <div className="mt-9 flex max-w-xl flex-col gap-3 rounded-lg bg-white p-2 shadow-2xl sm:flex-row">
+            <div className="mt-8 flex max-w-2xl flex-col gap-3 rounded-lg bg-white p-2 shadow-2xl sm:flex-row">
               <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="search"
-                  placeholder="Pesquisar empresa por nome ou CNPJ"
+                  placeholder="Digite o nome da empresa ou CNPJ"
                   className="h-12 border-0 pl-11 text-foreground shadow-none focus-visible:ring-0"
                 />
               </div>
-              <Button className="h-12 shrink-0 px-6">Pesquisar</Button>
+              <Button className="h-12 shrink-0 px-7">Consultar empresa</Button>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href="/enviar-relato">
-                  Consultar empresa <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+            <div className="mt-4">
               <Button
                 asChild
                 variant="outline"
-                size="lg"
-                className="border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                className="border-white/25 bg-black/20 text-white hover:bg-white/10 hover:text-white"
               >
-                <Link href="/enviar-relato">Enviar relato documentado</Link>
+                <Link href="/metodologia">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Conhecer metodologia
+                </Link>
               </Button>
             </div>
-            <div className="mt-10 hidden max-w-sm rounded-lg border border-white/15 bg-black/45 p-4 text-sm text-white shadow-2xl backdrop-blur md:block">
-              <p className="font-bold text-primary">Dados com contexto</p>
-              <p className="mt-1 text-white/75">
-                Relatos organizados para consulta pública, sem exposição
-                automática de dados pessoais.
-              </p>
-            </div>
+
+            <p className="mt-6 flex max-w-2xl items-start gap-3 text-sm leading-6 text-white/75">
+              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+              Relatos organizados com cautela jurídica, foco preventivo e
+              espaço para direito de resposta.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-2 lg:grid-cols-4">
+            {heroPillars.map((pillar) => (
+              <PillarItem key={pillar.title} {...pillar} />
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="relative isolate flex min-h-[620px] items-center overflow-hidden border-b bg-primary py-16 text-zinc-950 shadow-[inset_0_-1px_0_rgba(17,17,17,0.08)] md:py-24">
-        <Image
-          src={homePhotos.campaign}
-          alt="Fachada com logotipo da Razor"
-          fill
-          sizes="100vw"
-          className="scale-[1.03] object-cover object-center opacity-45 saturate-75 contrast-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/55" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-zinc-950/10" />
-        <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-primary via-primary/92 to-transparent" />
-        <div className="container relative mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
-            <div className="w-full space-y-8 lg:w-3/5">
-              <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_1px_0_rgba(255,255,255,0.35)] md:text-6xl">
-                Frente solidária para consumidores afetados pela Razor
-              </h2>
-              <p className="max-w-xl text-lg leading-relaxed text-zinc-900/85 md:text-xl">
-                A plataforma disponibiliza sua estrutura para organização
-                responsável de relatos, documentação de evidências e orientação
-                informativa aos consumidores impactados.
+      <section className="bg-background py-8">
+        <div className="container mx-auto grid gap-4 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-4">
+          {valueCards.map((card) => (
+            <ValueCard key={card.title} {...card} />
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-background py-10 md:py-14">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-bold">Últimos alertas</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Informações recentes publicadas pela plataforma.
               </p>
-              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-zinc-950 text-white shadow-xl hover:bg-zinc-800"
-                >
-                  <Link href="/enviar-relato?caso=razor">
-                    Participar da frente{" "}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+            </div>
+            <Button asChild variant="link" className="hidden md:inline-flex">
+              <Link href="/enviar-relato">
+                Ver todos os alertas <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {recentReports.map((report, index) => {
+              const meta = alertMeta[index % alertMeta.length];
+
+              return (
+                <AlertCard
+                  key={report.id}
+                  title={report.companyName}
+                  href={`/empresa/${report.companySlug}`}
+                  excerpt={report.narrative}
+                  image={homePhotos.alertThumbs[index]}
+                  meta={meta}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="empresas" className="bg-[#111111] py-12 text-white md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="text-3xl font-bold">
+                  Empresas com relatos recentes
+                </h2>
+                <Badge className="bg-primary text-primary-foreground">
+                  Monitoramento preventivo
+                </Badge>
+              </div>
+              <p className="mt-2 text-sm text-white/60">
+                Lista demonstrativa para leitura rápida de volume e resposta.
+              </p>
+            </div>
+            <Button asChild variant="link" className="px-0 text-primary">
+              <Link href="/casos/razor">
+                Ver ranking completo <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
+            <div className="grid grid-cols-[1.4fr_1fr_0.8fr_1fr_1.1fr_40px] border-b border-white/10 px-4 py-3 text-xs font-bold uppercase tracking-wider text-white/45 max-lg:hidden">
+              <span>Empresa</span>
+              <span>Categoria</span>
+              <span>Relatos</span>
+              <span>Última atualização</span>
+              <span>Status de resposta</span>
+              <span />
+            </div>
+            {companyRows.map((company) => (
+              <Link
+                key={company.name}
+                href={`/${company.slug}`}
+                className="grid gap-3 border-b border-white/10 px-4 py-4 text-sm transition hover:bg-white/[0.06] lg:grid-cols-[1.4fr_1fr_0.8fr_1fr_1.1fr_40px] lg:items-center"
+              >
+                <span className="flex items-center gap-3 font-semibold">
+                  <Building2 className="h-4 w-4 text-primary" />
+                  {company.name}
+                </span>
+                <span className="text-white/65">{company.category}</span>
+                <span>{company.reports}</span>
+                <span className="text-white/65">{company.updatedAt}</span>
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`h-2 w-2 rounded-full ${company.statusColor}`}
+                  />
+                  {company.status}
+                </span>
+                <ArrowRight className="hidden h-4 w-4 text-white/40 lg:block" />
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-4 flex gap-2 text-xs leading-5 text-white/55">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            A presença nesta seção indica apenas a existência de relatos
+            cadastrados, sem conclusão definitiva sobre responsabilidade.
+          </p>
+        </div>
+      </section>
+
+      <section id="indicadores" className="bg-[#111111] pb-12 text-white md:pb-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h2 className="text-3xl font-bold">Indicadores</h2>
+              <p className="mt-1 text-sm text-white/60">
+                Métricas públicas para análise e comparação.
+              </p>
+            </div>
+            <Button asChild variant="link" className="px-0 text-primary">
+              <Link href="/metodologia">
+                Ver metodologia completa{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {indicatorCards.map((item) => (
+              <IndicatorCard key={item.label} {...item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-background py-8 md:py-10">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="relative isolate overflow-hidden rounded-lg border border-primary/45 bg-primary px-5 py-6 shadow-lg md:px-8">
+            <Image
+              src={homePhotos.campaign}
+              alt="Pessoas de mãos dadas com balança da justiça ao fundo"
+              fill
+              sizes="100vw"
+              className="object-cover object-center opacity-45"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/35" />
+            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-col gap-5 md:flex-row md:items-center">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-[#111111] shadow-xl">
+                  <Image
+                    src="/chatbot-icon.svg"
+                    alt="Logo do Alerta ao Consumidor"
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-extrabold md:text-3xl">
+                    Frente solidária: Caso Razor
+                  </h2>
+                  <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-zinc-900/80">
+                    Espaço de organização colaborativa de relatos e documentos
+                    relacionados ao caso, com finalidade informativa,
+                    preventiva e apoio às pessoas afetadas.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button asChild className="bg-zinc-950 text-white hover:bg-zinc-800">
+                  <Link href="/casos/razor">
+                    Acompanhar caso <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
-                  size="lg"
-                  className="border-2 border-zinc-900/25 bg-white/20 text-zinc-900 backdrop-blur-sm hover:bg-white/35"
+                  className="border-zinc-900/30 bg-white/20 text-zinc-950 hover:bg-white/40"
                 >
-                  <Link href="/metodologia">Entender metodologia</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="w-full space-y-3 lg:w-1/3">
-              {frontItems.slice(0, 4).map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-4 rounded-2xl border border-white/45 bg-white/45 p-4 text-zinc-900 shadow-[0_16px_40px_rgba(17,17,17,0.10)] backdrop-blur-md transition-all hover:bg-white/60"
-                >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-yellow-400">
-                    <Check className="h-5 w-5" />
-                  </span>
-                  <span className="font-semibold">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full bg-background py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-12 lg:grid-cols-3">
-            <div className="space-y-5">
-              <SectionHeader
-                icon={Bell}
-                title="Últimos alertas"
-                href="/enviar-relato"
-                action="Enviar relato"
-              />
-              <div className="space-y-4">
-                {recentReports.map((report, index) => (
-                  <Card key={report.id} className="overflow-hidden">
-                    <CardContent className="grid gap-4 p-4 sm:grid-cols-[96px_1fr]">
-                      <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
-                        <Image
-                          src={
-                            homePhotos.alertThumbs[
-                              index % homePhotos.alertThumbs.length
-                            ]
-                          }
-                          alt={`Imagem relacionada ao relato sobre ${report.companyName}`}
-                          fill
-                          sizes="96px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="truncate font-bold">
-                          {report.companyName}
-                        </p>
-                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">
-                          {report.narrative}
-                        </p>
-                        <Link
-                          href={`/empresa/${report.companySlug}`}
-                          className="mt-3 inline-flex items-center text-sm font-semibold text-primary-foreground/80 hover:text-primary-foreground"
-                        >
-                          Ver detalhes{" "}
-                          <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                        </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-5">
-              <SectionHeader icon={TrendingUp} title="Empresas em destaque" />
-              <div className="space-y-4">
-                {topCompanies.map((company) => (
-                  <Card key={company.id}>
-                    <CardContent className="flex items-center gap-4 p-5">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                        {company.name
-                          .split(" ")
-                          .slice(0, 2)
-                          .map((part) => part[0])
-                          .join("")}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate font-bold">{company.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {company.reportCount} relatos recentes
-                        </p>
-                      </div>
-                      <Button asChild variant="ghost" size="icon">
-                        <Link href={`/empresa/${company.slug}`}>
-                          <ArrowRight className="h-5 w-5" />
-                          <span className="sr-only">Ver empresa</span>
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <BarChart3 className="h-5 w-5 text-primary" />
-                  O que medimos?
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {platformMetrics.map((metric) => (
-                  <div key={metric.label} className="flex items-start gap-4">
-                    <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15">
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        <span className="font-bold text-foreground">
-                          {metric.label}:
-                        </span>{" "}
-                        {metric.title}
-                      </p>
-                      <p className="mt-1 text-xl font-bold">{metric.value}</p>
-                    </div>
-                  </div>
-                ))}
-                <p className="text-sm leading-6 text-muted-foreground">
-                  Indicadores são calculados com base em dados públicos e
-                  relatos moderados, sempre com leitura informativa.
-                </p>
-                <Button asChild variant="link" className="px-0">
-                  <Link href="/metodologia">
-                    Saiba mais sobre a metodologia
+                  <Link href="/enviar-relato?caso=razor">
+                    Enviar informações
                   </Link>
                 </Button>
-                <div className="grid gap-3 pt-2">
-                  {guidanceCards.map((card) => {
-                    const Icon = card.icon;
-
-                    return (
-                      <Link
-                        key={card.href}
-                        href={card.href}
-                        className="group rounded-lg border bg-background p-4 transition hover:border-primary/60 hover:shadow-md"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15">
-                            <Icon className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="font-bold group-hover:text-primary">
-                              {card.title}
-                            </p>
-                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                              {card.description}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y bg-card py-16 md:py-24">
-        <div className="container mx-auto grid gap-10 px-4 md:px-6 lg:grid-cols-[1fr_360px] lg:items-center">
-          <div>
-            <h2 className="text-3xl font-bold md:text-4xl">Como funciona</h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {workflowSteps.map((step, index) => {
-                const Icon = step.icon;
-
-                return (
-                  <Card key={step.title}>
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-4">
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                          {index + 1}
-                        </span>
-                        <Icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <h3 className="mt-5 text-lg font-bold">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {step.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-lg">
-            <Image
-              src={homePhotos.phone}
-              alt="Pessoa usando celular para consultar informações de consumo"
-              fill
-              sizes="(min-width: 1024px) 360px, 90vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/92 p-4 shadow-xl">
-              <p className="text-sm font-bold">Consulta rápida</p>
-              <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                A experiência deve orientar a próxima ação do consumidor sem
-                excesso de texto.
-              </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto grid gap-10 px-4 md:px-6 lg:grid-cols-[360px_1fr] lg:items-center">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-lg">
-            <Image
-              src={homePhotos.evidence}
-              alt="Documentos, anotações e evidências organizadas sobre uma mesa"
-              fill
-              sizes="(min-width: 1024px) 360px, 90vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-primary p-4 text-primary-foreground shadow-xl">
-              <p className="text-sm font-bold">Evidências preservadas</p>
-              <p className="mt-1 text-xs leading-5 opacity-75">
-                A plataforma diferencia informação pública de prova privada.
-              </p>
-            </div>
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold md:text-4xl">
-              Compromissos da plataforma
-            </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {commitments.map((item) => {
-                const Icon = item.icon;
+      <section id="como-funciona" className="bg-background py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold">Como funciona</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Entenda o passo a passo para usar a plataforma.
+          </p>
 
-                return (
-                  <Card key={item.title}>
-                    <CardContent className="p-6">
-                      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/15">
-                        <Icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <h3 className="font-bold">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {item.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+          <div className="mt-8 grid gap-5 md:grid-cols-4">
+            {workflowSteps.map((step, index) => (
+              <WorkflowStep
+                key={step.title}
+                index={index + 1}
+                showConnector={index < workflowSteps.length - 1}
+                {...step}
+              />
+            ))}
           </div>
         </div>
       </section>
 
+      <section className="bg-background pb-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold">
+            Compromisso com responsabilidade
+          </h2>
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
+            {responsibilityCards.map((item) => (
+              <ResponsibilityCard key={item.title} {...item} />
+            ))}
+          </div>
+          <p className="mx-auto mt-6 max-w-5xl text-center text-sm leading-6 text-muted-foreground">
+            A plataforma atua com finalidade informativa, preventiva e
+            educativa, para apoio às decisões de consumo mais conscientes. Não
+            substitui órgãos oficiais de defesa do consumidor e não realiza
+            intermediação ou mediação de conflitos.
+          </p>
+        </div>
+      </section>
     </>
   );
 }
 
-function SectionHeader({
-  icon: Icon,
+function PillarItem({ title, icon: Icon }: { title: string; icon: LucideIcon }) {
+  return (
+    <div className="flex items-center gap-3 border-white/10 text-sm font-bold text-white/85 lg:border-r lg:last:border-r-0">
+      <Icon className="h-6 w-6 text-primary" />
+      {title}
+    </div>
+  );
+}
+
+function ValueCard({
   title,
-  href,
-  action,
+  description,
+  icon: Icon,
 }: {
-  icon: typeof Bell;
   title: string;
-  href?: string;
-  action?: string;
+  description: string;
+  icon: LucideIcon;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <h2 className="flex items-center gap-3 text-2xl font-bold">
-        <Icon className="h-6 w-6 text-primary" />
-        {title}
-      </h2>
-      {href && action ? (
-        <Link
-          href={href}
-          className="text-xs font-bold uppercase text-muted-foreground hover:text-foreground"
-        >
-          {action}
-        </Link>
-      ) : null}
+    <Card className="group border-0 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-xl">
+      <CardContent className="p-6">
+        <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/15 text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
+          <Icon className="h-7 w-7" />
+        </div>
+        <h3 className="text-lg font-bold">{title}</h3>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          {description}
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function AlertCard({
+  title,
+  href,
+  excerpt,
+  image,
+  meta,
+}: {
+  title: string;
+  href: string;
+  excerpt: string;
+  image: string;
+  meta: (typeof alertMeta)[number];
+}) {
+  const Icon = meta.icon;
+
+  return (
+    <Card className="group overflow-hidden border-0 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-xl">
+      <CardContent className="p-0">
+        <div className="relative h-36 bg-muted">
+          <Image
+            src={image}
+            alt={`Imagem relacionada a ${title}`}
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+          <div className="absolute bottom-3 left-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-primary">
+            <Icon className="h-6 w-6" />
+          </div>
+        </div>
+        <div className="p-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="secondary">{meta.category}</Badge>
+            <Badge className="bg-primary/20 text-primary-foreground">
+              {meta.badge}
+            </Badge>
+          </div>
+          <h3 className="mt-4 font-bold">{title}</h3>
+          <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">
+            {excerpt}
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <CalendarDays className="h-3.5 w-3.5" />
+              {meta.date}
+            </span>
+            <span className="flex items-center gap-1">
+              <Bell className="h-3.5 w-3.5" />
+              {meta.reports}
+            </span>
+            <span className="flex items-center gap-1">
+              <Eye className="h-3.5 w-3.5" />
+              {meta.views}
+            </span>
+          </div>
+          <Button asChild variant="link" className="mt-3 px-0">
+            <Link href={href}>
+              Ver detalhes <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function IndicatorCard({
+  label,
+  title,
+  value,
+  suffix,
+  description,
+  chart,
+  percent,
+}: {
+  label: string;
+  title: string;
+  value: number;
+  suffix?: string;
+  description: string;
+  chart: string;
+  percent?: number;
+}) {
+  return (
+    <div className="rounded-lg border border-white/15 bg-white/[0.04] p-6">
+      <div className="flex items-start justify-between gap-5">
+        <div>
+          <p className="text-5xl font-extrabold text-primary">{label}</p>
+          <h3 className="mt-2 font-bold">{title}</h3>
+        </div>
+        <div className="text-right">
+          <p className="text-4xl font-bold">
+            <AnimatedNumber value={value} duration={1150} />
+            {suffix ? (
+              <span
+                className={`text-base text-white/60 ${
+                  suffix === "%" ? "ml-0" : "ml-1"
+                }`}
+              >
+                {suffix}
+              </span>
+            ) : null}
+          </p>
+        </div>
+      </div>
+      <div className="mt-6 grid min-h-24 grid-cols-[1fr_110px] gap-4">
+        <p className="text-sm leading-6 text-white/65">{description}</p>
+        {chart === "line" ? (
+          <MiniLineChart />
+        ) : (
+          <DonutChart value={percent ?? 0} />
+        )}
+      </div>
     </div>
+  );
+}
+
+function MiniLineChart() {
+  return (
+    <svg viewBox="0 0 120 80" className="h-24 w-full">
+      <polyline
+        className="line-chart-draw"
+        fill="none"
+        stroke="rgba(255, 214, 0, 0.95)"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points="4,18 20,28 36,24 52,42 68,38 84,55 102,62 116,70"
+      />
+      {[4, 20, 36, 52, 68, 84, 102, 116].map((x, index) => (
+        <circle
+          key={x}
+          cx={x}
+          cy={[18, 28, 24, 42, 38, 55, 62, 70][index]}
+          r="3"
+          fill="#ffd600"
+          className="line-chart-dot"
+          style={{ animationDelay: `${1250 + index * 75}ms` }}
+        />
+      ))}
+    </svg>
+  );
+}
+
+function DonutChart({ value }: { value: number }) {
+  return (
+    <div
+      className="donut-chart-grow mx-auto flex h-24 w-24 items-center justify-center rounded-full"
+      style={{
+        "--donut-target": `${value * 3.6}deg`,
+      } as CSSProperties}
+    >
+      <div className="h-14 w-14 rounded-full bg-[#111111]" />
+    </div>
+  );
+}
+
+function WorkflowStep({
+  title,
+  description,
+  icon: Icon,
+  index,
+  showConnector,
+}: {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  index: number;
+  showConnector: boolean;
+}) {
+  return (
+    <div className="group relative rounded-lg bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 md:bg-transparent md:p-0 md:shadow-none">
+      {showConnector ? (
+        <div className="absolute left-[calc(50%+2.5rem)] top-8 hidden h-px w-[calc(100%-5rem)] border-t border-dashed border-border md:block" />
+      ) : null}
+      <div className="relative flex items-start gap-4 md:flex-col md:items-center md:text-center">
+        <div
+          className="soft-float-up relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm transition duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
+          style={{ animationDelay: `${index * 90}ms` }}
+        >
+          <Icon className="h-8 w-8 text-[#111111]" />
+          <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold">
+            {index}
+          </span>
+        </div>
+        <div>
+          <h3 className="font-bold">{title}</h3>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResponsibilityCard({
+  title,
+  description,
+  icon: Icon,
+}: {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}) {
+  return (
+    <Card className="group transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <CardContent className="flex gap-4 p-5">
+        <Icon className="h-7 w-7 shrink-0 text-[#111111] transition duration-300 group-hover:-translate-y-1 group-hover:text-primary" />
+        <div>
+          <h3 className="font-bold">{title}</h3>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            {description}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

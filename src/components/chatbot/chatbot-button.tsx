@@ -15,7 +15,7 @@ export function ChatbotButton() {
           isOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
         }`}
       >
-        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white opacity-0 shadow-xl transition-opacity whitespace-nowrap pointer-events-none group-hover:opacity-100">
+        <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 rounded-lg bg-[#FFD600] px-4 py-2 text-xs font-bold text-black opacity-0 shadow-xl transition-opacity whitespace-nowrap pointer-events-none group-hover:opacity-100">
           Pergunte ao Alerta!
         </div>
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-transparent drop-shadow-2xl transition-transform hover:scale-110 active:scale-95">
