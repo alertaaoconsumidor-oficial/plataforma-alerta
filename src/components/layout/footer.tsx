@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,32 +33,6 @@ export function Footer() {
 
   return (
     <footer className="bg-[#0d0d0d] text-white">
-      <section className="border-b border-white/10 bg-primary py-5 text-primary-foreground">
-        <div className="container mx-auto flex flex-col gap-4 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary-foreground text-primary">
-              <Mail className="h-6 w-6" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold">Receba alertas e novidades</h2>
-              <p className="text-sm text-primary-foreground/75">
-                Assine nossa newsletter e fique informado.
-              </p>
-            </div>
-          </div>
-          <div className="flex w-full max-w-xl flex-col gap-3 sm:flex-row">
-            <Input
-              type="email"
-              placeholder="Seu melhor e-mail"
-              className="h-12 border-primary-foreground/20 bg-white text-foreground"
-            />
-            <Button variant="secondary" className="h-12 px-8">
-              Assinar
-            </Button>
-          </div>
-        </div>
-      </section>
-
       <section className="py-12">
         <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-[1.35fr_0.85fr_0.95fr_0.95fr_1.25fr]">
           <div>
@@ -115,7 +89,7 @@ export function Footer() {
 
           <div>
             <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-white/50">
-              Newsletter
+              Receba alertas e novidades
             </h3>
             <div className="flex gap-2">
               <Input

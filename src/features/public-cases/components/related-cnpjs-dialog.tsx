@@ -2,7 +2,7 @@
 
 import { Building2, ExternalLink, Users } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,16 +15,30 @@ import { Badge } from "@/components/ui/badge";
 
 import type { RelatedCnpj } from "../types";
 
-export function RelatedCnpjsDialog({ items }: { items: RelatedCnpj[] }) {
+export function RelatedCnpjsDialog({
+  items,
+  triggerClassName,
+  triggerSize,
+  triggerVariant = "outline",
+}: {
+  items: RelatedCnpj[];
+  triggerClassName?: string;
+  triggerSize?: ButtonProps["size"];
+  triggerVariant?: ButtonProps["variant"];
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button
+          variant={triggerVariant}
+          size={triggerSize}
+          className={triggerClassName}
+        >
           <Building2 className="mr-2 h-4 w-4" />
           Outros CNPJs relacionados
         </Button>
       </DialogTrigger>
-      <DialogContent className="bottom-8 top-8 flex h-auto max-h-none translate-y-0 flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
+      <DialogContent className="flex max-h-[calc(100vh-4rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="shrink-0 border-b p-6 pb-4 pr-12">
           <DialogTitle>CNPJs relacionados ao caso</DialogTitle>
           <DialogDescription>
@@ -34,7 +48,7 @@ export function RelatedCnpjsDialog({ items }: { items: RelatedCnpj[] }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-6">
+        <div className="custom-scrollbar min-h-0 flex-1 space-y-4 overflow-y-auto p-6">
           {items.map((item) => (
             <div key={item.cnpj} className="rounded-lg border p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">

@@ -94,6 +94,15 @@
   }
 }
 
+@keyframes case-bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @layer utilities {
   .donut-chart-grow {
     --donut-angle: 0deg;
@@ -119,6 +128,30 @@
 
   .soft-float-up {
     animation: soft-float-up 640ms ease-out both;
+  }
+
+  .case-bar-grow {
+    animation: case-bar-grow 3200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .custom-scrollbar {
+    scrollbar-color: hsl(var(--primary)) hsl(var(--muted));
+    scrollbar-width: thin;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 999px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border: 2px solid hsl(var(--muted));
+    border-radius: 999px;
   }
 }
 
