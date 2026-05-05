@@ -1,4 +1,4 @@
-import type { PublicCaseStats } from "../types";
+import type { PublicCaseStats, RelatedCnpj } from "../types";
 import type { Metric, MonthlyReportData, News, Report } from "@/lib/types";
 
 export const razorPreliminaryStats: PublicCaseStats = {
@@ -267,6 +267,120 @@ export const razorPublicReports: Report[] = [
   },
 ];
 
+export const razorReportDirectory = [
+  {
+    ...razorPublicReports[0],
+    city: "Cuiaba",
+    state: "MT",
+    problemType: "Produto ou servico nao entregue",
+    lossValue: 14800,
+    documentationScore: 94,
+    relevanceScore: 98,
+    views: 4800,
+    documents: ["Comprovante de pagamento", "Pedido", "Conversas"],
+    summary:
+      "Compra paga e nao entregue, com promessa comercial registrada e ausencia de resposta efetiva ate a publicacao do relato moderado.",
+  },
+  {
+    ...razorPublicReports[1],
+    city: "Varzea Grande",
+    state: "MT",
+    problemType: "Sem resposta documentada",
+    lossValue: 9200,
+    documentationScore: 86,
+    relevanceScore: 91,
+    views: 3400,
+    documents: ["Comprovante de pagamento", "Prints ou conversas"],
+    summary:
+      "Consumidor preservou conversas, comprovante e tentativa de contato por canais digitais sem solucao documentada.",
+  },
+  {
+    ...razorPublicReports[2],
+    city: "Campo Grande",
+    state: "MS",
+    problemType: "Em organizacao coletiva",
+    lossValue: 4200,
+    documentationScore: 72,
+    relevanceScore: 82,
+    views: 2700,
+    documents: ["Pedido", "Declaracao do consumidor"],
+    summary:
+      "Relato preliminar com interesse de integrar base coletiva e preservar documentos em area privada.",
+  },
+  {
+    ...razorPublicReports[0],
+    id: "razor-report-4",
+    createdAt: "2026-04-29",
+    purchaseDate: "2025-09-21",
+    amountRange: "R$ 5 mil a R$ 10 mil",
+    currentStatus: "Reembolso nao realizado",
+    city: "Goiania",
+    state: "GO",
+    problemType: "Reembolso nao realizado",
+    lossValue: 7900,
+    documentationScore: 88,
+    relevanceScore: 89,
+    views: 2100,
+    documents: ["Comprovante de pagamento", "Solicitacao de cancelamento"],
+    summary:
+      "Consumidor relata cancelamento solicitado, ausencia de estorno e registros de atendimento preservados.",
+  },
+  {
+    ...razorPublicReports[0],
+    id: "razor-report-5",
+    createdAt: "2026-04-27",
+    purchaseDate: "2025-07-15",
+    amountRange: "Acima de R$ 10 mil",
+    currentStatus: "Entrega prometida sem conclusao",
+    city: "Rondonopolis",
+    state: "MT",
+    problemType: "Promessa comercial divergente",
+    lossValue: 17600,
+    documentationScore: 90,
+    relevanceScore: 93,
+    views: 1900,
+    documents: ["Contrato ou proposta", "Comprovante de pagamento"],
+    summary:
+      "Relato com proposta comercial, valor elevado e prazo de entrega informado sem conclusao registrada.",
+  },
+  {
+    ...razorPublicReports[1],
+    id: "razor-report-6",
+    createdAt: "2026-04-25",
+    purchaseDate: "2025-11-02",
+    amountRange: "R$ 2 mil a R$ 5 mil",
+    currentStatus: "Falta de resposta documentada",
+    city: "Dourados",
+    state: "MS",
+    problemType: "Falta de resposta documentada",
+    lossValue: 3400,
+    documentationScore: 68,
+    relevanceScore: 75,
+    views: 1650,
+    documents: ["Prints ou conversas", "Pedido"],
+    summary:
+      "Tentativas de contato registradas e ausencia de resposta conclusiva em canais informados pelo consumidor.",
+  },
+  {
+    ...razorPublicReports[2],
+    id: "razor-report-7",
+    createdAt: "2026-04-22",
+    purchaseDate: "2025-12-06",
+    amountRange: "Ate R$ 2 mil",
+    currentStatus: "Validacao inicial",
+    city: "Anapolis",
+    state: "GO",
+    problemType: "Documentacao incompleta",
+    lossValue: 1800,
+    documentationScore: 54,
+    relevanceScore: 64,
+    views: 980,
+    documents: ["Declaracao do consumidor"],
+    summary:
+      "Registro inicial mantido em moderacao por depender de complementacao documental antes de maior exposicao publica.",
+  },
+];
+
 export const razorPublicNews: News[] = [
   {
     id: "razor-news-1",
@@ -367,7 +481,7 @@ export const razorMediaReferences = [
   },
 ];
 
-export const razorRelatedCnpjs = [
+export const razorRelatedCnpjs: RelatedCnpj[] = [
   {
     cnpj: "12.345.678/0001-90",
     legalName: "Razor Comercio Digital Ltda.",
@@ -380,6 +494,11 @@ export const razorRelatedCnpjs = [
     state: "MT",
     partners: ["Socio Administrador A", "Socio Cotista B"],
     sourceNote: "Dados demonstrativos para teste. Substituir por consulta publica conferida.",
+    sourceName: "Receita Federal",
+    sourceUrl:
+      "https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp",
+    lastCheckedAt: "04/05/2026",
+    federalDocumentStatus: "Pendente",
   },
   {
     cnpj: "23.456.789/0001-01",
@@ -393,6 +512,11 @@ export const razorRelatedCnpjs = [
     state: "MT",
     partners: ["Socio Administrador A"],
     sourceNote: "Dados demonstrativos para teste. Substituir por consulta publica conferida.",
+    sourceName: "Receita Federal",
+    sourceUrl:
+      "https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp",
+    lastCheckedAt: "04/05/2026",
+    federalDocumentStatus: "Pendente",
   },
   {
     cnpj: "34.567.890/0001-12",
@@ -406,6 +530,11 @@ export const razorRelatedCnpjs = [
     state: "GO",
     partners: ["Socio Administrador C", "Socio Cotista B"],
     sourceNote: "Dados demonstrativos para teste. Substituir por consulta publica conferida.",
+    sourceName: "Receita Federal",
+    sourceUrl:
+      "https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp",
+    lastCheckedAt: "04/05/2026",
+    federalDocumentStatus: "Pendente",
   },
   {
     cnpj: "45.678.901/0001-23",
@@ -419,6 +548,11 @@ export const razorRelatedCnpjs = [
     state: "MS",
     partners: ["Socio Administrador D"],
     sourceNote: "Dados demonstrativos para teste. Substituir por consulta publica conferida.",
+    sourceName: "Receita Federal",
+    sourceUrl:
+      "https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp",
+    lastCheckedAt: "04/05/2026",
+    federalDocumentStatus: "Pendente",
   },
   {
     cnpj: "56.789.012/0001-34",
@@ -432,5 +566,10 @@ export const razorRelatedCnpjs = [
     state: "GO",
     partners: ["Socio Administrador A", "Socio Administrador D"],
     sourceNote: "Dados demonstrativos para teste. Substituir por consulta publica conferida.",
+    sourceName: "Receita Federal",
+    sourceUrl:
+      "https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp",
+    lastCheckedAt: "04/05/2026",
+    federalDocumentStatus: "Pendente",
   },
 ];

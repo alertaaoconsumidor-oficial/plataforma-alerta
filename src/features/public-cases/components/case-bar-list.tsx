@@ -12,7 +12,7 @@ export function CaseBarList({
 }) {
   return (
     <div className="space-y-4">
-      {items.map((item) => {
+      {items.map((item, index) => {
         const percent = total > 0 ? Math.round((item.value / total) * 100) : 0;
 
         return (
@@ -31,7 +31,7 @@ export function CaseBarList({
                 {valueSuffix}
               </span>
             </div>
-            <AnimatedProgressBar percent={percent} />
+            <AnimatedProgressBar percent={percent} delayMs={index * 300} />
           </div>
         );
       })}

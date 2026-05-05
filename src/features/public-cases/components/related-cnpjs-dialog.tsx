@@ -1,6 +1,7 @@
 "use client";
 
-import { Building2, ExternalLink, Users } from "lucide-react";
+import { Building2, Download, ExternalLink, FileSearch, Users } from "lucide-react";
+import Link from "next/link";
 
 import { Button, type ButtonProps } from "@/components/ui/button";
 import {
@@ -38,20 +39,38 @@ export function RelatedCnpjsDialog({
           Outros CNPJs relacionados
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex max-h-[calc(100vh-4rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
+      <DialogContent className="flex max-h-[calc(100vh-3rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl">
         <DialogHeader className="shrink-0 border-b p-6 pb-4 pr-12">
           <DialogTitle>CNPJs relacionados ao caso</DialogTitle>
           <DialogDescription>
-            Informacoes cadastrais publicas em formato demonstrativo para teste
-            de interface. Antes de publicacao definitiva, cada registro deve ser
-            conferido em fonte oficial e contextualizado com linguagem cautelosa.
+            Informações cadastrais públicas em formato demonstrativo. Na versão
+            operacional, cada ficha será conferida em fonte oficial, vinculada
+            ao documento gerado na Receita Federal e contextualizada com
+            linguagem cautelosa.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="custom-scrollbar min-h-0 flex-1 space-y-4 overflow-y-auto p-6">
+        <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto p-6">
+          <div className="mb-5 rounded-lg border border-primary/30 bg-primary/10 p-4">
+            <p className="flex items-center gap-2 text-sm font-bold">
+              <FileSearch className="h-4 w-4 text-primary" />
+              Arquitetura prevista para alimentação cadastral
+            </p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Os dados entram por um registro estruturado do CNPJ, com data de
+              conferência, fonte pública, documento oficial anexado e histórico
+              de alterações. Ao integrar o banco de dados, o painel poderá
+              diferenciar informação conferida, pendente e substituída.
+            </p>
+          </div>
+
+          <div className="grid gap-4 xl:grid-cols-2">
           {items.map((item) => (
-            <div key={item.cnpj} className="rounded-lg border p-4">
-              <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div
+              key={item.cnpj}
+              className="rounded-lg border bg-card p-4 shadow-sm transition hover:border-primary/60 hover:shadow-md"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="text-lg font-bold">{item.tradeName}</h3>
@@ -62,9 +81,12 @@ export function RelatedCnpjsDialog({
                   </p>
                   <p className="mt-2 text-sm font-medium">CNPJ: {item.cnpj}</p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Abertura: {item.openedAt}
-                </p>
+                <div className="text-sm text-muted-foreground sm:text-right">
+                  <p>Abertura: {item.openedAt}</p>
+                  {item.lastCheckedAt ? (
+                    <p>Conferência: {item.lastCheckedAt}</p>
+                  ) : null}
+                </div>
               </div>
 
               <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -75,7 +97,7 @@ export function RelatedCnpjsDialog({
                   </p>
                 </div>
                 <div className="rounded-md bg-muted p-3 text-sm">
-                  <p className="font-semibold">Endereco cadastral</p>
+                  <p className="font-semibold">Endereço cadastral</p>
                   <p className="mt-1 text-muted-foreground">
                     {item.address} - {item.city}/{item.state}
                   </p>
@@ -85,7 +107,7 @@ export function RelatedCnpjsDialog({
               <div className="mt-4 rounded-md border p-3">
                 <p className="flex items-center gap-2 text-sm font-semibold">
                   <Users className="h-4 w-4 text-primary" />
-                  Socios ou administradores informados
+                  Sócios ou administradores informados
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {item.partners.map((partner) => (
@@ -100,8 +122,56 @@ export function RelatedCnpjsDialog({
                 <ExternalLink className="mt-0.5 h-3.5 w-3.5" />
                 {item.sourceNote}
               </p>
+
+              <div className="mt-4 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="text-xs text-muted-foreground">
+                  <p className="font-semibold text-foreground">
+                    Fonte prevista: {item.sourceName ?? "Receita Federal"}
+                  </p>
+                  <p>
+                    Documento oficial:{" "}
+                    {item.federalDocumentStatus === "Disponivel"
+                      ? "disponível"
+                      : "pendente de anexação"}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {item.sourceUrl ? (
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={item.sourceUrl} target="_blank" rel="noreferrer">
+                        Consultar fonte
+                        <ExternalLink className="ml-2 h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  ) : null}
+                  <Button
+                    asChild={Boolean(item.federalDocumentUrl)}
+                    size="sm"
+                    variant="secondary"
+                    disabled={!item.federalDocumentUrl}
+                    title={
+                      item.federalDocumentUrl
+                        ? "Baixar comprovante da Receita Federal"
+                        : "Documento será anexado após conferência oficial"
+                    }
+                  >
+                    {item.federalDocumentUrl ? (
+                      <Link href={item.federalDocumentUrl}>
+                        <Download className="mr-2 h-3.5 w-3.5" />
+                        Baixar ficha
+                      </Link>
+                    ) : (
+                      <>
+                        <Download className="mr-2 h-3.5 w-3.5" />
+                        PDF Receita
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
             </div>
           ))}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

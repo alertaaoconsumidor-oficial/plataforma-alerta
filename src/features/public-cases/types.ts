@@ -37,6 +37,11 @@ export type RelatedCnpj = {
   state: string;
   partners: string[];
   sourceNote: string;
+  sourceName?: string;
+  sourceUrl?: string;
+  lastCheckedAt?: string;
+  federalDocumentUrl?: string;
+  federalDocumentStatus?: "Disponivel" | "Pendente";
 };
 
 export type PublicCaseStats = {
