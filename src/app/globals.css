@@ -94,6 +94,15 @@
   }
 }
 
+@keyframes case-bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @layer utilities {
   .donut-chart-grow {
     --donut-angle: 0deg;
@@ -119,6 +128,10 @@
 
   .soft-float-up {
     animation: soft-float-up 640ms ease-out both;
+  }
+
+  .case-bar-grow {
+    animation: case-bar-grow 1200ms ease-out both;
   }
 }
 
