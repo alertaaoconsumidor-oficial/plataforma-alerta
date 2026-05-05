@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -25,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AnimatedNumber } from "@/features/public-cases/components/animated-number";
 import { getRecentReports, getTopCompaniesByReports } from "@/lib/api";
 
 export const metadata: Metadata = {
@@ -39,7 +41,7 @@ const homePhotos = {
   alertThumbs: [
     "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=420&q=80",
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=420&q=80",
-    "https://images.unsplash.com/photo-1605902711622-cfb43c4437d7?auto=format&fit=crop&w=420&q=80",
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=420&q=80",
   ],
 };
 
@@ -132,7 +134,7 @@ const indicatorCards = [
   {
     label: "TMR",
     title: "Tempo médio sem resolução",
-    value: "26",
+    value: 26,
     suffix: "dias",
     description:
       "Tempo médio em dias que os relatos permanecem sem solução efetiva.",
@@ -141,7 +143,8 @@ const indicatorCards = [
   {
     label: "SD",
     title: "Silêncio documentado",
-    value: "46%",
+    value: 46,
+    suffix: "%",
     description:
       "Percentual de relatos sem qualquer resposta da empresa no prazo.",
     chart: "donut",
@@ -150,7 +153,8 @@ const indicatorCards = [
   {
     label: "TRPE",
     title: "Resolução pós-escalonamento",
-    value: "38%",
+    value: 38,
+    suffix: "%",
     description:
       "Percentual de relatos resolvidos após escalonamento à empresa.",
     chart: "donut",
@@ -433,8 +437,14 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/35" />
             <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div className="flex flex-col gap-5 md:flex-row md:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-[#111111] text-primary shadow-xl">
-                  <ShieldCheck className="h-10 w-10" />
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-[#111111] shadow-xl">
+                  <Image
+                    src="/chatbot-icon.svg"
+                    alt="Logo do Alerta ao Consumidor"
+                    width={72}
+                    height={72}
+                    className="object-contain"
+                  />
                 </div>
                 <div>
                   <h2 className="text-2xl font-extrabold md:text-3xl">
@@ -621,7 +631,7 @@ function IndicatorCard({
 }: {
   label: string;
   title: string;
-  value: string;
+  value: number;
   suffix?: string;
   description: string;
   chart: string;
@@ -636,16 +646,26 @@ function IndicatorCard({
         </div>
         <div className="text-right">
           <p className="text-4xl font-bold">
-            {value}
+            <AnimatedNumber value={value} duration={1150} />
             {suffix ? (
-              <span className="ml-1 text-base text-white/60">{suffix}</span>
+              <span
+                className={`text-base text-white/60 ${
+                  suffix === "%" ? "ml-0" : "ml-1"
+                }`}
+              >
+                {suffix}
+              </span>
             ) : null}
           </p>
         </div>
       </div>
       <div className="mt-6 grid min-h-24 grid-cols-[1fr_110px] gap-4">
         <p className="text-sm leading-6 text-white/65">{description}</p>
-        {chart === "line" ? <MiniLineChart /> : <DonutChart value={percent ?? 0} />}
+        {chart === "line" ? (
+          <MiniLineChart />
+        ) : (
+          <DonutChart value={percent ?? 0} />
+        )}
       </div>
     </div>
   );
@@ -655,6 +675,7 @@ function MiniLineChart() {
   return (
     <svg viewBox="0 0 120 80" className="h-24 w-full">
       <polyline
+        className="line-chart-draw"
         fill="none"
         stroke="rgba(255, 214, 0, 0.95)"
         strokeWidth="5"
@@ -669,6 +690,8 @@ function MiniLineChart() {
           cy={[18, 28, 24, 42, 38, 55, 62, 70][index]}
           r="3"
           fill="#ffd600"
+          className="line-chart-dot"
+          style={{ animationDelay: `${1250 + index * 75}ms` }}
         />
       ))}
     </svg>
@@ -678,10 +701,10 @@ function MiniLineChart() {
 function DonutChart({ value }: { value: number }) {
   return (
     <div
-      className="mx-auto flex h-24 w-24 items-center justify-center rounded-full"
+      className="donut-chart-grow mx-auto flex h-24 w-24 items-center justify-center rounded-full"
       style={{
-        background: `conic-gradient(#ffd600 ${value * 3.6}deg, rgba(255,255,255,0.18) 0deg)`,
-      }}
+        "--donut-target": `${value * 3.6}deg`,
+      } as CSSProperties}
     >
       <div className="h-14 w-14 rounded-full bg-[#111111]" />
     </div>
@@ -702,12 +725,15 @@ function WorkflowStep({
   showConnector: boolean;
 }) {
   return (
-    <div className="relative rounded-lg bg-white p-5 shadow-sm md:bg-transparent md:p-0 md:shadow-none">
+    <div className="group relative rounded-lg bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 md:bg-transparent md:p-0 md:shadow-none">
       {showConnector ? (
         <div className="absolute left-[calc(50%+2.5rem)] top-8 hidden h-px w-[calc(100%-5rem)] border-t border-dashed border-border md:block" />
       ) : null}
       <div className="relative flex items-start gap-4 md:flex-col md:items-center md:text-center">
-        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
+        <div
+          className="soft-float-up relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm transition duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
+          style={{ animationDelay: `${index * 90}ms` }}
+        >
           <Icon className="h-8 w-8 text-[#111111]" />
           <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold">
             {index}
@@ -734,9 +760,9 @@ function ResponsibilityCard({
   icon: LucideIcon;
 }) {
   return (
-    <Card>
+    <Card className="group transition duration-300 hover:-translate-y-1 hover:shadow-lg">
       <CardContent className="flex gap-4 p-5">
-        <Icon className="h-7 w-7 shrink-0 text-[#111111]" />
+        <Icon className="h-7 w-7 shrink-0 text-[#111111] transition duration-300 group-hover:-translate-y-1 group-hover:text-primary" />
         <div>
           <h3 className="font-bold">{title}</h3>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">

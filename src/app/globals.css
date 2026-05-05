@@ -54,6 +54,74 @@
   }
 }
 
+@property --donut-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes donut-grow {
+  to {
+    --donut-angle: var(--donut-target);
+  }
+}
+
+@keyframes line-chart-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes line-chart-dot {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes soft-float-up {
+  from {
+    opacity: 0.72;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .donut-chart-grow {
+    --donut-angle: 0deg;
+    animation: donut-grow 950ms ease-out 1150ms forwards;
+    background: conic-gradient(
+      #ffd600 var(--donut-angle),
+      rgba(255, 255, 255, 0.18) 0deg
+    );
+  }
+
+  .line-chart-draw {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: line-chart-draw 950ms ease-out 1150ms forwards;
+  }
+
+  .line-chart-dot {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: line-chart-dot 240ms ease-out forwards;
+  }
+
+  .soft-float-up {
+    animation: soft-float-up 640ms ease-out both;
+  }
+}
+
 @media print {
   body * {
     visibility: hidden;
