@@ -32,6 +32,7 @@ import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-c
 import { PublicNewsLinks } from "@/features/public-cases/components/public-news-links";
 import { PublicReportCard } from "@/features/public-cases/components/public-report-card";
 import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
+import { ScrollAnimatedNumber } from "@/features/public-cases/components/scroll-animated-number";
 import { ScrollGrowBar } from "@/features/public-cases/components/scroll-grow-bar";
 import {
   razorDocumentationMetrics,
@@ -530,7 +531,7 @@ function DarkMetricCard({
         <Icon className="h-5 w-5 text-primary/80 transition duration-300 group-hover:-translate-y-1 group-hover:text-primary" />
       </div>
       <p className="mt-4 text-4xl font-extrabold">
-        <AnimatedNumber value={value} duration={1150} />
+        <ScrollAnimatedNumber value={value} duration={1700} />
         {suffix ? (
           <span className="ml-1 text-base text-white/58">{suffix}</span>
         ) : null}
@@ -583,7 +584,14 @@ function MiniMonthlyChart() {
   return (
     <div className="flex h-full items-end gap-3">
       {razorMonthlyReportData.map((item) => (
-        <div key={item.month} className="flex flex-1 flex-col items-center gap-2">
+        <div
+          key={item.month}
+          className="group/bar relative flex flex-1 flex-col items-center gap-2"
+          title={`${item.month}: ${item.count} relatos`}
+        >
+          <div className="pointer-events-none absolute -top-10 z-10 rounded-md bg-zinc-950 px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition duration-200 group-hover/bar:-translate-y-1 group-hover/bar:opacity-100">
+            {item.month}: {item.count} relatos
+          </div>
           <div className="flex h-[210px] w-full items-end rounded-lg bg-muted/70 px-2">
             <ScrollGrowBar percent={Math.max((item.count / max) * 100, 12)} />
           </div>

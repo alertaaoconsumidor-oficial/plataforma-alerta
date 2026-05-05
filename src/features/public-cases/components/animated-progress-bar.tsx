@@ -34,7 +34,7 @@ export function AnimatedProgressBar({ percent }: { percent: number }) {
   return (
     <div ref={containerRef} className="h-2 overflow-hidden rounded-full bg-muted">
       <div
-        className="h-2 rounded-full bg-primary transition-[width] duration-[1800ms] ease-out"
+        className="h-2 rounded-full bg-primary transition-[width] duration-[3200ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{ width: `${width}%` }}
       />
     </div>

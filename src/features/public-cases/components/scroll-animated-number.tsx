@@ -2,8 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function ScrollGrowBar({ percent }: { percent: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
+import { AnimatedNumber } from "./animated-number";
+
+export function ScrollAnimatedNumber({
+  value,
+  duration = 1700,
+}: {
+  value: number;
+  duration?: number;
+}) {
+  const ref = useRef<HTMLSpanElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -21,7 +29,7 @@ export function ScrollGrowBar({ percent }: { percent: number }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.5 }
     );
 
     observer.observe(node);
@@ -30,13 +38,8 @@ export function ScrollGrowBar({ percent }: { percent: number }) {
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className="w-full origin-bottom rounded-t-md bg-primary transition-transform duration-[3200ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-      style={{
-        height: `${percent}%`,
-        transform: visible ? "scaleY(1)" : "scaleY(0)",
-      }}
-    />
+    <span ref={ref}>
+      {visible ? <AnimatedNumber value={value} duration={duration} /> : 0}
+    </span>
   );
 }

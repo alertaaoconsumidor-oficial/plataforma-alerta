@@ -4,14 +4,14 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function CaseLgpdNotice() {
   return (
-    <Alert>
-      <ShieldCheck className="h-4 w-4" />
+    <Alert className="border-amber-300 bg-amber-50 text-amber-950">
+      <ShieldCheck className="h-4 w-4 text-amber-700" />
       <AlertTitle>Dados pessoais protegidos</AlertTitle>
-      <AlertDescription>
-        Os dados apresentados neste painel sao preliminares e agregados,
+      <AlertDescription className="text-amber-900/85">
+        Os dados apresentados neste painel são preliminares e agregados,
         baseados em relatos informados voluntariamente por consumidores em
-        processo de organizacao coletiva. Nenhum dado pessoal, documento,
-        telefone, CPF, endereco ou comprovante e exibido publicamente.
+        processo de organização coletiva. Nenhum dado pessoal, documento,
+        telefone, CPF, endereço ou comprovante é exibido publicamente.
       </AlertDescription>
     </Alert>
   );

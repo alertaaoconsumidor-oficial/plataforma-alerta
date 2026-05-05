@@ -131,7 +131,7 @@
   }
 
   .case-bar-grow {
-    animation: case-bar-grow 1200ms ease-out both;
+    animation: case-bar-grow 3200ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .custom-scrollbar {

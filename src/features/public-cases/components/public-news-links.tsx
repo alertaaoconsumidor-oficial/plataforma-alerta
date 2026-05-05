@@ -53,13 +53,13 @@ export function PublicNewsLinks({ items }: PublicNewsLinksProps) {
             key={item.id}
             className="group overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg"
           >
-            <CardContent className="p-0">
-              <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+            <CardContent className="grid p-0 md:min-h-[230px] md:grid-cols-[170px_1fr]">
+              <div className="relative min-h-44 overflow-hidden bg-muted md:min-h-full">
                 <Image
                   src={item.thumbnailUrl}
                   alt={`Miniatura da fonte ${item.sourceName}`}
                   fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
+                  sizes="(min-width: 768px) 170px, 100vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
