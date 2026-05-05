@@ -396,6 +396,8 @@ function CompanyHero({ profile }: { profile: PublicCompanyProfile }) {
               {profile.legalEntities.length > 0 ? (
                 <RelatedCnpjsDialog
                   items={profile.legalEntities}
+                  detailsHref={`/empresa/${profile.company.slug}/cnpjs`}
+                  ownerLabel={profile.company.name}
                   triggerSize="lg"
                   triggerClassName="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
                 />

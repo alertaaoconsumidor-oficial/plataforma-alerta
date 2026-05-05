@@ -173,6 +173,8 @@ export default function CasoRazorPage() {
                 </Button>
                 <RelatedCnpjsDialog
                   items={razorRelatedCnpjs}
+                  detailsHref="/casos/razor/cnpjs"
+                  ownerLabel="o Caso Razor"
                   triggerSize="lg"
                   triggerClassName="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
                 />
