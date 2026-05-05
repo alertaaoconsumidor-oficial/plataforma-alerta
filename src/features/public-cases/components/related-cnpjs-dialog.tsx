@@ -1,18 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Building2,
+  CalendarDays,
   CheckCircle2,
   Download,
   ExternalLink,
   FileSearch,
+  FileText,
+  MapPin,
   Search,
+  ShieldCheck,
   Users,
   X,
 } from "lucide-react";
 import Link from "next/link";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
@@ -27,11 +31,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 import type { RelatedCnpj } from "../types";
+
+const hiddenScrollClass =
+  "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
 export function RelatedCnpjsDialog({
   items,
@@ -46,6 +51,13 @@ export function RelatedCnpjsDialog({
 }) {
   const [query, setQuery] = useState("");
   const [selectedCnpj, setSelectedCnpj] = useState(items[0]?.cnpj ?? "");
+
+  const checkedItemsCount = useMemo(
+    () =>
+      items.filter((item) => item.lastCheckedAt && item.lastCheckedAt !== "Pendente")
+        .length,
+    [items]
+  );
 
   const filteredItems = useMemo(() => {
     const normalizedQuery = normalizeText(query);
@@ -98,164 +110,190 @@ export function RelatedCnpjsDialog({
       <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Content
-          className="fixed left-1/2 top-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-xl border bg-background p-0 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+          className="fixed left-1/2 top-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-2xl border bg-background p-0 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
           style={{
-            gridTemplateRows: "96px minmax(0, 1fr)",
-            height: "calc(100vh - 2rem)",
+            height: "min(90vh, 800px)",
             maxHeight: "calc(100vh - 2rem)",
             maxWidth: "calc(100vw - 2rem)",
-            width: "min(1180px, calc(100vw - 2rem))",
+            width: "min(1280px, calc(100vw - 2rem))",
           }}
         >
-        <DialogHeader className="h-full border-b bg-background px-4 py-3 pr-12 md:pr-14">
-          <div className="flex h-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-3xl">
-              <DialogTitle className="text-xl">CNPJs relacionados</DialogTitle>
-              <DialogDescription className="mt-1 max-w-3xl text-xs leading-5">
-                Painel público para leitura cadastral com origem, status de
-                conferência e documento oficial quando anexado. Relação entre
-                CNPJs não implica responsabilidade automática.
-              </DialogDescription>
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-sm md:min-w-[170px]">
-              <SummaryPill label="Registros" value={items.length.toString()} />
-              <SummaryPill
-                label="Conferidos"
-                value={items
-                  .filter((item) => item.lastCheckedAt && item.lastCheckedAt !== "Pendente")
-                  .length.toString()}
-              />
-            </div>
-          </div>
-        </DialogHeader>
+          <DialogHeader className="border-b bg-background px-5 py-4 pr-14">
+            <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+                <div className="min-w-[220px]">
+                  <DialogTitle className="text-sm font-black uppercase tracking-[0.2em]">
+                    Consulta de CNPJs
+                  </DialogTitle>
+                  <DialogDescription className="mt-1 max-w-xl text-xs leading-5">
+                    Leitura cadastral pública, conferência de fonte e documentos
+                    oficiais sem presumir responsabilidade automática.
+                  </DialogDescription>
+                </div>
 
-        <div
-          className="grid min-h-0 bg-muted/35"
-          style={{ gridTemplateColumns: "340px minmax(0, 1fr)" }}
-        >
-          <aside className="flex min-h-0 flex-col border-r bg-background">
-            <div className="shrink-0 border-b p-3.5">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  value={query}
-                  onChange={(event) => {
-                    setQuery(event.target.value);
-                  }}
-                  placeholder="Buscar CNPJ, nome ou cidade"
-                  className="pl-9"
+                <div className="relative w-full lg:max-w-[360px]">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    value={query}
+                    onChange={(event) => {
+                      setQuery(event.target.value);
+                    }}
+                    placeholder="Buscar CNPJ, empresa ou cidade"
+                    className="h-10 border-input bg-muted/50 pl-9 text-sm focus-visible:ring-primary"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pr-8">
+                <SummaryPill
+                  label="Registros"
+                  tone="amber"
+                  value={items.length.toString()}
+                />
+                <SummaryPill
+                  label="Conferidos"
+                  tone="green"
+                  value={checkedItemsCount.toString()}
                 />
               </div>
-              <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                Selecione um registro para abrir a ficha ao lado.
-              </p>
             </div>
+          </DialogHeader>
 
-            <ScrollArea className="min-h-0 flex-1">
-              <div className="space-y-2 p-3">
-                {filteredItems.length > 0 ? (
-                  filteredItems.map((item, index) => (
-                    <button
-                      key={item.cnpj}
-                      type="button"
-                      onClick={() => setSelectedCnpj(item.cnpj)}
-                      className={cn(
-                        "w-full rounded-lg border bg-card p-3 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
-                        selectedItem?.cnpj === item.cnpj &&
-                          "border-primary bg-primary/10"
-                      )}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <p className="truncate text-sm font-bold">
-                              {item.tradeName}
-                            </p>
-                            {index === 0 && !query ? (
-                              <Badge className="bg-primary text-primary-foreground">
-                                Principal
-                              </Badge>
-                            ) : null}
-                          </div>
-                          <p className="mt-1 truncate text-xs text-muted-foreground">
-                            {item.legalName}
-                          </p>
-                        </div>
-                        <StatusBadge status={item.status} />
-                      </div>
-                      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
-                        <span className="font-mono font-semibold">{item.cnpj}</span>
-                        <span className="text-muted-foreground">
-                          {item.city}/{item.state}
-                        </span>
-                      </div>
-                      <p className="mt-1.5 text-xs text-muted-foreground">
-                        Conferência: {item.lastCheckedAt ?? "Pendente"}
-                      </p>
-                    </button>
-                  ))
-                ) : (
-                  <div className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">
-                    Nenhum CNPJ encontrado para o filtro informado.
-                  </div>
+          <div className="grid min-h-0 grid-rows-[minmax(190px,34%)_minmax(0,1fr)] bg-background md:grid-cols-[minmax(300px,30%)_minmax(0,1fr)] md:grid-rows-1">
+            <aside className="min-h-0 border-b bg-muted/20 md:border-b-0 md:border-r">
+              <div
+                className={cn(
+                  hiddenScrollClass,
+                  "h-full overflow-y-auto p-3.5"
                 )}
-              </div>
-            </ScrollArea>
-          </aside>
+              >
+                <div className="mb-3 flex items-center justify-between gap-2 px-1">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                    Empresas vinculadas
+                  </p>
+                  <span className="rounded-full bg-primary/15 px-2 py-1 text-[11px] font-bold text-primary">
+                    {filteredItems.length}
+                  </span>
+                </div>
 
-          <section className="min-h-0 min-w-0 bg-background">
-            {selectedItem ? (
-              <ScrollArea className="h-full">
-                <div className="p-4">
-                  <div className="mb-3 rounded-lg border border-primary/30 bg-primary/10 p-3">
-                    <p className="flex items-center gap-2 text-sm font-bold">
+                <div className="space-y-2.5">
+                  {filteredItems.length > 0 ? (
+                    filteredItems.map((item, index) => {
+                      const isSelected = selectedItem?.cnpj === item.cnpj;
+
+                      return (
+                        <button
+                          key={item.cnpj}
+                          type="button"
+                          onClick={() => setSelectedCnpj(item.cnpj)}
+                          className={cn(
+                            "w-full rounded-xl border bg-card p-3.5 text-left transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:bg-primary/5 hover:shadow-md",
+                            isSelected &&
+                              "border-primary bg-primary/10 shadow-md ring-1 ring-primary/20"
+                          )}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <p className="truncate text-sm font-black">
+                                  {item.tradeName}
+                                </p>
+                                {index === 0 && !query ? (
+                                  <Badge className="bg-primary text-primary-foreground">
+                                    Principal
+                                  </Badge>
+                                ) : null}
+                              </div>
+                              <p className="mt-1 truncate text-xs text-muted-foreground">
+                                {item.legalName}
+                              </p>
+                            </div>
+                            <StatusBadge status={item.status} />
+                          </div>
+
+                          <div className="mt-3 grid gap-2 border-t pt-3 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1.5 font-mono font-semibold text-foreground">
+                              <FileText className="h-3.5 w-3.5 text-primary" />
+                              {item.cnpj}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                              <MapPin className="h-3.5 w-3.5 text-primary" />
+                              {item.city}/{item.state}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <div className="rounded-xl border bg-card p-4 text-sm text-muted-foreground">
+                      Nenhum CNPJ encontrado para o filtro informado.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </aside>
+
+            <section className="min-h-0 min-w-0 bg-background">
+              {selectedItem ? (
+                <div
+                  className={cn(
+                    hiddenScrollClass,
+                    "h-full overflow-y-auto p-5 md:p-6"
+                  )}
+                >
+                  <div className="mb-4 rounded-xl border border-primary/35 bg-primary/10 px-4 py-3">
+                    <p className="flex items-center gap-2 text-sm font-black">
                       <FileSearch className="h-4 w-4 text-primary" />
                       Padrão de leitura cadastral
                     </p>
-                    <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-                      A ficha exibe apenas dados públicos estruturados. Em
-                      produção, cada CNPJ deve ter data de conferência, fonte,
-                      documento oficial anexado e histórico de atualização.
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                      Dados públicos estruturados para consulta contextual. Em
+                      produção, cada CNPJ terá fonte, conferência, PDF oficial e
+                      histórico de atualização.
                     </p>
                   </div>
 
-                  <div className="rounded-lg border bg-card shadow-sm">
-                    <div className="border-b p-4">
-                      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-xl font-bold">
-                              {selectedItem.tradeName}
-                            </h3>
-                            <StatusBadge status={selectedItem.status} />
-                          </div>
-                          <p className="mt-2 text-sm text-muted-foreground">
-                            {selectedItem.legalName}
-                          </p>
-                          <p className="mt-2 font-mono text-sm font-bold">
-                            CNPJ: {selectedItem.cnpj}
-                          </p>
+                  <article className="overflow-hidden rounded-2xl border bg-card shadow-sm">
+                    <div className="grid gap-5 border-b p-5 xl:grid-cols-[minmax(0,1fr)_360px]">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-2xl font-black leading-tight md:text-3xl">
+                            {selectedItem.tradeName}
+                          </h3>
+                          <StatusBadge status={selectedItem.status} />
                         </div>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {selectedItem.legalName}
+                        </p>
+                        <p className="mt-4 font-mono text-sm font-black">
+                          CNPJ: {selectedItem.cnpj}
+                        </p>
+                      </div>
 
-                        <div className="grid gap-1.5 rounded-lg bg-muted p-3 text-sm md:min-w-[230px]">
-                          <DetailRow label="Abertura" value={selectedItem.openedAt} />
-                          <DetailRow
-                            label="Conferência"
-                            value={selectedItem.lastCheckedAt ?? "Pendente"}
-                          />
-                          <DetailRow
-                            label="Documento"
-                            value={
-                              selectedItem.federalDocumentStatus === "Disponivel"
-                                ? "Anexado"
-                                : "Pendente"
-                            }
-                          />
-                        </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <StatCard
+                          icon={CalendarDays}
+                          label="Abertura"
+                          value={selectedItem.openedAt}
+                        />
+                        <StatCard
+                          icon={CheckCircle2}
+                          label="Conferência"
+                          value={selectedItem.lastCheckedAt ?? "Pendente"}
+                        />
+                        <StatCard
+                          icon={ShieldCheck}
+                          label="Documento"
+                          value={
+                            selectedItem.federalDocumentStatus === "Disponivel"
+                              ? "Anexado"
+                              : "Pendente"
+                          }
+                        />
                       </div>
                     </div>
 
-                    <div className="grid gap-3 p-4 md:grid-cols-2">
+                    <div className="grid gap-3 p-5 md:grid-cols-2">
                       <InfoBlock
                         title="Atividade principal"
                         value={selectedItem.mainActivity}
@@ -266,15 +304,19 @@ export function RelatedCnpjsDialog({
                       />
                     </div>
 
-                    <div className="px-4 pb-4">
-                      <div className="rounded-lg border p-3">
-                        <p className="flex items-center gap-2 text-sm font-semibold">
+                    <div className="px-5 pb-5">
+                      <div className="rounded-xl border p-4">
+                        <p className="flex items-center gap-2 text-sm font-black">
                           <Users className="h-4 w-4 text-primary" />
                           Sócios ou administradores informados
                         </p>
-                        <div className="mt-2 flex flex-wrap gap-2">
+                        <div className="mt-3 flex flex-wrap gap-2">
                           {selectedItem.partners.map((partner) => (
-                            <Badge key={partner} variant="secondary">
+                            <Badge
+                              key={partner}
+                              variant="secondary"
+                              className="border bg-background font-bold"
+                            >
                               {partner}
                             </Badge>
                           ))}
@@ -282,17 +324,15 @@ export function RelatedCnpjsDialog({
                       </div>
                     </div>
 
-                    <div className="border-t bg-muted/45 p-4">
+                    <div className="border-t bg-muted/30 p-5">
                       <p className="flex items-start gap-2 text-sm leading-6 text-muted-foreground">
                         <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                         {selectedItem.sourceNote}
                       </p>
 
-                      <Separator className="my-3" />
-
-                      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                      <div className="mt-4 flex flex-col gap-4 border-t pt-4 md:flex-row md:items-center md:justify-between">
                         <div className="text-sm">
-                          <p className="font-semibold">
+                          <p className="font-black">
                             Fonte prevista:{" "}
                             {selectedItem.sourceName ?? "Receita Federal"}
                           </p>
@@ -305,7 +345,11 @@ export function RelatedCnpjsDialog({
                         </div>
                         <div className="flex flex-col gap-2 sm:flex-row">
                           {selectedItem.sourceUrl ? (
-                            <Button asChild variant="outline" size="sm">
+                            <Button
+                              asChild
+                              variant="outline"
+                              className="w-full shadow-primary/10 transition-all hover:-translate-y-0.5 sm:min-w-[180px]"
+                            >
                               <Link
                                 href={selectedItem.sourceUrl}
                                 target="_blank"
@@ -317,14 +361,21 @@ export function RelatedCnpjsDialog({
                             </Button>
                           ) : null}
                           {selectedItem.federalDocumentUrl ? (
-                            <Button asChild size="sm">
+                            <Button
+                              asChild
+                              className="w-full shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 sm:min-w-[180px]"
+                            >
                               <Link href={selectedItem.federalDocumentUrl}>
                                 <Download className="mr-2 h-4 w-4" />
                                 Baixar PDF Receita
                               </Link>
                             </Button>
                           ) : (
-                            <Button disabled variant="secondary" size="sm">
+                            <Button
+                              disabled
+                              variant="secondary"
+                              className="w-full sm:min-w-[180px]"
+                            >
                               <Download className="mr-2 h-4 w-4" />
                               PDF Receita pendente
                             </Button>
@@ -332,30 +383,25 @@ export function RelatedCnpjsDialog({
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </article>
 
-                  <div className="mt-3 rounded-lg border bg-background p-3 text-sm leading-6 text-muted-foreground">
-                    <div className="flex gap-3">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                      <p>
-                        Este padrão será usado em todas as páginas que
-                        consultarem CNPJs relacionados, mantendo consistência de
-                        leitura e facilitando conferência futura no painel
-                        administrativo.
-                      </p>
-                    </div>
+                  <div className="mt-4 flex items-start gap-3 rounded-xl border bg-background p-4 text-sm leading-6 text-muted-foreground">
+                    <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-primary shadow-[0_0_0_4px_rgba(255,194,0,0.16)] animate-pulse" />
+                    <p>
+                      Sincronização ativa para o padrão cadastral. Este modelo
+                      será reutilizado em todas as páginas com CNPJs relacionados.
+                    </p>
                   </div>
                 </div>
-              </ScrollArea>
-            ) : (
-              <div className="p-6 text-sm text-muted-foreground">
-                Nenhum CNPJ disponível.
-              </div>
-            )}
-          </section>
-        </div>
+              ) : (
+                <div className="p-6 text-sm text-muted-foreground">
+                  Nenhum CNPJ disponível.
+                </div>
+              )}
+            </section>
+          </div>
 
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+          <DialogClose className="absolute right-4 top-4 rounded-full p-1 opacity-70 ring-offset-background transition-all hover:bg-muted hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <X className="h-4 w-4" />
             <span className="sr-only">Fechar</span>
           </DialogClose>
@@ -365,11 +411,25 @@ export function RelatedCnpjsDialog({
   );
 }
 
-function SummaryPill({ label, value }: { label: string; value: string }) {
+function SummaryPill({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "amber" | "green";
+}) {
   return (
-    <div className="rounded-lg border bg-card px-3 py-1.5">
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="font-bold">{value}</p>
+    <div
+      className={cn(
+        "min-w-[78px] rounded-xl border px-3 py-2",
+        tone === "amber" && "border-primary/30 bg-primary/10",
+        tone === "green" && "border-emerald-500/25 bg-emerald-50"
+      )}
+    >
+      <p className="text-[11px] font-medium text-muted-foreground">{label}</p>
+      <p className="text-base font-black">{value}</p>
     </div>
   );
 }
@@ -377,19 +437,20 @@ function SummaryPill({ label, value }: { label: string; value: string }) {
 function StatusBadge({ status }: { status: string }) {
   const statusLower = status.toLowerCase();
   const active = statusLower === "ativa";
+  const inactive = statusLower.includes("baixada");
   const warning =
     statusLower.includes("inativa") ||
     statusLower.includes("inapta") ||
-    statusLower.includes("baixada") ||
     statusLower.includes("suspensa");
 
   return (
     <Badge
       variant="outline"
       className={cn(
-        "shrink-0",
-        active && "border-emerald-500/50 bg-emerald-500/10 text-emerald-700",
-        warning && "border-amber-500/60 bg-amber-500/10 text-amber-700"
+        "shrink-0 font-bold",
+        active && "border-emerald-500/45 bg-emerald-50 text-emerald-700",
+        inactive && "border-zinc-400/45 bg-zinc-100 text-zinc-700",
+        warning && "border-red-500/40 bg-red-50 text-red-700"
       )}
     >
       {status}
@@ -397,20 +458,31 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-function DetailRow({ label, value }: { label: string; value: string }) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof CalendarDays;
+  label: string;
+  value: string;
+}) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium">{value}</span>
+    <div className="rounded-xl bg-muted p-3">
+      <Icon className="mb-2 h-4 w-4 text-primary" />
+      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-black">{value}</p>
     </div>
   );
 }
 
 function InfoBlock({ title, value }: { title: string; value: string }) {
   return (
-    <div className="rounded-lg bg-muted p-3.5 text-sm">
-      <p className="font-semibold">{title}</p>
-      <p className="mt-1.5 leading-6 text-muted-foreground">{value}</p>
+    <div className="rounded-xl bg-muted p-4 text-sm">
+      <p className="font-black">{title}</p>
+      <p className="mt-2 leading-6 text-muted-foreground">{value}</p>
     </div>
   );
 }
