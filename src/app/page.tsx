@@ -111,7 +111,7 @@ export default async function Home() {
   const topCompanies = await getTopCompaniesByReports(3);
 
   return (
-    <div className="flex flex-col bg-background">
+    <>
       <section className="relative w-full overflow-hidden bg-[#111111] text-white">
         <div className="absolute inset-0">
           <Image
@@ -206,6 +206,7 @@ export default async function Home() {
           className="scale-105 object-cover blur-[2px]"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/95 to-yellow-500/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/20 to-white/20" />
         <div className="container relative mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-12 lg:flex-row">
             <div className="w-full space-y-8 lg:w-3/5">
@@ -465,7 +466,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="hidden bg-primary py-12 text-primary-foreground">
+      <section className="hidden bg-primary py-12 text-primary-foreground" aria-hidden="true">
         <div className="container mx-auto flex flex-col gap-6 px-4 md:px-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-bold">Receba alertas e novidades</h2>
@@ -486,7 +487,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
