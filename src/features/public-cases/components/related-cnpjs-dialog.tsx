@@ -100,23 +100,24 @@ export function RelatedCnpjsDialog({
         <DialogPrimitive.Content
           className="fixed left-1/2 top-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-xl border bg-background p-0 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
           style={{
+            gridTemplateRows: "96px minmax(0, 1fr)",
             height: "calc(100vh - 2rem)",
             maxHeight: "calc(100vh - 2rem)",
             maxWidth: "calc(100vw - 2rem)",
             width: "min(1180px, calc(100vw - 2rem))",
           }}
         >
-        <DialogHeader className="shrink-0 border-b bg-background p-4 pr-12 md:pr-14">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <DialogHeader className="h-full border-b bg-background px-4 py-3 pr-12 md:pr-14">
+          <div className="flex h-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="max-w-3xl">
-              <DialogTitle>CNPJs relacionados</DialogTitle>
-              <DialogDescription className="mt-2 max-w-2xl text-xs leading-5">
+              <DialogTitle className="text-xl">CNPJs relacionados</DialogTitle>
+              <DialogDescription className="mt-1 max-w-3xl text-xs leading-5">
                 Painel público para leitura cadastral com origem, status de
                 conferência e documento oficial quando anexado. Relação entre
                 CNPJs não implica responsabilidade automática.
               </DialogDescription>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-sm md:min-w-[240px]">
+            <div className="grid grid-cols-2 gap-2 text-sm md:min-w-[170px]">
               <SummaryPill label="Registros" value={items.length.toString()} />
               <SummaryPill
                 label="Conferidos"
@@ -130,10 +131,10 @@ export function RelatedCnpjsDialog({
 
         <div
           className="grid min-h-0 bg-muted/35"
-          style={{ gridTemplateColumns: "320px minmax(0, 1fr)" }}
+          style={{ gridTemplateColumns: "340px minmax(0, 1fr)" }}
         >
           <aside className="flex min-h-0 flex-col border-r bg-background">
-            <div className="shrink-0 border-b p-3">
+            <div className="shrink-0 border-b p-3.5">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -151,7 +152,7 @@ export function RelatedCnpjsDialog({
             </div>
 
             <ScrollArea className="min-h-0 flex-1">
-              <div className="space-y-2 p-2.5">
+              <div className="space-y-2 p-3">
                 {filteredItems.length > 0 ? (
                   filteredItems.map((item, index) => (
                     <button
@@ -159,7 +160,7 @@ export function RelatedCnpjsDialog({
                       type="button"
                       onClick={() => setSelectedCnpj(item.cnpj)}
                       className={cn(
-                        "w-full rounded-lg border bg-card p-2.5 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
+                        "w-full rounded-lg border bg-card p-3 text-left shadow-sm transition hover:border-primary/60 hover:bg-primary/5",
                         selectedItem?.cnpj === item.cnpj &&
                           "border-primary bg-primary/10"
                       )}
@@ -167,7 +168,9 @@ export function RelatedCnpjsDialog({
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
-                            <p className="truncate font-bold">{item.tradeName}</p>
+                            <p className="truncate text-sm font-bold">
+                              {item.tradeName}
+                            </p>
                             {index === 0 && !query ? (
                               <Badge className="bg-primary text-primary-foreground">
                                 Principal
@@ -180,7 +183,7 @@ export function RelatedCnpjsDialog({
                         </div>
                         <StatusBadge status={item.status} />
                       </div>
-                      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
                         <span className="font-mono font-semibold">{item.cnpj}</span>
                         <span className="text-muted-foreground">
                           {item.city}/{item.state}
@@ -364,7 +367,7 @@ export function RelatedCnpjsDialog({
 
 function SummaryPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border bg-card px-3 py-2">
+    <div className="rounded-lg border bg-card px-3 py-1.5">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="font-bold">{value}</p>
     </div>
@@ -405,9 +408,9 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 function InfoBlock({ title, value }: { title: string; value: string }) {
   return (
-    <div className="rounded-lg bg-muted p-4 text-sm">
+    <div className="rounded-lg bg-muted p-3.5 text-sm">
       <p className="font-semibold">{title}</p>
-      <p className="mt-2 leading-6 text-muted-foreground">{value}</p>
+      <p className="mt-1.5 leading-6 text-muted-foreground">{value}</p>
     </div>
   );
 }
