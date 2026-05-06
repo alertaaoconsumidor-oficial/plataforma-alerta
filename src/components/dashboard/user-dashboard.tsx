@@ -107,7 +107,7 @@ export function UserDashboard() {
     <DashboardLayout
       eyebrow="Área do consumidor"
       title="Minha central de acompanhamento"
-      description="Painel estilo TailAdmin para acompanhar relatos, anexos privados, notificações, perfil completo e dossiê individual do CASO RAZOR."
+      description="Painel inspirado no TailAdmin para acompanhar relatos, anexos privados, notificações, perfil completo e dossiê individual."
       navItems={navItems}
       actions={
         <>
@@ -141,7 +141,10 @@ export function UserDashboard() {
             const Icon = item.icon;
 
             return (
-              <Card key={item.label} className="border-0 shadow-sm">
+              <Card
+                key={item.label}
+                className="border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-xl hover:shadow-primary/10"
+              >
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between gap-4">
                     <p className="text-sm font-medium text-muted-foreground">
@@ -159,7 +162,7 @@ export function UserDashboard() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_380px]">
-          <Card id="relatos" className="border-0 shadow-sm">
+          <Card id="relatos" className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileCheck2 className="h-5 w-5 text-primary" />
@@ -168,7 +171,10 @@ export function UserDashboard() {
             </CardHeader>
             <CardContent className="space-y-4">
               {reports.map((report) => (
-                <div key={`${report.company}-${report.title}`} className="rounded-xl border bg-white p-4">
+                <div
+                  key={`${report.company}-${report.title}`}
+                  className="rounded-xl border bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-lg hover:shadow-primary/10"
+                >
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <p className="font-bold">{report.title}</p>
@@ -190,7 +196,7 @@ export function UserDashboard() {
             </CardContent>
           </Card>
 
-          <Card id="notificacoes" className="border-0 shadow-sm">
+          <Card id="notificacoes" className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-5 w-5 text-primary" />
@@ -215,7 +221,7 @@ export function UserDashboard() {
             initialFiles={userFiles}
           />
 
-          <Card id="privacidade" className="border-0 shadow-sm">
+          <Card id="privacidade" className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
@@ -231,7 +237,10 @@ export function UserDashboard() {
                 ["Alertas", "Notificações por painel e e-mail."],
                 ["LGPD", "Controle de privacidade, anonimato e exclusão futura."],
               ].map(([title, description]) => (
-                <div key={title} className="rounded-xl border bg-white p-4">
+                <div
+                  key={title}
+                  className="rounded-xl border bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-lg hover:shadow-primary/10"
+                >
                   <p className="font-bold">{title}</p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     {description}

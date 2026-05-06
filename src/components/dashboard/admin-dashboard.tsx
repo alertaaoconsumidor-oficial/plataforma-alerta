@@ -103,9 +103,9 @@ export function AdminDashboard() {
 
   return (
     <DashboardLayout
-      eyebrow="TailAdmin style"
+      eyebrow="Administração"
       title="Administração da plataforma"
-      description="Painel com sidebar, filas operacionais, upload de evidências, configurações de perfil e dossiê institucional mockado para o CASO RAZOR."
+      description="Painel inspirado no TailAdmin para moderação, empresas, CNPJs, evidências privadas, perfis, auditoria e dossiês institucionais."
       navItems={navItems}
       actions={
         <>
@@ -139,7 +139,10 @@ export function AdminDashboard() {
             const Icon = item.icon;
 
             return (
-              <Card key={item.label} className="border-0 shadow-sm">
+              <Card
+                key={item.label}
+                className="border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-xl hover:shadow-primary/10"
+              >
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between gap-4">
                     <p className="text-sm font-medium text-muted-foreground">
@@ -160,7 +163,7 @@ export function AdminDashboard() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_380px]">
-          <Card id="moderacao" className="border-0 shadow-sm">
+          <Card id="moderacao" className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-primary" />
@@ -192,7 +195,7 @@ export function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-sm">
+          <Card className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5 text-primary" />
@@ -220,7 +223,7 @@ export function AdminDashboard() {
             initialFiles={adminFiles}
           />
 
-          <Card id="governanca" className="border-0 shadow-sm">
+          <Card id="governanca" className="border bg-white shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Gauge className="h-5 w-5 text-primary" />
@@ -236,7 +239,10 @@ export function AdminDashboard() {
                 ["Usuários", "Perfil, consentimentos, notificações e histórico."],
                 ["Auditoria", "Logs de alteração, retenção e conformidade LGPD."],
               ].map(([title, description]) => (
-                <div key={title} className="rounded-xl border bg-white p-4">
+                <div
+                  key={title}
+                  className="rounded-xl border bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-lg hover:shadow-primary/10"
+                >
                   <p className="font-bold">{title}</p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     {description}
@@ -267,7 +273,10 @@ export function AdminDashboard() {
             ["PDF server-side", "Gerar PDF oficial com fila, assinatura e versionamento."],
             ["Notificações", "E-mail, painel e alertas de resposta ou validação."],
           ].map(([title, description]) => (
-            <Card key={title} className="border-0 shadow-sm">
+            <Card
+              key={title}
+              className="border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-xl hover:shadow-primary/10"
+            >
               <CardContent className="p-5">
                 <Activity className="h-5 w-5 text-primary" />
                 <p className="mt-4 font-bold">{title}</p>

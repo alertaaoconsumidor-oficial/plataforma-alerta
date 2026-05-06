@@ -65,6 +65,13 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-4 md:flex">
+          <Button
+            asChild
+            variant="ghost"
+            className="hover:bg-primary/50 hover:text-primary-foreground"
+          >
+            <Link href="/entrar">Entrar</Link>
+          </Button>
           <Button asChild variant="secondary">
             <Link href="/enviar-relato">
               <Send className="mr-2 h-4 w-4" />
@@ -121,7 +128,13 @@ export function Header() {
                 </nav>
 
                 <div className="mt-auto border-t p-4">
-                  <Button asChild size="lg" className="w-full">
+                  <div className="grid gap-3">
+                    <Button asChild size="lg" variant="outline" className="w-full">
+                      <Link href="/entrar" onClick={() => setIsOpen(false)}>
+                        Entrar
+                      </Link>
+                    </Button>
+                    <Button asChild size="lg" className="w-full">
                     <Link
                       href="/enviar-relato"
                       onClick={() => setIsOpen(false)}
@@ -129,6 +142,7 @@ export function Header() {
                       Enviar Relato
                     </Link>
                   </Button>
+                  </div>
                 </div>
               </div>
             </SheetContent>
