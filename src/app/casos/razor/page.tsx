@@ -6,6 +6,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   BarChart3,
+  Building2,
   Calendar,
   CheckCircle2,
   CircleDollarSign,
@@ -31,7 +32,6 @@ import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-not
 import { ClosedCompanyNotice } from "@/features/public-cases/components/closed-company-notice";
 import { PublicNewsLinks } from "@/features/public-cases/components/public-news-links";
 import { PublicReportCard } from "@/features/public-cases/components/public-report-card";
-import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
 import { ScrollAnimatedNumber } from "@/features/public-cases/components/scroll-animated-number";
 import { ScrollGrowBar } from "@/features/public-cases/components/scroll-grow-bar";
 import {
@@ -41,7 +41,6 @@ import {
   razorMonthlyReportData,
   razorPreliminaryStats,
   razorPublicReports,
-  razorRelatedCnpjs,
   razorStateComparison,
   razorTimeline,
 } from "@/features/public-cases/data/razor-preliminary-stats";
@@ -171,11 +170,17 @@ export default function CasoRazorPage() {
                     Direito de resposta
                   </Link>
                 </Button>
-                <RelatedCnpjsDialog
-                  items={razorRelatedCnpjs}
-                  triggerSize="lg"
-                  triggerClassName="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
-                />
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
+                >
+                  <Link href="/casos/razor/cnpjs">
+                    <Building2 className="mr-2 h-4 w-4" />
+                    CNPJs relacionados
+                  </Link>
+                </Button>
               </div>
             </div>
 

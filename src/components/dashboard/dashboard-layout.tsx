@@ -33,10 +33,13 @@ export function DashboardLayout({
   sidebarFooter,
 }: DashboardLayoutProps) {
   return (
-    <main className="min-h-screen bg-[#f6f7fb]">
-      <div className="mx-auto flex max-w-[1680px]">
-        <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-72 shrink-0 border-r bg-white px-4 py-5 lg:flex lg:flex-col">
-          <Link href="/" className="flex items-center gap-3 rounded-xl px-3 py-2">
+    <main className="min-h-screen bg-[#f5f6f8]">
+      <div className="mx-auto flex min-h-screen max-w-[1680px]">
+        <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r bg-white px-4 py-5 shadow-sm lg:flex lg:flex-col">
+          <Link
+            href="/"
+            className="flex items-center gap-3 rounded-xl px-3 py-2 transition hover:bg-primary/10"
+          >
             <Image
               src="/chatbot-icon.svg"
               alt=""
@@ -59,8 +62,9 @@ export function DashboardLayout({
                   key={item.label}
                   href={item.href}
                   className={cn(
-                    "flex items-center justify-between rounded-lg px-3 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-primary/10 hover:text-foreground",
-                    item.active && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                    "group flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/10 hover:text-foreground",
+                    item.active &&
+                      "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary hover:text-primary-foreground"
                   )}
                 >
                   <span className="flex items-center gap-3">
@@ -70,7 +74,7 @@ export function DashboardLayout({
                   {item.badge ? (
                     <Badge
                       variant={item.active ? "secondary" : "outline"}
-                      className="h-5 px-2 text-[10px]"
+                      className="h-5 px-2 text-[10px] font-bold"
                     >
                       {item.badge}
                     </Badge>
@@ -84,7 +88,24 @@ export function DashboardLayout({
         </aside>
 
         <section className="min-w-0 flex-1">
-          <header className="sticky top-16 z-30 border-b bg-white/90 px-4 py-4 backdrop-blur md:px-6">
+          <header className="sticky top-0 z-30 border-b bg-white/[0.92] px-4 py-4 shadow-sm backdrop-blur md:px-6">
+            <div className="mb-4 flex items-center justify-between lg:hidden">
+              <Link href="/" className="flex items-center gap-3">
+                <Image
+                  src="/chatbot-icon.svg"
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="object-contain"
+                />
+                <span className="text-sm font-extrabold uppercase leading-none">
+                  Alerta ao Consumidor
+                </span>
+              </Link>
+              <Badge className="bg-primary text-primary-foreground">
+                Painel
+              </Badge>
+            </div>
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-primary">

@@ -27,7 +27,6 @@ import { BrazilCaseMap } from "@/features/public-cases/components/brazil-case-ma
 import { CaseBarList } from "@/features/public-cases/components/case-bar-list";
 import { CaseLgpdNotice } from "@/features/public-cases/components/case-lgpd-notice";
 import { PublicReportCard } from "@/features/public-cases/components/public-report-card";
-import { RelatedCnpjsDialog } from "@/features/public-cases/components/related-cnpjs-dialog";
 import { ScrollAnimatedNumber } from "@/features/public-cases/components/scroll-animated-number";
 import { ScrollGrowBar } from "@/features/public-cases/components/scroll-grow-bar";
 import {
@@ -392,15 +391,21 @@ function CompanyHero({ profile }: { profile: PublicCompanyProfile }) {
                   <MessageSquareText className="mr-2 h-4 w-4" />
                   Direito de resposta
                 </Link>
-              </Button>
-              {profile.legalEntities.length > 0 ? (
-                <RelatedCnpjsDialog
-                  items={profile.legalEntities}
-                  triggerSize="lg"
-                  triggerClassName="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
-                />
-              ) : null}
-            </div>
+                </Button>
+                {profile.legalEntities.length > 0 ? (
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="border-white/25 !bg-black/20 text-white hover:border-primary hover:!bg-primary hover:text-primary-foreground"
+                  >
+                    <Link href={`/empresa/${profile.company.slug}/cnpjs`}>
+                      <Building2 className="mr-2 h-4 w-4" />
+                      CNPJs relacionados
+                    </Link>
+                  </Button>
+                ) : null}
+              </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">

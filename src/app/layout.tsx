@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { Toaster } from "@/components/ui/toaster";
-import { ChatbotButton } from "@/components/chatbot/chatbot-button";
+import { AppChrome } from "@/components/layout/app-chrome";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,14 +31,7 @@ export default function RootLayout({
           poppins.variable
         )}
       >
-        <div className="relative flex min-h-dvh flex-col bg-background">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-
-        <ChatbotButton />
-        <Toaster />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

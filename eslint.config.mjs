@@ -16,6 +16,7 @@ const eslintConfig = [
       "node_modules/**",
       "out/**",
       "build/**",
+      "free-nextjs-admin-dashboard-main/**",
       "next-env.d.ts",
     ],
   },
